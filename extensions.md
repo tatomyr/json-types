@@ -11,9 +11,9 @@ The similar prefix for requests is `$write-only:`:
 
 ```json
 {
-	"name": "string",
-	"$write-only:password": "string",
-	"$read-only:id": "string"
+  "name": "string",
+  "$write-only:password": "string",
+  "$read-only:id": "string"
 }
 ```
 
@@ -32,8 +32,8 @@ String formats could be used both in keys and values:
 
 ```json
 {
-	"id": "string:uuid",
-	"string:email": {"validated": "boolean"}
+  "id": "string:uuid",
+  "string:email": {"validated": "boolean"}
 }
 ```
 
@@ -45,18 +45,18 @@ The range formats require a number value in parenthesis:
 
 ```json
 {
-	"age": "number:integer:minimum(18)"
+  "age": "number:integer:minimum(18)"
 }
 ```
 
-## Free Form Validation
+## Free Form Validation (under consideration)
 
 If a field needs to be validated against its context, the validation function could be used:
 
 ```json
 {
-	"country": ["UA", "USA"],
-	"age": "(age, {country}) => (country === 'USA' && age < 21 || country === 'UA' && age < 18) && 'Too young to drink'"
+  "country": ["UA", "USA"],
+  "age": "(age, {country}) => (country === 'USA' && age < 21 || country === 'UA' && age < 18) && 'Too young to drink'"
 }
 ```
 

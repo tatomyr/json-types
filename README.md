@@ -1,7 +1,7 @@
 # Simple JSON Type
 
-This is an attempt to describe data types (mostly aimed at JSON-like structures) in a simple and natural way.
-Any [valid JSON](https://www.json.org/) could be validated against a **simple-json-type** definition.
+This document attempts to describe data types (primarily aimed at JSON-like structures) in a simple and natural way.
+Any [valid JSON](https://www.json.org/) could be validated against a **Simple JSON Type** definition.
 
 ## Reserved Keywords
 
@@ -17,8 +17,8 @@ There are several reserved words in **Simple JSON Type** which could be used eit
 | array     | Array generic                                                               | key        |
 | any       | Any value (not validated)                                                   | value      |
 | json      | Any valid JSON type (under consideration)                                   | value      |
-| all       | Combines several types from an array into an object (types must be objects) | key        |
-| $ref      | Reference to another type                                                   | key        |
+| $merge    | Combines several types from an array into an object (types must be objects) | key        |
+| $ref      | Reference to another field                                                  | key        |
 
 ## Objects
 
@@ -26,8 +26,8 @@ Object literals describe object-like schemas:
 
 ```json
 {
-	"name": "string",
-	"age": "number"
+  "name": "string",
+  "age": "number"
 }
 ```
 
@@ -35,16 +35,7 @@ Also, it is possible to use the `string` type as a key to describe records:
 
 ```json
 {
-	"string": "any"
-}
-```
-
-Note that string keys that could be converted to integers are also treated as those to validate tuple-like arrays:
-
-```json
-{
-	"0": "string",
-	"1": "string"
+  "string": "any"
 }
 ```
 
@@ -58,11 +49,11 @@ Array literals allow defining multiple available options, one of which is applic
 
 ## Types Combining
 
-It is possible to combine several types into one using the `all` keyword:
+It is possible to combine several types into one using the `$merge` keyword:
 
 ```json
 {
-	"all": [{"foo": "string", "bar": "boolean"}, {"bar": "number"}]
+  "$merge": [{"foo": "string", "bar": "boolean"}, {"bar": "number"}]
 }
 ```
 
@@ -71,8 +62,8 @@ A result is an object with all the top-level keys from the items merged in the o
 
 ```json
 {
-	"foo": "string",
-	"bar": "number"
+  "foo": "string",
+  "bar": "number"
 }
 ```
 
@@ -82,34 +73,36 @@ Whenever there is a need to use a literal value instead of a reserved keyword, i
 
 ```json
 {
-	"$literal:string": "boolean"
+  "$literal:string": "boolean"
 }
 ```
 
 ## References
 
-References are used to refer to other fields:
+It is possible to use references to refer to other fields:
 
 ```json
 {
-	"$ref": "#/path/to/field"
+  "$ref": "#/path/to/field"
 }
 ```
 
-An object containing a `$ref` must not contain any other keys.
+An object containing a `$ref` will be substituted with the resolved content so that all other fields will be ignored.
+
+<!-- TODO: consider this syntax: `$resolve(#/path)` or `$(#/path)` -->
 
 ## Json Type
 
-Represents any valid JSON. It could be described in terms of **simple-json-type** as the following:
+Represents any valid JSON. It could be described in terms of **Simple JSON Type** as the following:
 
 ```json
 [
-	"string",
-	"number",
-	"boolean",
-	null,
-	{"string": {"$ref": "#/"}},
-	{"array": {"$ref": "#/"}}
+  "string",
+  "number",
+  "boolean",
+  null,
+  {"string": {"$ref": "#/"}},
+  {"array": {"$ref": "#/"}},
 ]
 ```
 
