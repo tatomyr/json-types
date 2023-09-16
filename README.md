@@ -102,7 +102,7 @@ Represents any valid JSON. It could be described in terms of **Simple JSON Type*
   "boolean",
   null,
   {"string": {"$ref": "#/"}},
-  {"array": {"$ref": "#/"}},
+  {"array": {"$ref": "#/"}}
 ]
 ```
 
