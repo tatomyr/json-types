@@ -1,23 +1,24 @@
 # Type Extending
 
-> Under consideration. Could be helpful for OpenAPI-compatible schemas.
+> Under consideration. Could be helpful for OpenAPI-compatible types.
 
 It is possible to add some additional context to types and values using modifiers.
 
 ## Prefixes
 
-To make a field only appear in responses, use `$read-only:` prefix.
-The similar prefix for requests is `$write-only:`:
+To make a field only appear in responses, use `$read-only::` prefix.
+The similar prefix for requests is `$write-only::`:
 
 ```json
 {
   "name": "string",
-  "$write-only:password": "string",
-  "$read-only:id": "string"
+  "$write-only::password": "string",
+  "$read-only::id": "string"
 }
 ```
 
-Prefixes can be used only with keys.
+Prefixes can be used only with keys. 
+Please note the double colon notation.
 
 ## Suffixes
 
@@ -60,7 +61,7 @@ If a field needs to be validated against its context, the validation function co
 }
 ```
 
-A validation function should return either a string with an error message or any falsy value if the field is valid.
+A validation function is a JavaScript function that accepts the value itself and its parents up to the root of the object, and returns either a string with an error message or any falsy value if the field is valid.
 
 ## Discriminator
 
