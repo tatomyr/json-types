@@ -6,47 +6,47 @@ It is possible to add some additional context to types and values using modifier
 
 ## Prefixes
 
-To make a field only appear in responses, use `$read-only::` prefix.
-The similar prefix for requests is `$write-only::`:
+To make a field only appear in responses, use the `$read-only:` prefix.
+The similar prefix for requests is `$write-only:`:
 
 ```json
 {
   "name": "string",
-  "$write-only::password": "string",
-  "$read-only::id": "string"
+  "$write-only:password": "string",
+  "$read-only:id": "string"
 }
 ```
 
-Prefixes can be used only with keys. 
-Please note the double colon notation.
+Those prefixes can be used only with keys.
 
 ## Suffixes
 
 Suffixes are intended to specify different formats of the basic types.
+They are denoted by the double colon notation.
 
 ### String Formats
 
-String formats can include among others `uuid`, `date-time`, `uri`, `email`.
-Full list of the possible string formats should correspond to the described in [JSONSchema string formats](https://json-schema.org/understanding-json-schema/reference/string.html#format).
+String formats can include, among others, `::uuid`, `::date-time`, `::uri`, `::email`.
+The list of possible string formats should correspond to the one described in [JSONSchema string formats](https://json-schema.org/understanding-json-schema/reference/string.html#format).
 
 String formats could be used both in keys and values:
 
 ```json
 {
-  "id": "string:uuid",
-  "string:email": {"validated": "boolean"}
+  "id": "string::uuid",
+  "string::email": {"validated": "boolean"}
 }
 ```
 
 ### Number Formats
 
-Number formats are: `integer`, `minimum`, `maximum`, `exclusive-minimum`, `exclusive-maximum`.
+Number formats are: `::integer`, `::minimum`, `::maximum`, `::exclusive-minimum`, `::exclusive-maximum`.
 Formats could be sequentially chained.
 The range formats require a number value in parenthesis:
 
 ```json
 {
-  "age": "number:integer:minimum(18)"
+  "age": "number::integer::minimum(18)"
 }
 ```
 
@@ -61,7 +61,7 @@ If a field needs to be validated against its context, the validation function co
 }
 ```
 
-A validation function is a JavaScript function that accepts the value itself and its parents up to the root of the object, and returns either a string with an error message or any falsy value if the field is valid.
+A validation function is a JavaScript function that accepts the value itself and its parents up to the root of the object and returns either a string with an error message or any falsy value if the field is valid.
 
 ## Discriminator
 

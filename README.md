@@ -1,11 +1,11 @@
-# Open JSON Type
+# OpenJSON Types
 
 This document attempts to describe data types (primarily aimed at JSON-like structures) in a simple and natural way.
-Any [valid JSON](https://www.json.org/) could be validated against a **Open JSON Type** definition.
+Any [valid JSON](https://www.json.org/) could be validated against a **OpenJSON Types** definition.
 
 ## Reserved Keywords
 
-There are several reserved words in **Open JSON Type** which could be used either as keys or values:
+There are several reserved words in **OpenJSON Types** which could be used either as keys or values:
 
 | Keyword                   | Description                                                                  | Usage      |
 | ------------------------- | ---------------------------------------------------------------------------- | ---------- |
@@ -17,7 +17,8 @@ There are several reserved words in **Open JSON Type** which could be used eithe
 | array                     | Array generic.                                                               | key        |
 | any                       | Any value (not validated).                                                   | value      |
 | $and <!-- Maybe $all? --> | Combines several types from an array into an object (types must be objects). | key        |
-| $ref                      | Reference to another field.                                                  | key        |
+| $resolve                  | Reference to another field.                                                  | value      |
+| $literal                  | Escapes a literal value.                                                     | key, value |
 
 ## Objects
 
@@ -68,7 +69,7 @@ It is possible to combine several types into one using the `$and` keyword:
 }
 ```
 
-A result is an object that contains all of the properties from all of the items:
+A result is an object that contains all of the properties of all the items:
 
 ```json
 {
@@ -81,35 +82,35 @@ Please notice that each item must be an object.
 
 A TypeScript analogy of the `$and` operator is the following:
 
-````ts
+```ts
 type And<U> = (U extends any ? (k: U) => void : never) extends (
   k: infer I
 ) => void
   ? I
   : never
 
-type Combined = And<{foo: string} | {bar: number}>
+type Combined = And<{foo: string} | {bar: number}> // {"foo": "string"} & {"bar": "number"} ≡ {"foo": "string", "bar": "number"}
 ```
 
-Effectively it applies the logical **AND** operation upon the array members, replacing the logical **OR** relations.
+Effectively, it applies the logical **AND** operation upon the array members, replacing the logical **OR** relations.
 
-Note, that it doesn't make sense to combine objects that have common properties with different types:
+Note that it doesn't make sense to combine objects that have common properties with different types:
 
 ```json
 {
   "$and": [{"foo": "string"}, {"foo": "number"}]
 }
-````
+```
 
-The example above results in `foo` being both `string` and `number` what is effectively equivalent to TypeScript's `never` type.
+The example above results in `foo` being both `string` and `number`, effectively equivalent to TypeScript's `never` type.
 
 ## Literals Escaping
 
-Whenever there is a need to use a literal value instead of a reserved keyword, it needs to be prepended with the `$literal::` prefix:
+Whenever there is a need to use a literal value instead of a reserved keyword, it needs to be prepended with the `$literal:` prefix:
 
 ```json
 {
-  "$literal::string": "boolean"
+  "$literal:string": "boolean"
 }
 ```
 
@@ -127,23 +128,20 @@ It is possible to use references to refer to other fields:
 
 ```json
 {
-  "$ref": "#/path/to/field"
+  "foo": "$resolve:#/path/to/field"
 }
 ```
 
-An object containing a `$ref` will be substituted with the resolved content so that all other fields will be ignored.
-
+The `$resolve:...` expression must be replaced with the value of the field it refers to.
 A reference must be resolved relative to the file it appears in.
-
-<!-- TODO: consider this syntax: `$resolve(#/path)` or `$(#/path)` -->
 
 <!--
 ## Json Type
 
 Represents any valid JSON.
 
-Q: Is there real need to have both `any` and `json`? What else apart from json could be in any and still it is valid? `{array: "undefined"}`?
-Anyway, it could be described in terms of **Open JSON Type** as the following:
+Q: Is there a real need to have both `any` and `json`? What else apart from json could be in any and still it is valid? `{array: "undefined"}`?
+Anyway, it could be described in terms of **OpenJSON Types** as the following:
 
 ```json
 [
@@ -151,8 +149,8 @@ Anyway, it could be described in terms of **Open JSON Type** as the following:
   "number",
   "boolean",
   null,
-  {"string": {"$ref": "#/"}},
-  {"array": {"$ref": "#/"}}
+  {"string": "$resolve:#/"},
+  {"array": "$resolve:#/"}
 ]
 ```
 -->
