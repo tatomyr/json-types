@@ -1,24 +1,24 @@
 # OpenJSON Types
 
 This document attempts to describe data types (primarily aimed at JSON-like structures) in a simple and natural way.
-Any [valid JSON](https://www.json.org/) could be validated against a **OpenJSON Types** definition.
+Any [valid JSON](https://www.json.org/) could be validated against an **OpenJSON Types** definition.
 
 ## Reserved Keywords
 
 There are several reserved words in **OpenJSON Types** which could be used either as keys or values:
 
-| Keyword                   | Description                                                                  | Usage      |
-| ------------------------- | ---------------------------------------------------------------------------- | ---------- |
-| string                    | String type.                                                                 | key, value |
-| number                    | Number type.                                                                 | value      |
-| boolean                   | Boolean type.                                                                | value      |
-| null                      | `null` value.                                                                | value      |
-| undefined                 | Value is not set (the corresponding key is not present).                     | value      |
-| array                     | Array generic.                                                               | key        |
-| any                       | Any value (not validated).                                                   | value      |
-| $and <!-- Maybe $all? --> | Combines several types from an array into an object (types must be objects). | key        |
-| $resolve                  | Reference to another field.                                                  | value      |
-| $literal                  | Escapes a literal value.                                                     | key, value |
+| Keyword                   | Description                                                  | Usage      |
+| ------------------------- | ------------------------------------------------------------ | ---------- |
+| string                    | String type.                                                 | key, value |
+| number                    | Number type.                                                 | value      |
+| boolean                   | Boolean type.                                                | value      |
+| null                      | The `null` value.                                            | value      |
+| undefined                 | Value is not set (the corresponding key is not present).     | value      |
+| array                     | Array generic.                                               | key        |
+| any                       | Any value (not validated).                                   | value      |
+| $and <!-- Maybe $all? --> | Sets the logical **AND** relation between the array members. | key        |
+| $literal                  | Escapes a literal value.                                     | key, value |
+| $resolve                  | Reference to another field.                                  | value      |
 
 ## Objects
 
@@ -30,6 +30,8 @@ Object literals describe object-like schemas:
   "age": "number"
 }
 ```
+
+The example above defines an object with only two properties, both of which are required.
 
 Also, it is possible to use the `string` type as a key to describe records:
 
@@ -54,7 +56,7 @@ Also, it is possible to use the `string` type as a key to describe records:
 Array literals allow defining multiple available options, one of which is applicable:
 
 ```json
-["string", "number"]
+["string", "undefined"]
 ```
 
 The relation between the items is logical **OR**.
@@ -78,8 +80,6 @@ A result is an object that contains all of the properties of all the items:
 }
 ```
 
-Please notice that each item must be an object.
-
 A TypeScript analogy of the `$and` operator is the following:
 
 ```ts
@@ -92,9 +92,9 @@ type And<U> = (U extends any ? (k: U) => void : never) extends (
 type Combined = And<{foo: string} | {bar: number}> // {"foo": "string"} & {"bar": "number"} ≡ {"foo": "string", "bar": "number"}
 ```
 
-Effectively, it applies the logical **AND** operation upon the array members, replacing the logical **OR** relations.
+Effectively, it applies the logical **AND** operation upon the array members, replacing the logical **OR** relation.
 
-Note that it doesn't make sense to combine objects that have common properties with different types:
+Note that it doesn't make sense to combine primitive types or objects that have common properties with different types:
 
 ```json
 {
@@ -106,7 +106,7 @@ The example above results in `foo` being both `string` and `number`, effectively
 
 ## Literals Escaping
 
-Whenever there is a need to use a literal value instead of a reserved keyword, it needs to be prepended with the `$literal:` prefix:
+Whenever there is a need to use a literal value instead of a reserved keyword, it needs to be prepended with the `$literal` prefix:
 
 ```json
 {

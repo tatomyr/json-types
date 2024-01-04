@@ -1,13 +1,15 @@
 # Type Extending
 
-> Under consideration. Could be helpful for OpenAPI-compatible types.
+> Under consideration.
 
 It is possible to add some additional context to types and values using modifiers.
 
 ## Prefixes
 
-To make a field only appear in responses, use the `$read-only:` prefix.
-The similar prefix for requests is `$write-only:`:
+> Could be helpful for describing OpenAPI-compatible types.
+
+To make a field only appear in responses, use the `$read-only` prefix.
+The similar prefix for requests is `$write-only`:
 
 ```json
 {
@@ -26,7 +28,7 @@ They are denoted by the double colon notation.
 
 ### String Formats
 
-String formats can include, among others, `::uuid`, `::date-time`, `::uri`, `::email`.
+String formats can include, among others, `uuid`, `date-time`, `uri`, `email`.
 The list of possible string formats should correspond to the one described in [JSONSchema string formats](https://json-schema.org/understanding-json-schema/reference/string.html#format).
 
 String formats could be used both in keys and values:
@@ -40,7 +42,7 @@ String formats could be used both in keys and values:
 
 ### Number Formats
 
-Number formats are: `::integer`, `::minimum`, `::maximum`, `::exclusive-minimum`, `::exclusive-maximum`.
+Number formats are: `integer`, `minimum`, `maximum`, `exclusive-minimum`, `exclusive-maximum`.
 Formats could be sequentially chained.
 The range formats require a number value in parenthesis:
 
@@ -50,7 +52,7 @@ The range formats require a number value in parenthesis:
 }
 ```
 
-## Free Form Validation (under consideration)
+## Free Form Validation
 
 If a field needs to be validated against its context, the validation function could be used:
 
