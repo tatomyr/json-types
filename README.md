@@ -17,8 +17,17 @@ There are several reserved words in **JSON X-Types** which could be used either 
 | array     | Array generic.                                             | key        |
 | any       | Any value (not validated).                                 | value      |
 | $and      | Sets the logical `AND` relation between the array members. | key        |
-| $literal  | Escapes a literal value.                                   | key, value |
-| $x-type   | Refers to another `x-type`.                                | value      |
+
+## Prefixes
+
+Prefixes are used to modify what's going after them. Prefixes and the actual values are separated by a colon.
+
+| Prefix   | Description                 | Usage      |
+| -------- | --------------------------- | ---------- |
+| $literal | Escapes a literal value.    | key, value |
+| $ref     | Refers to another `x-type`. | value      |
+
+Note that `$ref` could be also used as a reference object, but it must not contain any other fields.
 
 ## Objects
 
@@ -128,11 +137,11 @@ It is possible to refer to other **JSON X-Types** using the [JSON Pointer](https
 
 ```json
 {
-  "foo": "$x-type:#/path/to/field"
+  "foo": "$ref:#/path/to/field"
 }
 ```
 
-The `$x-type:...` expression must be replaced with the value of the field it refers to.
+The `$ref:...` expression must be replaced with the value of the field it refers to.
 A reference must be resolved relative to the file it appears in.
 
 <!--
@@ -149,8 +158,8 @@ Anyway, it could be described in terms of **JSON X-Types** as the following:
   "number",
   "boolean",
   null,
-  {"string": "$x-type:#/"},
-  {"array": "$x-type:#/"}
+  {"string": "$ref:#/"},
+  {"array": "$ref:#/"}
 ]
 ```
 -->
