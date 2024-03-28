@@ -1,0 +1,88 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`translate x-type to schema 1`] = `
+"openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Test
+          content:
+            application/json:
+              x-type:
+                Simple: string
+                Or:
+                  - number
+                  - boolean
+                ArrayOfEnums:
+                  array:
+                    - foo
+                    - bar
+                OpenObject:
+                  required: boolean
+                  string: boolean
+                Ref:
+                  $ref: '#/components/x-types/Foo'
+                RefObject:
+                  $ref: '#/components/x-types/Foo'
+              examples:
+                Test:
+                  value:
+                    Simple: some string
+                    Or: 42
+                    ArrayOfEnums:
+                      - foo
+                      - foo
+                      - bar
+                    OpenObject:
+                      required: true
+                      not-listed-property: false
+                    Ref: 42
+                    RefObject: 42
+              schema:
+                type: object
+                properties:
+                  Simple:
+                    type: string
+                  Or:
+                    anyOf:
+                      - type: number
+                      - type: boolean
+                  ArrayOfEnums:
+                    type: array
+                    items:
+                      anyOf:
+                        - type: string
+                          const: foo
+                        - type: string
+                          const: bar
+                  OpenObject:
+                    type: object
+                    properties:
+                      required:
+                        type: boolean
+                    required:
+                      - required
+                    additionalProperties:
+                      type: boolean
+                  Ref:
+                    type: number
+                  RefObject:
+                    type: number
+                required:
+                  - Simple
+                  - Or
+                  - ArrayOfEnums
+                  - OpenObject
+                  - Ref
+                  - RefObject
+                additionalProperties: false
+components:
+  x-types:
+    Foo: number
+"
+`;

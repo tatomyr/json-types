@@ -1,0 +1,48 @@
+openapi: 3.1.0
+info: 
+  title: Test
+  version: 1.0.0
+paths: 
+  /test:
+    get: 
+      responses: 
+        200:
+          description: Test
+          content: 
+            application/json:
+              x-type: 
+                Simple: string
+                Or: 
+                  - number
+                  - boolean
+                ArrayOfEnums:
+                  array: 
+                    - foo
+                    - bar
+                OpenObject: 
+                  required: boolean
+                  string: boolean
+                Ref: $ref:#/components/x-types/Foo
+                RefObject:
+                  $ref: '#/components/x-types/Foo'
+
+              examples: 
+                Test: 
+                  value: 
+                    Simple: some string
+                    Or: 42
+                    ArrayOfEnums: 
+                      - foo
+                      - foo
+                      - bar
+                    OpenObject:
+                      required: true
+                      not-listed-property: false
+                    Ref: 42
+                    RefObject: 42
+                    
+components: 
+  x-types:
+    Foo: number
+          
+              
