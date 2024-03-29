@@ -1,7 +1,7 @@
 # JSON X-Types
 
-This document attempts to describe data types (primarily aimed at JSON-like structures) in a simple and natural way.
-Any [valid JSON](https://www.json.org/) could be validated against an **JSON X-Types** definition.
+This document aims to define a data type format that can be used to describe JSON-like structures in a simple and natural way.
+Any [valid JSON](https://www.json.org/) could be validated against a **JSON X-Type** definition.
 
 ## Reserved Keywords
 
@@ -149,7 +149,7 @@ A reference must be resolved relative to the file it appears in.
 
 Represents any valid JSON.
 
-Q: Is there a real need to have both `any` and `json`? What else apart from json could be in any and still it is valid? `{array: "undefined"}`?
+Q: Is there a real need to have both `any` and `json`? What else apart from JSON could be in any and still it is valid? `{array: "undefined"}`?
 Anyway, it could be described in terms of **JSON X-Types** as the following:
 
 ```json
