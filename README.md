@@ -7,16 +7,16 @@ Any [valid JSON](https://www.json.org/) could be validated against a **JSON X-Ty
 
 There are several reserved words in **JSON X-Types** which could be used either as keys or values:
 
-| Keyword   | Description                                                | Usage      |
-| --------- | ---------------------------------------------------------- | ---------- |
-| string    | String type.                                               | key, value |
-| number    | Number type.                                               | value      |
-| boolean   | Boolean type.                                              | value      |
-| null      | The `null` value.                                          | value      |
-| undefined | Value is not set (the corresponding key is not present).   | value      |
-| array     | Array generic.                                             | key        |
-| any       | Any value (not validated).                                 | value      |
-| $and      | Sets the logical `AND` relation between the array members. | key        |
+| Keyword   | Description                                              | Usage      |
+| --------- | -------------------------------------------------------- | ---------- |
+| string    | String type.                                             | key, value |
+| number    | Number type.                                             | value      |
+| boolean   | Boolean type.                                            | value      |
+| null      | The `null` value.                                        | value      |
+| undefined | Value is not set (the corresponding key is not present). | value      |
+| array     | Array generic.                                           | key        |
+| any       | Any value (not validated).                               | value      |
+| $and      | Refers to the intersection of an array members.          | key        |
 
 ## Prefixes
 
@@ -68,7 +68,7 @@ Array literals allow defining multiple available options, one of which is applic
 ["string", "undefined"]
 ```
 
-The relation between the items is logical `OR`.
+The relation between the items is `XOR`.
 
 ## Types Combining
 
@@ -101,7 +101,7 @@ type And<U> = (U extends any ? (k: U) => void : never) extends (
 type Combined = And<{foo: string} | {bar: number}> // {"foo": "string"} & {"bar": "number"} ≡ {"foo": "string", "bar": "number"}
 ```
 
-Effectively, it applies the logical `AND` operation upon the array members, replacing the logical `OR` relation.
+Effectively, it applies the `AND` relation between the array members, replacing the `XOR` relation.
 
 Note that it doesn't make sense to combine primitive types or objects that have common properties with different types:
 
