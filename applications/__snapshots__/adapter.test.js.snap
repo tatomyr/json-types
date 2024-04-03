@@ -28,7 +28,10 @@ paths:
                 Ref:
                   $ref: '#/components/x-types/Foo'
                 RefObject:
-                  $ref: '#/components/x-types/Foo'
+                  $ref: '#/components/x-types/Bar'
+                ConditionalRef:
+                  - $ref: '#/components/x-types/Bar'
+                  - undefined
               examples:
                 Test:
                   value:
@@ -42,7 +45,10 @@ paths:
                       required: true
                       not-listed-property: false
                     Ref: 42
-                    RefObject: 42
+                    RefObject:
+                      foo: not expected here
+                      somekey: 42.1
+                      string: number
               schema:
                 type: object
                 properties:
@@ -72,7 +78,38 @@ paths:
                   Ref:
                     type: number
                   RefObject:
-                    type: number
+                    type: object
+                    properties:
+                      somekey:
+                        anyOf:
+                          - type: boolean
+                            const: true
+                          - type: number
+                            const: 42.1
+                      string:
+                        type: string
+                        const: number
+                    required:
+                      - somekey
+                      - string
+                    additionalProperties: false
+                  ConditionalRef:
+                    anyOf:
+                      - type: object
+                        properties:
+                          somekey:
+                            anyOf:
+                              - type: boolean
+                                const: true
+                              - type: number
+                                const: 42.1
+                          string:
+                            type: string
+                            const: number
+                        required:
+                          - somekey
+                          - string
+                        additionalProperties: false
                 required:
                   - Simple
                   - Or
@@ -84,5 +121,10 @@ paths:
 components:
   x-types:
     Foo: number
+    Bar:
+      somekey:
+        - true
+        - 42.1
+      $literal:string: $literal:number
 "
 `;

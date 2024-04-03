@@ -1,16 +1,2 @@
-rules:
-  spec: error
-  no-invalid-media-type-examples: error
-  no-unresolved-refs: error
-
-extends:
-  - x-types/all
-
-plugins:
-  - applications/x-types-plugin.js
-
-decorators:
-  x-types/generate-schemas: {}
-
-preprocessors:
-  x-types/create-$refs: {}
+extends: 
+  - applications/x-redocly.yaml

@@ -13,45 +13,45 @@ const product = (a, b) => {
   return result
 }
 
-const deepMerge2 = (one, two) => {
+const deepMergeTwo = (first, second) => {
   // TODO: handle references to another x-types
 
-  if (typeof one === "string" || typeof two === "string") {
-    throw new Error(`Merging primitives is not allowed: "${one}" & "${two}"`)
+  if (typeof first === "string" || typeof second === "string") {
+    throw new Error(`Merging primitives is not allowed: "${first}" & "${second}"`)
   }
 
-  if (typeof one.array !== "undefined" || typeof two.array !== "undefined") {
-    throw new Error(`Cannot merge "array" type`)
+  if (typeof first.array !== "undefined" || typeof second.array !== "undefined") {
+    throw new Error(`Cannot mergeAll "array" type`)
   }
 
-  if (typeof one.$and !== "undefined") {
-    return merge(...one.$and, two)
+  if (typeof first.$and !== "undefined") {
+    return mergeAll(...first.$and, second)
   }
 
-  if (typeof two.$and !== "undefined") {
-    return merge(...two.$and, one)
+  if (typeof second.$and !== "undefined") {
+    return mergeAll(...second.$and, first)
   }
 
-  if (one instanceof Array && isObject(two)) {
-    return one.map(item => deepMerge2(item, two))
+  if (first instanceof Array && isObject(second)) {
+    return first.map(item => deepMergeTwo(item, second))
   }
 
-  if (isObject(one) && two instanceof Array) {
-    return two.map(item => deepMerge2(item, one))
+  if (isObject(first) && second instanceof Array) {
+    return second.map(item => deepMergeTwo(item, first))
   }
 
-  if (one instanceof Array && two instanceof Array) {
-    return product(one, two).map(([a, b]) => deepMerge2(a, b))
+  if (first instanceof Array && second instanceof Array) {
+    return product(first, second).map(([a, b]) => deepMergeTwo(a, b))
   }
 
-  if (isObject(one) && isObject(two)) {
-    const result = structuredClone(one)
+  if (isObject(first) && isObject(second)) {
+    const result = structuredClone(first)
 
-    for (const key in two) {
+    for (const key in second) {
       if (typeof result[key] === "undefined") {
-        result[key] = two[key]
+        result[key] = second[key]
       } else {
-        result[key] = deepMerge2(result[key], two[key])
+        result[key] = deepMergeTwo(result[key], second[key])
       }
     }
 
@@ -59,13 +59,13 @@ const deepMerge2 = (one, two) => {
   }
 }
 
-const merge = (...args) => {
+const mergeAll = (...args) => {
   return args.reduce((acc, item) => {
-    return deepMerge2(acc, item)
+    return deepMergeTwo(acc, item)
   }, {})
 }
 
 module.exports = {
   isObject,
-  merge,
+  mergeAll,
 }

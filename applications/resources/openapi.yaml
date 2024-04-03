@@ -1,37 +1,41 @@
 openapi: 3.1.0
-info: 
+info:
   title: Test
   version: 1.0.0
-paths: 
+paths:
   /test:
-    get: 
-      responses: 
+    get:
+      responses:
         200:
           description: Test
-          content: 
+          content:
             application/json:
-              x-type: 
+              x-type:
                 Simple: string
-                Or: 
+                Or:
                   - number
                   - boolean
                 ArrayOfEnums:
-                  array: 
+                  array:
                     - foo
                     - bar
-                OpenObject: 
+                OpenObject:
                   required: boolean
                   string: boolean
                 Ref: $ref:#/components/x-types/Foo
-                RefObject:
-                  $ref: '#/components/x-types/Foo'
+                RefObject: $ref:#/components/x-types/Bar
+                ConditionalRef:
+                  - $ref:#/components/x-types/Bar
+                  - undefined
+                # # FIXME: this breaks the flow?:
+                # AWrongRef: $ref:wrong-file.yaml
 
-              examples: 
-                Test: 
-                  value: 
+              examples:
+                Test:
+                  value:
                     Simple: some string
                     Or: 42
-                    ArrayOfEnums: 
+                    ArrayOfEnums:
                       - foo
                       - foo
                       - bar
@@ -39,10 +43,15 @@ paths:
                       required: true
                       not-listed-property: false
                     Ref: 42
-                    RefObject: 42
-                    
-components: 
+                    RefObject:
+                      foo: not expected here
+                      somekey: 42.10
+                      string: number
+                    # AWrongRef: ???
+
+components:
   x-types:
     Foo: number
-          
-              
+    Bar:
+      somekey: [true, 42.1]
+      $literal:string: $literal:number
