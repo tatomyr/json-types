@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`translate x-type to schema 1`] = `
+exports[`bundle > bundle and translate x-type to schema 1`] = `
 "openapi: 3.1.0
 info:
   title: Test
@@ -126,5 +126,53 @@ components:
         - true
         - 42.1
       $literal:string: $literal:number
+"
+`;
+
+exports[`bundle > do not translate if there is no x-type 1`] = `
+"openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Test
+          content:
+            application/json:
+              examples:
+                Test:
+                  value:
+                    Simple: some string
+components: {}
+"
+`;
+
+exports[`bundle > ignore wrong ref when bundling 1`] = `
+"openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Test
+          content:
+            application/json:
+              x-type:
+                AWrongRef:
+                  $ref: wrong-file.yaml
+              schema:
+                type: object
+                properties:
+                  AWrongRef: true
+                required:
+                  - AWrongRef
+                additionalProperties: false
+components: {}
 "
 `;
