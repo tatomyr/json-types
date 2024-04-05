@@ -6,7 +6,7 @@ describe("bundle", () => {
     const out = execSync(
       "redocly bundle applications/resources/openapi.yaml --config=applications/x-inline-refs-config-redocly.yaml"
     ).toString()
-    expect(out).toMatchFileSnapshot('../outputs/x-openapi.yaml')
+    expect(out).toMatchFileSnapshot("../outputs/x-openapi.yaml")
   })
 
   test("do not add schemas if there is no x-type", () => {

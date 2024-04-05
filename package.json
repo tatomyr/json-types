@@ -6,7 +6,10 @@
   "scripts": {
     "translate": "redocly bundle applications/resources/openapi.yaml -o=applications/outputs/x-openapi.yaml --force --config=applications/x-inline-refs-config-redocly.yaml && redocly lint applications/outputs/x-openapi.yaml --config=applications/x-inline-refs-config-redocly.yaml",
     "lint": "eslint .",
-    "test": "vitest"
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
+    "prettier:check": "npx prettier --check \"**/*.{js,html,yaml,css,md,json}\"",
+    "prettier": "npx prettier --write \"**/*.{js,html,yaml,css,md,json}\""
   },
   "repository": {
     "type": "git",
@@ -24,7 +27,9 @@
   "homepage": "https://github.com/tatomyr/json-types#readme",
   "devDependencies": {
     "@redocly/cli": "^1.10.6",
+    "@vitest/coverage-v8": "^1.4.0",
     "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
     "vitest": "^1.4.0"
   }
 }
