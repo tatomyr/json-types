@@ -26,21 +26,16 @@ const translateXTypeToSchema = (xType, ctx) => {
   }
 
   if (xType === "any") {
-    return true
-    /* 
-    // TODO: consider also this:
     return {
       anyOf: [
         {type: "string"},
         {type: "number"},
-        {type: "integer"},
         {type: "boolean"},
         {type: "object"},
         {type: "array"},
         {type: "null"},
       ],
     }
-     */
   }
 
   if (xType === "undefined") {

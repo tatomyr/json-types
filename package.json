@@ -4,7 +4,7 @@
   "description": "This document attempts to describe data types (primarily aimed at JSON-like structures) in a simple and natural way. Any [valid JSON](https://www.json.org/) could be validated against an **JSON X-Types** definition.",
   "main": "index.js",
   "scripts": {
-    "translate": "redocly bundle applications/resources/openapi.yaml -o=applications/outputs/x-openapi.yaml --force --config=applications/x-redocly.yaml && redocly lint applications/outputs/x-openapi.yaml --config=applications/x-redocly.yaml",
+    "translate": "redocly bundle applications/resources/openapi.yaml -o=applications/outputs/x-openapi.yaml --force --config=applications/x-inline-refs-config-redocly.yaml && redocly lint applications/outputs/x-openapi.yaml --config=applications/x-inline-refs-config-redocly.yaml",
     "lint": "eslint .",
     "test": "vitest"
   },

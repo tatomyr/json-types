@@ -9,9 +9,5 @@ extends:
 plugins:
   - x-types-plugin.js
 
-decorators:
-  x-types/generate-schemas: {}
-
 preprocessors:
-  x-types/create-$refs: {}
-  # x-types/generate-schemas: {} # This could be here if we don't use the `x-types/create-$refs` preprocessor (require to write $refs the usual way)
+  x-types/generate-schemas: {}

@@ -22,10 +22,12 @@ paths:
                 OpenObject:
                   required: boolean
                   string: boolean
-                Ref: $ref:#/components/x-types/Foo
-                RefObject: $ref:#/components/x-types/Bar
+                Ref:
+                  $ref: "#/components/x-types/Foo"
+                RefObject:
+                  $ref: "#/components/x-types/Bar"
                 ConditionalRef:
-                  - $ref:#/components/x-types/Bar
+                  - $ref: "#/components/x-types/Bar"
                   - undefined
                 # # FIXME: this breaks the flow?:
                 # AWrongRef: $ref:wrong-file.yaml
