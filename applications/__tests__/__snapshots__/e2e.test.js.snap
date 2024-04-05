@@ -1,5 +1,134 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`bundle > bundle and translate x-type to schema (for regular $ref objects) 1`] = `
+"openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Test
+          content:
+            application/json:
+              x-type:
+                Simple: string
+                Or:
+                  - number
+                  - boolean
+                ArrayOfEnums:
+                  array:
+                    - foo
+                    - bar
+                OpenObject:
+                  required: boolean
+                  string: boolean
+                Ref:
+                  $ref: '#/components/x-types/Foo'
+                RefObject:
+                  $ref: '#/components/x-types/Bar'
+                ConditionalRef:
+                  - $ref: '#/components/x-types/Bar'
+                  - undefined
+              examples:
+                Test:
+                  value:
+                    Simple: some string
+                    Or: 42
+                    ArrayOfEnums:
+                      - foo
+                      - foo
+                      - bar
+                    OpenObject:
+                      required: true
+                      not-listed-property: false
+                    Ref: 42
+                    RefObject:
+                      foo: not expected here
+                      somekey: 42.1
+                      string: number
+              schema:
+                type: object
+                properties:
+                  Simple:
+                    type: string
+                  Or:
+                    anyOf:
+                      - type: number
+                      - type: boolean
+                  ArrayOfEnums:
+                    type: array
+                    items:
+                      anyOf:
+                        - type: string
+                          const: foo
+                        - type: string
+                          const: bar
+                  OpenObject:
+                    type: object
+                    properties:
+                      required:
+                        type: boolean
+                    required:
+                      - required
+                    additionalProperties:
+                      type: boolean
+                  Ref:
+                    type: number
+                  RefObject:
+                    type: object
+                    properties:
+                      somekey:
+                        anyOf:
+                          - type: boolean
+                            const: true
+                          - type: number
+                            const: 42.1
+                      string:
+                        type: string
+                        const: number
+                    required:
+                      - somekey
+                      - string
+                    additionalProperties: false
+                  ConditionalRef:
+                    anyOf:
+                      - type: object
+                        properties:
+                          somekey:
+                            anyOf:
+                              - type: boolean
+                                const: true
+                              - type: number
+                                const: 42.1
+                          string:
+                            type: string
+                            const: number
+                        required:
+                          - somekey
+                          - string
+                        additionalProperties: false
+                required:
+                  - Simple
+                  - Or
+                  - ArrayOfEnums
+                  - OpenObject
+                  - Ref
+                  - RefObject
+                additionalProperties: false
+components:
+  x-types:
+    Foo: number
+    Bar:
+      somekey:
+        - true
+        - 42.1
+      $literal:string: $literal:number
+"
+`;
+
 exports[`bundle > do not add schemas if there is no x-type 1`] = `
 "openapi: 3.1.0
 info:
@@ -21,25 +150,132 @@ components: {}
 "
 `;
 
-exports[`lint > lints x-openapi.yaml 1`] = `
-"validating applications/outputs/x-openapi.yaml...
-[1] applications/outputs/x-openapi.yaml:120:10 at #/components/x-types/Foo
+exports[`bundle > resolve different type of $refs on different levels and ignore wrong $refs (with --force) when bundling 1`] = `
+"openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: An object with refs
+          content:
+            application/json:
+              x-type:
+                AFieldWithRegularRef:
+                  $ref: '#/components/x-types/Foo'
+                AFieldWithInlineRef:
+                  $ref: '#/components/x-types/Foo'
+              examples:
+                Correct:
+                  value:
+                    AFieldWithInlineRef: something
+                    AFieldWithRegularRef: anything
+                Incorrect:
+                  value:
+                    NonExistingField: wrong
+              schema:
+                type: object
+                properties:
+                  AFieldWithRegularRef:
+                    anyOf:
+                      - type: string
+                      - type: number
+                      - type: boolean
+                      - type: object
+                      - type: array
+                      - type: 'null'
+                  AFieldWithInlineRef:
+                    anyOf:
+                      - type: string
+                      - type: number
+                      - type: boolean
+                      - type: object
+                      - type: array
+                      - type: 'null'
+                required:
+                  - AFieldWithRegularRef
+                  - AFieldWithInlineRef
+                additionalProperties: false
+        '201':
+          description: A bare ref
+          content:
+            application/json:
+              x-type:
+                $ref: '#/components/x-types/Foo'
+              examples:
+                Correct:
+                  value: Anything
+              schema:
+                anyOf:
+                  - type: string
+                  - type: number
+                  - type: boolean
+                  - type: object
+                  - type: array
+                  - type: 'null'
+        '202':
+          description: A file reference
+          content:
+            application/json:
+              x-type: number
+              examples:
+                Correct:
+                  value: 42
+                Incorrect:
+                  value: false
+              schema:
+                type: number
+        '404':
+          description: A wrong ref
+          content:
+            application/json:
+              x-type:
+                AWrongRef:
+                  $ref: wrong-file.yaml
+              example:
+                AWrongRef: Accepts anything
+              schema:
+                type: object
+                properties:
+                  AWrongRef:
+                    anyOf:
+                      - type: string
+                      - type: number
+                      - type: boolean
+                      - type: object
+                      - type: array
+                      - type: 'null'
+                required:
+                  - AWrongRef
+                additionalProperties: false
+components:
+  x-types:
+    Foo: any
+"
+`;
+
+exports[`lint > lints openapi.yaml (using preprocessors to transform) 1`] = `
+"validating applications/resources/openapi.yaml...
+[1] applications/resources/openapi.yaml:51:10 at #/components/x-types/Foo
 
 Expected type \`XTypeObject\` (object) but got \`string\`
 
-118 | components:
-119 |   x-types:
-120 |     Foo: number
-    |          ^^^^^^
-121 |     Bar:
-122 |       somekey:
+49 | components:
+50 |   x-types:
+51 |     Foo: number
+   |          ^^^^^^
+52 |     Bar:
+53 |       somekey: [true, 42.1]
 
-referenced from applications/outputs/x-openapi.yaml:26:19 at #/paths/~1test/get/responses/200/content/application~1json/x-type/Ref 
+referenced from applications/resources/openapi.yaml:26:19 at #/paths/~1test/get/responses/200/content/application~1json/x-type/Ref 
 
 Error was generated by the spec rule.
 
 
-[2] applications/outputs/x-openapi.yaml:46:23 at #/paths/~1test/get/responses/200/content/application~1json/examples/Test/value/RefObject/foo
+[2] applications/resources/openapi.yaml:46:23 at #/paths/~1test/get/responses/200/content/application~1json/examples/Test/value/RefObject/foo
 
 Example value must conform to the schema: \`RefObject\` property must NOT have additional properties \`foo\`.
 
@@ -47,15 +283,15 @@ Example value must conform to the schema: \`RefObject\` property must NOT have a
 45 | RefObject:
 46 |   foo: not expected here
    |   ^^^
-47 |   somekey: 42.1
+47 |   somekey: 42.10
 48 |   string: number
 
-referenced from applications/outputs/x-openapi.yaml:13:15 at #/paths/~1test/get/responses/200/content/application~1json 
+referenced from applications/resources/openapi.yaml:13:15 at #/paths/~1test/get/responses/200/content/application~1json 
 
 Error was generated by the no-invalid-media-type-examples rule.
 
 
-applications/outputs/x-openapi.yaml: validated in <test>ms
+applications/resources/openapi.yaml: validated in <test>ms
 
 ❌ Validation failed with 2 errors.
 run \`redocly lint --generate-ignore-file\` to add all problems to the ignore file.
@@ -146,7 +382,7 @@ Error was generated by the no-invalid-media-type-examples rule.
 
 [6] applications/outputs/x-openapi-with-refs.yaml:84:19 at #/paths/~1test/get/responses/404/content/application~1json/x-type/AWrongRef
 
-Can't resolve $ref: ENOENT: no such file or directory '/Users/andrewtatomyr/Personal/json-types/applications/outputs/wrong-file.yaml'
+Can't resolve $ref: ENOENT: no such file or directory './applications/outputs/wrong-file.yaml'
 
 82 | x-type:
 83 |   AWrongRef:

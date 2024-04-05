@@ -1,51 +1,63 @@
 import {describe, expect, test} from "vitest"
-import {execSync} from "child_process"
+import {execSync, spawnSync} from "child_process"
+
+const runCommand = cmd => {
+  let stderr, stdout
+  try {
+    const out = execSync(cmd, {
+      env: {
+        ...process.env,
+        NODE_ENV: "test",
+        NO_COLOR: "TRUE",
+      },
+    })
+    stdout = out.toString("utf-8")
+  } catch (err) {
+    stderr = err.stderr.toString("utf-8")
+  }
+  return {stderr, stdout}
+}
+
+const stripCWD = str => str.replace(process.cwd(), ".")
 
 describe("bundle", () => {
-  test("bundle and translate x-type to schema", () => {
-    const out = execSync(
-      "redocly bundle applications/resources/openapi.yaml --config=applications/x-inline-refs-config-redocly.yaml"
-    ).toString()
-    expect(out).toMatchFileSnapshot("../outputs/x-openapi.yaml")
+  test("bundle and translate x-type to schema (for regular $ref objects)", () => {
+    const {stdout} = runCommand(
+      "redocly bundle applications/resources/openapi.yaml --config=applications/x-redocly.yaml"
+    )
+    expect(stdout).toMatchSnapshot()
   })
 
   test("do not add schemas if there is no x-type", () => {
-    const out = execSync(
-      "redocly bundle applications/resources/openapi-without-x-types.yaml --config=applications/x-inline-refs-config-redocly.yaml"
-    ).toString()
-    expect(out).toMatchSnapshot()
+    const {stdout} = runCommand(
+      "redocly bundle applications/resources/openapi-without-x-types.yaml --config=applications/x-redocly.yaml"
+    )
+    expect(stdout).toMatchSnapshot()
   })
 
-  test("resolve refs on different levels and ignore wrong refs (with --force) when bundling", () => {
-    const out = execSync(
+  test("resolve different type of $refs on different levels and ignore wrong $refs (with --force) when bundling", () => {
+    const {stdout} = runCommand(
       "redocly bundle applications/resources/openapi-with-refs.yaml --force --config=applications/x-inline-refs-config-redocly.yaml"
-    ).toString()
-    expect(out).toMatchFileSnapshot("../outputs/x-openapi-with-refs.yaml")
+    )
+    expect(stdout).toMatchSnapshot()
   })
 })
 
 describe("lint", () => {
-  test("lints x-openapi.yaml", () => {
-    let error = ""
-    try {
-      execSync(
-        "redocly lint applications/outputs/x-openapi.yaml --config=applications/x-inline-refs-config-redocly.yaml"
-      ).toString()
-    } catch (err) {
-      error = err.stderr.toString()
-    }
-    expect(error).toMatchSnapshot()
+  test("lints openapi.yaml (using preprocessors to transform)", () => {
+    const {stderr} = runCommand(
+      "redocly lint applications/resources/openapi.yaml --config=applications/x-redocly.yaml"
+    )
+    expect(stderr).toMatchSnapshot()
   })
 
   test("lints x-openapi-with-refs.yaml", () => {
-    let error = ""
-    try {
-      execSync(
-        "redocly lint applications/outputs/x-openapi-with-refs.yaml --config=applications/x-inline-refs-config-redocly.yaml"
-      ).toString()
-    } catch (err) {
-      error = err.stderr.toString()
-    }
-    expect(error).toMatchSnapshot()
+    const {stdout} = runCommand(
+      "redocly bundle applications/resources/openapi-with-refs.yaml -o=applications/outputs/x-openapi-with-refs.yaml --force --config=applications/x-inline-refs-config-redocly.yaml"
+    )
+    const {stderr} = runCommand(
+      "redocly lint applications/outputs/x-openapi-with-refs.yaml --config=applications/x-inline-refs-config-redocly.yaml"
+    )
+    expect(stripCWD(stderr)).toMatchSnapshot()
   })
 })

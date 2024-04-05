@@ -29,9 +29,6 @@ paths:
                 ConditionalRef:
                   - $ref: "#/components/x-types/Bar"
                   - undefined
-                # # FIXME: this breaks the flow?:
-                # AWrongRef: $ref:wrong-file.yaml
-
               examples:
                 Test:
                   value:
@@ -49,8 +46,6 @@ paths:
                       foo: not expected here
                       somekey: 42.10
                       string: number
-                    # AWrongRef: ???
-
 components:
   x-types:
     Foo: number
