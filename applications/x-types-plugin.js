@@ -81,6 +81,18 @@ module.exports = {
             "x-type": getType,
           },
         },
+        Components: {
+          ...types.Components,
+          properties: {
+            ...types.Components.properties,
+            "x-types": {
+              name: "NamedXTypes",
+              properties: {},
+              additionalProperties: getType,
+            },
+          },
+        },
+        // TODO: Add more types here
       }
     },
   },

@@ -4,7 +4,7 @@
   "description": "This document attempts to describe data types (primarily aimed at JSON-like structures) in a simple and natural way. Any [valid JSON](https://www.json.org/) could be validated against an **JSON X-Types** definition.",
   "main": "index.js",
   "scripts": {
-    "translate": "redocly bundle applications/resources/openapi.yaml -o=applications/outputs/x-openapi.yaml --force --config=applications/x-inline-refs-config-redocly.yaml && redocly lint applications/outputs/x-openapi.yaml --config=applications/x-inline-refs-config-redocly.yaml",
+    "refs": "redocly bundle applications/resources/openapi-with-refs.yaml -o=applications/outputs/x-openapi-with-refs.yaml --force --config=applications/x-inline-refs-config-redocly.yaml && redocly lint applications/outputs/x-openapi-with-refs.yaml --config=applications/x-inline-refs-config-redocly.yaml",
     "lint": "eslint .",
     "test": "vitest",
     "coverage": "vitest run --coverage",
@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/tatomyr/json-types#readme",
   "devDependencies": {
-    "@redocly/cli": "^1.10.6",
+    "@redocly/cli": "^1.11.0",
     "@vitest/coverage-v8": "^1.4.0",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",

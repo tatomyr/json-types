@@ -40,6 +40,16 @@ paths:
                   value: 42
                 Incorrect:
                   value: false
+        203:
+          description: A transitive reference
+          content:
+            application/json:
+              x-type: $ref:#/components/x-types/Bar
+              examples:
+                Correct:
+                  value: [anything]
+                Incorrect:
+                  value: anything
         404:
           description: A wrong ref
           content:
@@ -51,3 +61,5 @@ paths:
 components:
   x-types:
     Foo: any
+    Bar:
+      array: $ref:#/components/x-types/Foo
