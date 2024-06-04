@@ -1,0 +1,20 @@
+openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+components:
+  x-types:
+    MixedTypeArray:
+      array: string
+      neighbour: not-allowed
+    MixedAnd:
+      $and:
+        - foo: string
+        - bar: string
+      neighbour: not-allowed
+    MixedRef:
+      $ref: "#/components/x-types/Allowed"
+      neighbour: not-allowed
+    Allowed:
+      foo: boolean
+      string: number

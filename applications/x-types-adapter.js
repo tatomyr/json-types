@@ -47,6 +47,13 @@ const translateXTypeToSchema = (xType, ctx) => {
   }
 
   if (typeof xType.$and !== "undefined") {
+    if (!Array.isArray(xType.$and)) {
+      console.error()
+      console.error("ERROR! Expected array but got:")
+      console.error(xType.$and)
+      console.error()
+      return {}
+    }
     return translateXTypeToSchema(mergeAll(...xType.$and), ctx)
     /* 
     // TODO: consider also this:

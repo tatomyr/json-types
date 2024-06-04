@@ -1,9 +1,5 @@
 const {generateSchema, create$Refs} = require("./x-types-decorators")
-const {
-  noArrayNeighbors,
-  no$andNeighbors,
-  no$refNeighbors,
-} = require("./x-types-rules")
+const {no$refNeighbors} = require("./x-types-rules")
 
 const getType = value => {
   try {
@@ -11,11 +7,33 @@ const getType = value => {
       return {type: "string"}
     }
 
+    if (typeof value === "number") {
+      return {type: "number"}
+    }
+
+    if (typeof value === "boolean") {
+      return {type: "boolean"}
+    }
+
     if (value instanceof Array) {
       return {name: "XTypeList", properties: {}, items: getType}
     }
 
     if (typeof value === "object" && value !== null) {
+      if (typeof value.array !== "undefined") {
+        return "XTypeArray"
+      }
+
+      if (typeof value.$and !== "undefined") {
+        return "XTypeAND"
+      }
+
+      if (typeof value.$ref !== "undefined") {
+        return {
+          properties: {$ref: getType},
+        }
+      }
+
       return "XTypeObject"
     }
   } catch (err) {
@@ -23,15 +41,31 @@ const getType = value => {
   }
 }
 
-const XTypeObject = {
+const XTypeArray = {
   properties: {
     array: getType,
+  },
+}
+
+const XTypeObject_Record = {
+  properties: {
     string: getType,
+  },
+}
+
+const XTypeAND = {
+  properties: {
     $and: {
       name: "XTypeList",
       properties: {},
-      items: getType, // 'XTypeObject'
+      items: getType,
     },
+  },
+}
+
+const XTypeObject = {
+  properties: {
+    string: getType,
   },
   additionalProperties: getType,
 }
@@ -53,8 +87,6 @@ module.exports = {
 
   rules: {
     oas3: {
-      "no-array-neighbors": noArrayNeighbors,
-      "no-$and-neighbors": no$andNeighbors,
       "no-$ref-neighbors": no$refNeighbors,
     },
   },
@@ -62,8 +94,6 @@ module.exports = {
   configs: {
     all: {
       rules: {
-        "x-types/no-array-neighbors": "error",
-        "x-types/no-$and-neighbors": "error",
         "x-types/no-$ref-neighbors": "error",
       },
     },
@@ -73,7 +103,10 @@ module.exports = {
     oas3(types) {
       return {
         ...types,
-        XTypeObject: XTypeObject,
+        XTypeArray,
+        XTypeObject_Record,
+        XTypeAND,
+        XTypeObject,
         MediaType: {
           ...types.MediaType,
           properties: {

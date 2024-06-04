@@ -67,7 +67,7 @@ const deepMergeTwo = (first, second) => {
 const mergeAll = (...args) => {
   return args.reduce((acc, item) => {
     return deepMergeTwo(acc, item)
-  }, {})
+  })
 }
 
 module.exports = {

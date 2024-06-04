@@ -16,4 +16,23 @@ describe("adapter", () => {
       required: ["string"],
     })
   })
+
+  test("translates $and", () => {
+    expect(
+      translateXTypeToSchema({
+        $and: [{foo: "string"}, {bar: "number"}],
+      })
+    ).toEqual({
+      type: "object",
+      properties: {foo: {type: "string"}, bar: {type: "number"}},
+      additionalProperties: false,
+      required: ["foo", "bar"],
+    })
+
+    expect(() =>
+      translateXTypeToSchema({
+        $and: ["string", "number"],
+      })
+    ).toThrow('Merging primitives is not allowed: "string" & "number"')
+  })
 })

@@ -41,6 +41,13 @@ describe("bundle", () => {
     )
     expect(stdout).toMatchSnapshot()
   })
+
+  test("do not bundle an openapi with type never", () => {
+    const {stderr} = runCommand(
+      "redocly bundle applications/resources/openapi-never.yaml --config=applications/x-redocly.yaml"
+    )
+    expect(stderr).toMatchSnapshot()
+  })
 })
 
 describe("lint", () => {
@@ -57,6 +64,20 @@ describe("lint", () => {
     )
     const {stderr} = runCommand(
       "redocly lint applications/outputs/x-openapi-with-refs.yaml --config=applications/x-inline-refs-config-redocly.yaml"
+    )
+    expect(stripCWD(stderr)).toMatchSnapshot()
+  })
+
+  test("lints openapi with mixed types", () => {
+    const {stderr} = runCommand(
+      "redocly lint applications/resources/openapi-mixed-types.yaml  --config=applications/x-redocly.yaml"
+    )
+    expect(stripCWD(stderr)).toMatchSnapshot()
+  })
+
+  test("lints openapi that contains wrong and correct $ands", () => {
+    const {stderr} = runCommand(
+      "redocly lint applications/resources/openapi-and.yaml  --config=applications/x-redocly.yaml"
     )
     expect(stripCWD(stderr)).toMatchSnapshot()
   })
