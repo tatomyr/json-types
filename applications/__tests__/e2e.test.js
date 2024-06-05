@@ -48,6 +48,13 @@ describe("bundle", () => {
     )
     expect(stderr).toMatchSnapshot()
   })
+
+  test("bundle and translate x-type to schema inside parameters", () => {
+    const {stdout} = runCommand(
+      "redocly bundle applications/resources/openapi-with-x-types-inside-parameters.yaml --config=applications/x-redocly.yaml"
+    )
+    expect(stdout).toMatchSnapshot()
+  })
 })
 
 describe("lint", () => {
@@ -80,5 +87,12 @@ describe("lint", () => {
       "redocly lint applications/resources/openapi-and.yaml  --config=applications/x-redocly.yaml"
     )
     expect(stripCWD(stderr)).toMatchSnapshot()
+  })
+
+  test("lints with x-types inside parameters", () => {
+    const {stderr} = runCommand(
+      "redocly lint applications/resources/openapi-with-x-types-inside-parameters.yaml --config=applications/x-redocly.yaml"
+    )
+    expect(stderr).toMatchSnapshot()
   })
 })

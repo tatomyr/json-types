@@ -1,0 +1,26 @@
+openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      parameters:
+        - name: correct
+          in: query
+          x-type: string
+          example: Test
+        - name: wrong-example
+          in: query
+          x-type: string
+          example: 42
+        - name: lacks-x-type
+          in: query
+        - $ref: "#/components/parameters/Referenced"
+components:
+  parameters:
+    Referenced:
+      name: referenced-wrong-example
+      in: query
+      x-type: string
+      example: true

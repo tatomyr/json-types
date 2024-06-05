@@ -1,4 +1,4 @@
-const {generateSchema, create$Refs} = require("./x-types-decorators")
+const {generateSchema, createRefs} = require("./x-types-decorators")
 const {noRefNeighbors} = require("./x-types-rules")
 
 const getType = value => {
@@ -75,7 +75,7 @@ module.exports = {
 
   preprocessors: {
     oas3: {
-      "create-$refs": create$Refs,
+      "create-$refs": createRefs,
     },
   },
 
@@ -113,6 +113,14 @@ module.exports = {
             ...types.MediaType.properties,
             "x-type": getType,
           },
+        },
+        Parameter: {
+          ...types.Parameter,
+          properties: {
+            ...types.Parameter.properties,
+            "x-type": getType,
+          },
+          requiredOneOf: ["schema", "content", "x-type"],
         },
         Components: {
           ...types.Components,

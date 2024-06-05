@@ -6,15 +6,21 @@ const generateSchema = () => {
     MediaType: {
       leave(mediaType, ctx) {
         if (typeof mediaType["x-type"] === "undefined") return
-
         const schema = translateXTypeToSchema(mediaType["x-type"], ctx)
         mediaType.schema = schema
+      },
+    },
+    Parameter: {
+      leave(parameter, ctx) {
+        if (typeof parameter["x-type"] === "undefined") return
+        const schema = translateXTypeToSchema(parameter["x-type"], ctx)
+        parameter.schema = schema
       },
     },
   }
 }
 
-const create$Refs = () => {
+const createRefs = () => {
   return {
     any: {
       enter: (node, ctx) => {
@@ -34,5 +40,5 @@ const create$Refs = () => {
 
 module.exports = {
   generateSchema,
-  create$Refs,
+  createRefs,
 }
