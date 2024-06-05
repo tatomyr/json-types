@@ -17,9 +17,12 @@ const deepMergeTwo = (first, second) => {
   // TODO: handle references to another x-types
 
   if (typeof first === "string" || typeof second === "string") {
-    throw new Error(
-      `Merging primitives is not allowed: "${first}" & "${second}"`
+    console.error()
+    console.error(
+      `ERROR! Merging primitives is not allowed: "${first}" & "${second}".`
     )
+    console.error()
+    return "undefined"
   }
 
   if (

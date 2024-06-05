@@ -152,14 +152,7 @@ components: {}
 "
 `;
 
-exports[`bundle > do not bundle an openapi with type never 1`] = `
-"bundling applications/resources/openapi-never.yaml...
-Something went wrong when processing applications/resources/openapi-never.yaml:
-
-  - Merging primitives is not allowed: "string" & "boolean"
-
-"
-`;
+exports[`bundle > do not bundle an openapi with type never 1`] = `undefined`;
 
 exports[`bundle > resolve different type of $refs on different levels and ignore wrong $refs (with --force) when bundling 1`] = `
 "openapi: 3.1.0

@@ -1,4 +1,4 @@
-const no$refNeighbors = () => {
+const noRefNeighbors = () => {
   return {
     ref: {
       enter(node, ctx) {
@@ -15,5 +15,5 @@ const no$refNeighbors = () => {
 }
 
 module.exports = {
-  no$refNeighbors,
+  noRefNeighbors,
 }

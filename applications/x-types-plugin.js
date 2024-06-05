@@ -1,5 +1,5 @@
 const {generateSchema, create$Refs} = require("./x-types-decorators")
-const {no$refNeighbors} = require("./x-types-rules")
+const {noRefNeighbors} = require("./x-types-rules")
 
 const getType = value => {
   try {
@@ -87,7 +87,7 @@ module.exports = {
 
   rules: {
     oas3: {
-      "no-$ref-neighbors": no$refNeighbors,
+      "no-$ref-neighbors": noRefNeighbors,
     },
   },
 
