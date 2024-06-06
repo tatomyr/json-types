@@ -25,7 +25,7 @@ const resolveAndMerge = (xType, ctx) => {
   }
 
   if (Array.isArray(xType)) {
-    return xType.map(type => resolveAndMerge(type, ctx))
+    return xType.map(type => resolveAndMerge(type, ctx)).flat()
   }
 
   if (isObject(xType)) {

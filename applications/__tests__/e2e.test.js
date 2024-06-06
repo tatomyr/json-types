@@ -55,6 +55,13 @@ describe("bundle", () => {
     )
     expect(stdout).toMatchSnapshot()
   })
+
+  test("bundle and translate x-types inside ORs", () => {
+    const {stdout} = runCommand(
+      "redocly bundle applications/resources/openapi-or.yaml --config=applications/x-redocly.yaml"
+    )
+    expect(stdout).toMatchSnapshot()
+  })
 })
 
 describe("lint", () => {
@@ -92,6 +99,13 @@ describe("lint", () => {
   test("lints with x-types inside parameters", () => {
     const {stderr} = runCommand(
       "redocly lint applications/resources/openapi-with-x-types-inside-parameters.yaml --config=applications/x-redocly.yaml"
+    )
+    expect(stderr).toMatchSnapshot()
+  })
+
+  test("lints ORs (including nested and referenced)", () => {
+    const {stderr} = runCommand(
+      "redocly lint applications/resources/openapi-or.yaml --config=applications/x-redocly.yaml"
     )
     expect(stderr).toMatchSnapshot()
   })

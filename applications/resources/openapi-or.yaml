@@ -1,0 +1,39 @@
+openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        200:
+          description: Test.
+          content:
+            application/json:
+              x-type:
+                Or:
+                  $ref: "#/components/x-types/Or"
+                Conditional:
+                  $ref: "#/components/x-types/Conditional"
+                NestedConditional:
+                  - $ref: "#/components/x-types/Or"
+                  - $ref: "#/components/x-types/Conditional"
+              examples:
+                Correct:
+                  value:
+                    Or: az
+                    # Conditional: may be undefined
+                    # NestedConditional: may be undefined
+                Incorrect:
+                  value:
+                    Or: wrong
+                    Conditional: wrong
+                    NestedConditional: wrong
+components:
+  x-types:
+    Or:
+      - az
+      - bukh
+    Conditional:
+      - vidh
+      - undefined
