@@ -5,16 +5,18 @@ const generateSchema = () => {
   return {
     MediaType: {
       leave(mediaType, ctx) {
-        if (typeof mediaType["x-type"] === "undefined") return
-        const resolvedXType = resolveAndMerge(mediaType["x-type"], ctx)
+        const original = mediaType["x-type"]
+        if (typeof original === "undefined") return
+        const resolvedXType = resolveAndMerge(original, ctx)
         const schema = translateXTypeToSchema(resolvedXType)
         mediaType.schema = schema
       },
     },
     Parameter: {
       leave(parameter, ctx) {
-        if (typeof parameter["x-type"] === "undefined") return
-        const resolvedXType = resolveAndMerge(parameter["x-type"], ctx)
+        const original = parameter["x-type"]
+        if (typeof original === "undefined") return
+        const resolvedXType = resolveAndMerge(original, ctx)
         const schema = translateXTypeToSchema(resolvedXType)
         parameter.schema = schema
       },

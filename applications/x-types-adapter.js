@@ -101,10 +101,24 @@ const translateXTypeToSchema = xType => {
   }
 
   if (Array.isArray(xType)) {
+    const normalized = xType
+      .filter(type => type !== "undefined")
+      .map(type => translateXTypeToSchema(type))
+    if (normalized.length === 0) {
+      return {not: {}}
+    }
+    if (normalized.length === 1) {
+      return normalized[0]
+    }
+    if (
+      normalized.every(
+        schema => schema.type === "string" && typeof schema.const === "string"
+      )
+    ) {
+      return {type: "string", enum: normalized.map(schema => schema.const)}
+    }
     return {
-      anyOf: xType
-        .filter(type => type !== "undefined")
-        .map(type => translateXTypeToSchema(type)),
+      anyOf: normalized,
     }
   }
 

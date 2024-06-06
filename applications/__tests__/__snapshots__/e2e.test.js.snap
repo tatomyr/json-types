@@ -63,11 +63,10 @@ paths:
                   ArrayOfEnums:
                     type: array
                     items:
-                      anyOf:
-                        - type: string
-                          const: foo
-                        - type: string
-                          const: bar
+                      type: string
+                      enum:
+                        - foo
+                        - bar
                   OpenObject:
                     type: object
                     properties:
@@ -96,22 +95,21 @@ paths:
                       - string
                     additionalProperties: false
                   ConditionalRef:
-                    anyOf:
-                      - type: object
-                        properties:
-                          somekey:
-                            anyOf:
-                              - type: boolean
-                                const: true
-                              - type: number
-                                const: 42.1
-                          string:
-                            type: string
-                            const: number
-                        required:
-                          - somekey
-                          - string
-                        additionalProperties: false
+                    type: object
+                    properties:
+                      somekey:
+                        anyOf:
+                          - type: boolean
+                            const: true
+                          - type: number
+                            const: 42.1
+                      string:
+                        type: string
+                        const: number
+                    required:
+                      - somekey
+                      - string
+                    additionalProperties: false
                 required:
                   - Simple
                   - Or

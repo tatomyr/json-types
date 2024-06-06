@@ -37,4 +37,36 @@ describe("adapter", () => {
     expect(merged).toEqual("undefined")
     expect(translateXTypeToSchema(merged)).toEqual({not: {}})
   })
+
+  test("handles OR", () => {
+    expect(translateXTypeToSchema(["string", "number"])).toEqual({
+      anyOf: [{type: "string"}, {type: "number"}],
+    })
+    expect(translateXTypeToSchema(["foo", "bar"])).toEqual({
+      type: "string",
+      enum: ["foo", "bar"],
+    })
+    expect(translateXTypeToSchema(["string", "undefined"])).toEqual({
+      type: "string",
+    })
+    expect(translateXTypeToSchema(["undefined"])).toEqual({
+      not: {},
+    })
+    expect(
+      translateXTypeToSchema({
+        Required: ["foo", "number"],
+        Conditional: ["string", "undefined"],
+      })
+    ).toEqual({
+      type: "object",
+      properties: {
+        Required: {
+          anyOf: [{type: "string", const: "foo"}, {type: "number"}],
+        },
+        Conditional: {type: "string"},
+      },
+      additionalProperties: false,
+      required: ["Required"],
+    })
+  })
 })
