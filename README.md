@@ -68,8 +68,6 @@ Array literals allow defining multiple available options, one of which is applic
 ["string", "undefined"]
 ```
 
-The relation between the items is `XOR`.
-
 ## Types Combining
 
 It is possible to combine several types into one using the `$and` keyword:

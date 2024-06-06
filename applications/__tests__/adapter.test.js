@@ -1,5 +1,5 @@
 import {describe, expect, test} from "vitest"
-import {translateXTypeToSchema} from "../x-types-adapter"
+import {resolveAndMerge, translateXTypeToSchema} from "../x-types-adapter"
 
 describe("adapter", () => {
   test("translates primitive strings", () => {
@@ -18,11 +18,11 @@ describe("adapter", () => {
   })
 
   test("translates a correct $and into an object", () => {
-    expect(
-      translateXTypeToSchema({
-        $and: [{foo: "string"}, {bar: "number"}],
-      })
-    ).toEqual({
+    const merged = resolveAndMerge({
+      $and: [{foo: "string"}, {bar: "number"}],
+    })
+    expect(merged).toEqual({foo: "string", bar: "number"})
+    expect(translateXTypeToSchema(merged)).toEqual({
       type: "object",
       properties: {foo: {type: "string"}, bar: {type: "number"}},
       additionalProperties: false,
@@ -31,10 +31,10 @@ describe("adapter", () => {
   })
 
   test("translates an incorrect $and into `never`", () => {
-    expect(
-      translateXTypeToSchema({
-        $and: ["string", "number"],
-      })
-    ).toEqual({not: {}})
+    const merged = resolveAndMerge({
+      $and: ["string", "number"],
+    })
+    expect(merged).toEqual("undefined")
+    expect(translateXTypeToSchema(merged)).toEqual({not: {}})
   })
 })

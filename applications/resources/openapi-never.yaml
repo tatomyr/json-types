@@ -6,7 +6,7 @@ paths:
   /test:
     get:
       responses:
-        200:
+        400:
           description: Test
           content:
             application/json:

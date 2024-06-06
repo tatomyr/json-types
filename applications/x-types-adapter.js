@@ -1,6 +1,45 @@
 const {isObject, mergeAll} = require("./x-types-utils")
 
-const translateXTypeToSchema = (xType, ctx) => {
+const resolveAndMerge = (xType, ctx) => {
+  if (typeof xType.$ref !== "undefined") {
+    const resolved = ctx.resolve(xType).node
+    if (resolved === undefined) {
+      console.error()
+      console.error("ERROR! Cannot resolve $ref:")
+      console.error(xType.$ref)
+      console.error()
+      return "any"
+    }
+    return resolveAndMerge(resolved, ctx)
+  }
+
+  if (typeof xType.$and !== "undefined") {
+    if (!Array.isArray(xType.$and)) {
+      console.error()
+      console.error("ERROR! Expected array but got:")
+      console.error(xType.$and)
+      console.error()
+      return "any"
+    }
+    return mergeAll(...resolveAndMerge(xType.$and, ctx))
+  }
+
+  if (Array.isArray(xType)) {
+    return xType.map(type => resolveAndMerge(type, ctx))
+  }
+
+  if (isObject(xType)) {
+    let obj = {}
+    for (const key in xType) {
+      obj[key] = resolveAndMerge(xType[key], ctx)
+    }
+    return obj
+  }
+
+  return xType
+}
+
+const translateXTypeToSchema = xType => {
   if (typeof xType === "undefined") {
     throw new Error('Expected "x-type" but got "undefined"')
   }
@@ -46,38 +85,7 @@ const translateXTypeToSchema = (xType, ctx) => {
   }
 
   if (typeof xType.array !== "undefined") {
-    return {type: "array", items: translateXTypeToSchema(xType.array, ctx)}
-  }
-
-  if (typeof xType.$and !== "undefined") {
-    if (!Array.isArray(xType.$and)) {
-      console.error()
-      console.error("ERROR! Expected array but got:")
-      console.error(xType.$and)
-      console.error()
-      return {}
-    }
-    return translateXTypeToSchema(mergeAll(...xType.$and), ctx)
-    /* 
-    // TODO: consider also this:
-    return {
-      allOf: xType.$and.map((item) => {
-        const translated = translateXTypeToSchema(item);
-        if (isObject(translated) && translated.additionalProperties === undefined) {
-          translated.additionalProperties = true;
-        }
-        return translated;
-      }),
-    };
-     */
-  }
-
-  if (typeof xType.$ref !== "undefined") {
-    if (ctx.resolve(xType).node === undefined) {
-      return translateXTypeToSchema("any")
-    }
-
-    return translateXTypeToSchema(ctx.resolve(xType).node, ctx)
+    return {type: "array", items: translateXTypeToSchema(xType.array)}
   }
 
   if (typeof xType === "string" && xType.startsWith("$literal:")) {
@@ -96,7 +104,7 @@ const translateXTypeToSchema = (xType, ctx) => {
     return {
       anyOf: xType
         .filter(type => type !== "undefined")
-        .map(type => translateXTypeToSchema(type, ctx)),
+        .map(type => translateXTypeToSchema(type)),
     }
   }
 
@@ -105,16 +113,14 @@ const translateXTypeToSchema = (xType, ctx) => {
     let required = []
     const {string, ...props} = xType
     const additionalProperties =
-      typeof string === "undefined"
-        ? false
-        : translateXTypeToSchema(string, ctx)
+      typeof string === "undefined" ? false : translateXTypeToSchema(string)
 
     for (const key in props) {
       const realKey = key.startsWith("$literal:")
         ? key.slice("$literal:".length)
         : key
 
-      properties[realKey] = translateXTypeToSchema(props[key], ctx)
+      properties[realKey] = translateXTypeToSchema(props[key])
 
       if (props[key] instanceof Array && props[key].includes("undefined")) {
         // skip
@@ -131,4 +137,5 @@ const translateXTypeToSchema = (xType, ctx) => {
 
 module.exports = {
   translateXTypeToSchema,
+  resolveAndMerge,
 }
