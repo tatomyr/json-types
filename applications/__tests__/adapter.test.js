@@ -1,5 +1,6 @@
 import {describe, expect, test} from "vitest"
-import {resolveAndMerge, translateXTypeToSchema} from "../x-types-adapter"
+const {translateXTypeToSchema} = require("../x-types-adapter")
+const {resolveAndMerge} = require("../x-types-resolver")
 
 describe("adapter", () => {
   test("translates primitive strings", () => {

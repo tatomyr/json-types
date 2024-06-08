@@ -1,5 +1,6 @@
 const {isObject} = require("./x-types-utils")
-const {translateXTypeToSchema, resolveAndMerge} = require("./x-types-adapter")
+const {translateXTypeToSchema} = require("./x-types-adapter")
+const {resolveAndMerge} = require("./x-types-resolver")
 
 const generateSchema = () => {
   return {
