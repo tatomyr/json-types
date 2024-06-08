@@ -18,17 +18,24 @@ paths:
                 NestedConditional:
                   - $ref: "#/components/x-types/Or"
                   - $ref: "#/components/x-types/Conditional"
+                ComplexOr:
+                  - az
+                  - bukh: vidh
+                  - [$literal:string, $literal:number]
               examples:
                 Correct:
                   value:
                     Or: az
                     # Conditional: may be undefined
                     # NestedConditional: may be undefined
+                    ComplexOr: string
                 Incorrect:
                   value:
                     Or: wrong
                     Conditional: wrong
                     NestedConditional: wrong
+                    ComplexOr: wrong
+
 components:
   x-types:
     Or:

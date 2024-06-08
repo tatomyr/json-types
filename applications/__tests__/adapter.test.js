@@ -11,7 +11,7 @@ describe("adapter", () => {
       translateXTypeToSchema({"$literal:string": "$literal:boolean"})
     ).toEqual({
       type: "object",
-      properties: {string: {type: "string", const: "boolean"}},
+      properties: {string: {type: "string", enum: ["boolean"]}},
       additionalProperties: false,
       required: ["string"],
     })
@@ -61,7 +61,7 @@ describe("adapter", () => {
       type: "object",
       properties: {
         Required: {
-          anyOf: [{type: "string", const: "foo"}, {type: "number"}],
+          anyOf: [{type: "string", enum: ["foo"]}, {type: "number"}],
         },
         Conditional: {type: "string"},
       },

@@ -89,7 +89,7 @@ const translateXTypeToSchema = xType => {
   }
 
   if (typeof xType === "string" && xType.startsWith("$literal:")) {
-    return {type: "string", const: xType.slice("$literal:".length)}
+    return {type: "string", enum: [xType.slice("$literal:".length)]}
   }
 
   if (
@@ -97,7 +97,7 @@ const translateXTypeToSchema = xType => {
     (typeof xType === "number") |
     (typeof xType === "boolean")
   ) {
-    return {type: typeof xType, const: xType}
+    return {type: typeof xType, enum: [xType]}
   }
 
   if (Array.isArray(xType)) {
@@ -110,15 +110,28 @@ const translateXTypeToSchema = xType => {
     if (normalized.length === 1) {
       return normalized[0]
     }
-    if (
-      normalized.every(
-        schema => schema.type === "string" && typeof schema.const === "string"
-      )
-    ) {
-      return {type: "string", enum: normalized.map(schema => schema.const)}
+    // Triage the normalized array into string and other
+    const normalizedStringEnums = normalized.filter(
+      schema => schema.type === "string" && schema.enum
+    )
+    const normalizedString =
+      normalizedStringEnums.length > 0
+        ? {
+            type: "string",
+            enum: normalizedStringEnums.map(schema => schema.enum).flat(),
+          }
+        : undefined
+    const normalizedOthers = normalized.filter(
+      schema => schema.type !== "string"
+    )
+    if (normalizedOthers.length === 0) {
+      return normalizedString
+    }
+    if (!normalizedString) {
+      return {anyOf: normalized}
     }
     return {
-      anyOf: normalized,
+      anyOf: [normalizedString, ...normalizedOthers],
     }
   }
 
