@@ -76,6 +76,13 @@ describe("bundle", () => {
     )
     expect(stdout).toMatchSnapshot()
   })
+
+  test("distributivity in x-types", () => {
+    const {stdout} = runCommand(
+      "redocly bundle applications/resources/openapi-with-nested-ors-in-ands.yaml --config=applications/x-redocly.yaml"
+    )
+    expect(stdout).toMatchSnapshot()
+  })
 })
 
 describe("lint", () => {
@@ -120,6 +127,13 @@ describe("lint", () => {
   test("openapi with ORs (including nested and referenced)", () => {
     const {stderr} = runCommand(
       "redocly lint applications/resources/openapi-or.yaml --config=applications/x-redocly.yaml"
+    )
+    expect(stderr).toMatchSnapshot()
+  })
+
+  test("distribytivity in x-types", () => {
+    const {stderr} = runCommand(
+      "redocly lint applications/resources/openapi-with-nested-ors-in-ands.yaml --config=applications/x-redocly.yaml"
     )
     expect(stderr).toMatchSnapshot()
   })

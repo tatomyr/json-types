@@ -1,0 +1,25 @@
+openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        200:
+          description: Test.
+          content:
+            application/json:
+              examples:
+                Correct:
+                  value:
+                    az: correct
+                    vidh: correct
+                Incorrect:
+                  value:
+                    bukh: requires also vidh
+
+              x-type:
+                $and:
+                  - [{az: string}, {bukh: string}]
+                  - [{vidh: string}]

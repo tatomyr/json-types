@@ -23,7 +23,16 @@ describe("resolver", () => {
     expect(resolveAndMerge({$and: [42, true]})).toEqual("undefined")
   })
 
-  test("handle nested ORs", () => {
+  test("neutrality in $and", () => {
+    expect(resolveAndMerge({$and: ["az", "any"]})).toEqual("az")
+  })
+
+  test("associativity in ORs", () => {
+    expect(resolveAndMerge(["az", ["bukh", "vidh"]])).toEqual([
+      "az",
+      "bukh",
+      "vidh",
+    ])
     expect(resolveAndMerge([["az", "bukh"], ["vidh"]])).toEqual([
       "az",
       "bukh",
@@ -31,8 +40,15 @@ describe("resolver", () => {
     ])
   })
 
-  // FIXME:
-  test.skip("nested ORs in $and", () => {
+  test("associativity in $and", () => {
+    expect(
+      resolveAndMerge({
+        $and: [{$and: [{az: "string"}, {bukh: "string"}]}, {vidh: "string"}],
+      })
+    ).toEqual({az: "string", bukh: "string", vidh: "string"})
+  })
+
+  test("distributivity in nested ORs in $and", () => {
     expect(
       resolveAndMerge({
         $and: [[{az: "string"}, {bukh: "string"}], [{vidh: "string"}]],

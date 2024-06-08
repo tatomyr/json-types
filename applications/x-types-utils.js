@@ -19,11 +19,19 @@ const isPrimitive = value => {
     typeof value === "number" ||
     typeof value === "boolean" ||
     value === null ||
-    value === undefined
+    value === undefined ||
+    value === "undefined"
   )
 }
 
 const deepMergeTwo = (first, second) => {
+  if (first === "any") {
+    return second
+  }
+  if (second === "any") {
+    return first
+  }
+
   if (isPrimitive(first) || isPrimitive(second)) {
     console.error(
       `ERROR! Merging primitives is not allowed: '${first}' & '${second}'.`
@@ -42,7 +50,6 @@ const deepMergeTwo = (first, second) => {
   if (typeof first.$and !== "undefined") {
     return mergeAll(...first.$and, second)
   }
-
   if (typeof second.$and !== "undefined") {
     return mergeAll(...second.$and, first)
   }
@@ -50,7 +57,6 @@ const deepMergeTwo = (first, second) => {
   if (first instanceof Array && isObject(second)) {
     return first.map(item => deepMergeTwo(item, second))
   }
-
   if (isObject(first) && second instanceof Array) {
     return second.map(item => deepMergeTwo(item, first))
   }

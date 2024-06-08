@@ -17,7 +17,7 @@ const resolveAndMerge = (xType, ctx) => {
       console.error(xType.$and)
       return "undefined"
     }
-    return mergeAll(...resolveAndMerge(xType.$and, ctx))
+    return mergeAll(...xType.$and.map(item => resolveAndMerge(item, ctx)))
   }
 
   if (Array.isArray(xType)) {
