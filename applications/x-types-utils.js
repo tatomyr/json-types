@@ -13,8 +13,18 @@ const product = (a, b) => {
   return result
 }
 
+const isPrimitive = value => {
+  return (
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean" ||
+    value === null ||
+    value === undefined
+  )
+}
+
 const deepMergeTwo = (first, second) => {
-  if (typeof first === "string" || typeof second === "string") {
+  if (isPrimitive(first) || isPrimitive(second)) {
     console.error(
       `ERROR! Merging primitives is not allowed: '${first}' & '${second}'.`
     )
@@ -62,6 +72,8 @@ const deepMergeTwo = (first, second) => {
 
     return result
   }
+
+  throw new Error(`Cannot merge ${first} & ${second}.`)
 }
 
 const mergeAll = (...args) => {

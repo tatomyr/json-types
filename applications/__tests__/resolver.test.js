@@ -19,6 +19,8 @@ describe("resolver", () => {
     expect(
       resolveAndMerge({$and: [{az: "string"}, {array: "string"}]})
     ).toEqual("undefined")
+    expect(resolveAndMerge({$and: {}})).toEqual("undefined")
+    expect(resolveAndMerge({$and: [42, true]})).toEqual("undefined")
   })
 
   test("handle nested ORs", () => {
