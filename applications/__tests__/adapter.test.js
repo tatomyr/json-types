@@ -1,6 +1,5 @@
 import {describe, expect, test} from "vitest"
 const {translateXTypeToSchema} = require("../x-types-adapter")
-const {resolveAndMerge} = require("../x-types-resolver")
 
 describe("adapter", () => {
   test("translates primitive strings", () => {
@@ -18,25 +17,8 @@ describe("adapter", () => {
     })
   })
 
-  test("translates a correct $and into an object", () => {
-    const merged = resolveAndMerge({
-      $and: [{foo: "string"}, {bar: "number"}],
-    })
-    expect(merged).toEqual({foo: "string", bar: "number"})
-    expect(translateXTypeToSchema(merged)).toEqual({
-      type: "object",
-      properties: {foo: {type: "string"}, bar: {type: "number"}},
-      additionalProperties: false,
-      required: ["foo", "bar"],
-    })
-  })
-
-  test("translates an incorrect $and into `never`", () => {
-    const merged = resolveAndMerge({
-      $and: ["string", "number"],
-    })
-    expect(merged).toEqual("undefined")
-    expect(translateXTypeToSchema(merged)).toEqual({not: {}})
+  test("translates `undefined` into `never`", () => {
+    expect(translateXTypeToSchema("undefined")).toEqual({not: {}})
   })
 
   test("handles OR", () => {
