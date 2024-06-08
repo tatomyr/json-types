@@ -49,14 +49,21 @@ describe("bundle", () => {
     expect(stderr).toMatchSnapshot()
   })
 
-  test("bundle and translate x-type to schema inside parameters", () => {
+  test("resolve and translate $ands", () => {
+    const {stdout} = runCommand(
+      "redocly bundle applications/resources/openapi-and.yaml --config=applications/x-redocly.yaml"
+    )
+    expect(stdout).toMatchSnapshot()
+  })
+
+  test("translate x-type to schema inside parameters", () => {
     const {stdout} = runCommand(
       "redocly bundle applications/resources/openapi-with-x-types-inside-parameters.yaml --config=applications/x-redocly.yaml"
     )
     expect(stdout).toMatchSnapshot()
   })
 
-  test("bundle and translate x-types inside ORs", () => {
+  test("translate x-types inside ORs", () => {
     const {stdout} = runCommand(
       "redocly bundle applications/resources/openapi-or.yaml --config=applications/x-redocly.yaml"
     )
@@ -72,14 +79,14 @@ describe("bundle", () => {
 })
 
 describe("lint", () => {
-  test("lints openapi.yaml (using preprocessors to transform)", () => {
+  test("general openapi case (using preprocessors to transform)", () => {
     const {stderr} = runCommand(
       "redocly lint applications/resources/openapi.yaml --config=applications/x-redocly.yaml"
     )
     expect(stderr).toMatchSnapshot()
   })
 
-  test("lints x-openapi-with-refs.yaml", () => {
+  test("inline refs in x-openapi-with-refs.yaml", () => {
     const {stdout} = runCommand(
       "redocly bundle applications/resources/openapi-with-refs.yaml -o=applications/outputs/x-openapi-with-refs.yaml --force --config=applications/x-inline-refs-config-redocly.yaml"
     )
@@ -89,28 +96,28 @@ describe("lint", () => {
     expect(stripCWD(stderr)).toMatchSnapshot()
   })
 
-  test("lints openapi with mixed types", () => {
+  test("openapi with mixed types", () => {
     const {stderr} = runCommand(
       "redocly lint applications/resources/openapi-mixed-types.yaml  --config=applications/x-redocly.yaml"
     )
     expect(stripCWD(stderr)).toMatchSnapshot()
   })
 
-  test("lints openapi that contains wrong and correct $ands", () => {
+  test("openapi that contains wrong and correct $ands", () => {
     const {stderr} = runCommand(
       "redocly lint applications/resources/openapi-and.yaml  --config=applications/x-redocly.yaml"
     )
     expect(stripCWD(stderr)).toMatchSnapshot()
   })
 
-  test("lints with x-types inside parameters", () => {
+  test("openapi with x-types inside parameters", () => {
     const {stderr} = runCommand(
       "redocly lint applications/resources/openapi-with-x-types-inside-parameters.yaml --config=applications/x-redocly.yaml"
     )
     expect(stderr).toMatchSnapshot()
   })
 
-  test("lints ORs (including nested and referenced)", () => {
+  test("openapi with ORs (including nested and referenced)", () => {
     const {stderr} = runCommand(
       "redocly lint applications/resources/openapi-or.yaml --config=applications/x-redocly.yaml"
     )

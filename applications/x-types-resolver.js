@@ -4,10 +4,8 @@ const resolveAndMerge = (xType, ctx) => {
   if (typeof xType.$ref !== "undefined") {
     const resolved = ctx.resolve(xType).node
     if (resolved === undefined) {
-      console.error()
       console.error("ERROR! Cannot resolve $ref:")
       console.error(xType.$ref)
-      console.error()
       return "any"
     }
     return resolveAndMerge(resolved, ctx)
@@ -15,11 +13,9 @@ const resolveAndMerge = (xType, ctx) => {
 
   if (typeof xType.$and !== "undefined") {
     if (!Array.isArray(xType.$and)) {
-      console.error()
-      console.error("ERROR! Expected array but got:")
+      console.error("ERROR! Expected an array but got:")
       console.error(xType.$and)
-      console.error()
-      return "any"
+      return "undefined"
     }
     return mergeAll(...resolveAndMerge(xType.$and, ctx))
   }

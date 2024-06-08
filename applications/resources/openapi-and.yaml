@@ -15,12 +15,22 @@ paths:
               example:
                 foo: wrong!
                 wrong: not-expected!
+
+            application/problems+json:
+              x-type:
+                WrongAndFormat:
+                  $and: # Expected an array!
+                    foo: boolean
+                    bar: number
+                Empty: # Cannot merge empty lists!
+                  $and: []
+                ImpossibleArraysCombination:
+                  $and: # Cannot combine arrays!
+                    - array: string
+                    - array: number
+
 components:
   x-types:
-    WrongAndFormat:
-      $and: # Expected array!
-        foo: boolean
-        bar: number
     CorrectAnd:
       $and:
         - foo: boolean

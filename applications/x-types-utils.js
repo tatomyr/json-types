@@ -14,14 +14,10 @@ const product = (a, b) => {
 }
 
 const deepMergeTwo = (first, second) => {
-  // TODO: handle references to another x-types
-
   if (typeof first === "string" || typeof second === "string") {
-    console.error()
     console.error(
-      `ERROR! Merging primitives is not allowed: "${first}" & "${second}".`
+      `ERROR! Merging primitives is not allowed: '${first}' & '${second}'.`
     )
-    console.error()
     return "undefined"
   }
 
@@ -29,7 +25,8 @@ const deepMergeTwo = (first, second) => {
     typeof first.array !== "undefined" ||
     typeof second.array !== "undefined"
   ) {
-    throw new Error(`Cannot mergeAll "array" type`)
+    console.error("ERROR! Cannot merge 'array' types.")
+    return "undefined"
   }
 
   if (typeof first.$and !== "undefined") {
@@ -68,6 +65,10 @@ const deepMergeTwo = (first, second) => {
 }
 
 const mergeAll = (...args) => {
+  if (args.length === 0) {
+    console.error("ERROR! Cannot merge empty lists.")
+    return "undefined"
+  }
   return args.reduce((acc, item) => {
     return deepMergeTwo(acc, item)
   })
