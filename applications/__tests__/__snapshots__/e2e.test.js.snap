@@ -410,6 +410,73 @@ components:
 "
 `;
 
+exports[`bundle > translate string and number formats 1`] = `
+"openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Test
+          content:
+            application/json:
+              x-type:
+                Formats:
+                  String: string
+                  Date: string::date
+                  DateTime: string::date-time
+                  Email: string::email
+                  UUID: string::uuid
+                  Binary: string::binary
+                  Number: number
+                  Integer: number::integer
+              schema:
+                type: object
+                properties:
+                  Formats:
+                    type: object
+                    properties:
+                      String:
+                        type: string
+                      Date:
+                        type: string
+                        format: date
+                      DateTime:
+                        type: string
+                        format: date-time
+                      Email:
+                        type: string
+                        format: email
+                      UUID:
+                        type: string
+                        format: uuid
+                      Binary:
+                        type: string
+                        format: binary
+                      Number:
+                        type: number
+                      Integer:
+                        type: integer
+                    required:
+                      - String
+                      - Date
+                      - DateTime
+                      - Email
+                      - UUID
+                      - Binary
+                      - Number
+                      - Integer
+                    additionalProperties: false
+                required:
+                  - Formats
+                additionalProperties: false
+components: {}
+"
+`;
+
 exports[`lint > lints ORs (including nested and referenced) 1`] = `
 "validating applications/resources/openapi-or.yaml...
 [1] applications/resources/openapi-or.yaml:34:25 at #/paths/~1test/get/responses/200/content/application~1json/examples/Incorrect/value/Or

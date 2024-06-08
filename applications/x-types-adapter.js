@@ -51,11 +51,25 @@ const translateXTypeToSchema = xType => {
   if (xType === "string") {
     return {type: "string"}
   }
+  if (xType === "string::date") {
+    return {type: "string", format: "date"}
+  }
+  if (xType === "string::date-time") {
+    return {type: "string", format: "date-time"}
+  }
+  if (xType === "string::email") {
+    return {type: "string", format: "email"}
+  }
+  if (xType === "string::uuid") {
+    return {type: "string", format: "uuid"}
+  }
+  if (xType === "string::binary") {
+    return {type: "string", format: "binary"}
+  }
 
   if (xType === "number") {
     return {type: "number"}
   }
-
   if (xType === "number::integer") {
     return {type: "integer"}
   }

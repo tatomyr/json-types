@@ -1,0 +1,22 @@
+openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        200:
+          description: Test
+          content:
+            application/json:
+              x-type:
+                Formats:
+                  String: string
+                  Date: string::date
+                  DateTime: string::date-time
+                  Email: string::email
+                  UUID: string::uuid
+                  Binary: string::binary
+                  Number: number
+                  Integer: number::integer

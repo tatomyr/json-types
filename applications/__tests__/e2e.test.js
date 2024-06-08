@@ -62,6 +62,13 @@ describe("bundle", () => {
     )
     expect(stdout).toMatchSnapshot()
   })
+
+  test("translate string and number formats", () => {
+    const {stdout} = runCommand(
+      "redocly bundle applications/resources/openapi-type-formats.yaml --config=applications/x-redocly.yaml"
+    )
+    expect(stdout).toMatchSnapshot()
+  })
 })
 
 describe("lint", () => {
