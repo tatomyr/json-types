@@ -31,6 +31,9 @@ const deepMergeTwo = (first, second) => {
   if (second === "any") {
     return first
   }
+  if (first === second) {
+    return first
+  }
 
   if (isPrimitive(first) || isPrimitive(second)) {
     console.error(

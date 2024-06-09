@@ -15,11 +15,15 @@ describe("resolver", () => {
         $and: ["string", "number"],
       })
     ).toEqual("undefined")
+
     expect(resolveAndMerge({$and: []})).toEqual("undefined")
+
     expect(
       resolveAndMerge({$and: [{az: "string"}, {array: "string"}]})
     ).toEqual("undefined")
+
     expect(resolveAndMerge({$and: {}})).toEqual("undefined")
+
     expect(resolveAndMerge({$and: [42, true]})).toEqual("undefined")
   })
 
@@ -33,6 +37,7 @@ describe("resolver", () => {
       "bukh",
       "vidh",
     ])
+
     expect(resolveAndMerge([["az", "bukh"], ["vidh"]])).toEqual([
       "az",
       "bukh",
@@ -46,16 +51,64 @@ describe("resolver", () => {
         $and: [{$and: [{az: "string"}, {bukh: "string"}]}, {vidh: "string"}],
       })
     ).toEqual({az: "string", bukh: "string", vidh: "string"})
+
+    expect(
+      resolveAndMerge({
+        $and: [{az: "string"}, {$and: [{bukh: "string"}, {vidh: "string"}]}],
+      })
+    ).toEqual({az: "string", bukh: "string", vidh: "string"})
   })
 
   test("distributivity in nested ORs in $and", () => {
     expect(
       resolveAndMerge({
-        $and: [[{az: "string"}, {bukh: "string"}], [{vidh: "string"}]],
+        $and: [{az: "string"}, [{bukh: "string"}, {vidh: "string"}]],
+      })
+    ).toEqual([
+      {az: "string", bukh: "string"},
+      {az: "string", vidh: "string"},
+    ])
+
+    expect(
+      resolveAndMerge({
+        $and: [[{az: "string"}, {bukh: "string"}], {vidh: "string"}],
       })
     ).toEqual([
       {az: "string", vidh: "string"},
       {bukh: "string", vidh: "string"},
     ])
+
+    expect(
+      resolveAndMerge({
+        $and: [
+          [{az: "string"}, {bukh: "string"}],
+          [{az: "string"}, {vidh: "string"}],
+        ],
+      })
+    ).toEqual([
+      {az: "string"},
+      {az: "string", vidh: "string"},
+      {az: "string", bukh: "string"},
+      {bukh: "string", vidh: "string"},
+    ])
+  })
+
+  // TODO: implement this
+  test.skip("idempotence in ORs", () => {
+    expect(resolveAndMerge(["az", "az"])).toEqual("az")
+  })
+
+  test("idempotence in $and", () => {
+    expect(
+      resolveAndMerge({
+        $and: ["az", "az"],
+      })
+    ).toEqual("az")
+
+    expect(
+      resolveAndMerge({
+        $and: [{az: "string"}, {bukh: "string"}, {az: "string"}],
+      })
+    ).toEqual({az: "string", bukh: "string"})
   })
 })
