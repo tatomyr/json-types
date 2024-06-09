@@ -2,12 +2,17 @@ const {isObject} = require("./x-types-utils")
 const {translateXTypeToSchema} = require("./x-types-adapter")
 const {resolveAndMerge} = require("./x-types-resolver")
 
-const generateSchema = () => {
+const generateSchema = opts => {
+  const preserveExistingSchemas = !!opts?.preserveExistingSchemas
   return {
     MediaType: {
       leave(mediaType, ctx) {
         const original = mediaType["x-type"]
-        if (typeof original === "undefined") return
+        if (
+          typeof original === "undefined" ||
+          (preserveExistingSchemas && mediaType.schema)
+        )
+          return
         const resolvedXType = resolveAndMerge(original, ctx)
         const schema = translateXTypeToSchema(resolvedXType)
         mediaType.schema = schema
@@ -16,7 +21,11 @@ const generateSchema = () => {
     Parameter: {
       leave(parameter, ctx) {
         const original = parameter["x-type"]
-        if (typeof original === "undefined") return
+        if (
+          typeof original === "undefined" ||
+          (preserveExistingSchemas && parameter.schema)
+        )
+          return
         const resolvedXType = resolveAndMerge(original, ctx)
         const schema = translateXTypeToSchema(resolvedXType)
         parameter.schema = schema

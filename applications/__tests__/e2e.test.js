@@ -83,6 +83,20 @@ describe("bundle", () => {
     )
     expect(stdout).toMatchSnapshot()
   })
+
+  test("replace existing schemas by default", () => {
+    const {stdout: notPreserved} = runCommand(
+      "redocly bundle applications/resources/openapi-with-schema.yaml --config=applications/x-redocly.yaml"
+    )
+    expect(notPreserved).toMatchSnapshot()
+  })
+
+  test("preserve existing schemas if preserveExistingSchemas is true", () => {
+    const {stdout: preserved} = runCommand(
+      "redocly bundle applications/resources/openapi-with-schema.yaml --config=applications/x-preserve-schemas-redocly.yaml"
+    )
+    expect(preserved).toMatchSnapshot()
+  })
 })
 
 describe("lint", () => {

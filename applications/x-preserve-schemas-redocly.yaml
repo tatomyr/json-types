@@ -1,0 +1,6 @@
+extends:
+  - x-redocly.yaml
+
+preprocessors:
+  x-types/generate-schemas:
+    preserveExistingSchemas: true

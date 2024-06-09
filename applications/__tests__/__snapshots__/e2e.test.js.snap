@@ -210,6 +210,46 @@ components: {}
 
 exports[`bundle > do not bundle an openapi with type never 1`] = `undefined`;
 
+exports[`bundle > preserve existing schemas if preserveExistingSchemas is true 1`] = `
+"openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Test
+          content:
+            application/json:
+              x-type: string
+              schema:
+                type: number
+components: {}
+"
+`;
+
+exports[`bundle > replace existing schemas by default 1`] = `
+"openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Test
+          content:
+            application/json:
+              x-type: string
+              schema:
+                type: string
+components: {}
+"
+`;
+
 exports[`bundle > resolve and translate $ands 1`] = `
 "openapi: 3.1.0
 info:
