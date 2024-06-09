@@ -28,7 +28,7 @@ They are denoted by the double colon notation.
 
 ### String Formats
 
-String formats can include, among others, `uuid`, `date-time`, `uri`, `email`.
+String formats can include, among others, `date-time`, `email`, `uuid`, `uri`.
 The list of possible string formats should correspond to the one described in [JSONSchema string formats](https://json-schema.org/understanding-json-schema/reference/string.html#format).
 
 String formats could be used both in keys and values:
@@ -42,13 +42,13 @@ String formats could be used both in keys and values:
 
 ### Number Formats
 
-Number formats are: `integer`, `minimum`, `maximum`, `exclusive-minimum`, `exclusive-maximum`.
+Number formats are: `integer`, `min`, `max`, `x-min` (for exclusive minimum), `x-max` (for exclusive maximum).
 Formats could be sequentially chained.
 The range formats require a number value in parenthesis:
 
 ```json
 {
-  "age": "number::integer::minimum(18)"
+  "age": "number::integer::min(18)"
 }
 ```
 
