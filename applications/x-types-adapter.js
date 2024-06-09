@@ -111,7 +111,7 @@ const translateXTypeToSchema = xType => {
   if (isObject(xType)) {
     let properties = {}
     let required = []
-    const {string, ...props} = xType
+    const {string, $descriptions, ...props} = xType
     const additionalProperties =
       typeof string === "undefined" ? false : translateXTypeToSchema(string)
 
@@ -127,6 +127,12 @@ const translateXTypeToSchema = xType => {
       } else {
         required.push(realKey)
       }
+    }
+
+    // All fields at this level could have descriptions defined inside the $description field.
+    for (const describedPropertyKey in $descriptions) {
+      properties[describedPropertyKey].description =
+        $descriptions[describedPropertyKey]
     }
 
     return {type: "object", properties, required, additionalProperties}

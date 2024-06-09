@@ -97,6 +97,13 @@ describe("bundle", () => {
     )
     expect(preserved).toMatchSnapshot()
   })
+
+  test("descriptions in x-types", () => {
+    const {stdout} = runCommand(
+      "redocly bundle applications/resources/openapi-with-descriptions.yaml --config=applications/x-redocly.yaml"
+    )
+    expect(stdout).toMatchSnapshot()
+  })
 })
 
 describe("lint", () => {

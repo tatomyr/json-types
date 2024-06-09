@@ -135,6 +135,110 @@ components:
 "
 `;
 
+exports[`bundle > descriptions in x-types 1`] = `
+"openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Root response description.
+          content:
+            application/json:
+              x-type:
+                Plain: string
+                Complex:
+                  array:
+                    string: boolean
+                    $literal:string:
+                      - $literal:number
+                      - $literal:string
+                    $descriptions:
+                      string: |
+                        An example of using literals.
+                Conditional:
+                  - az
+                  - undefined
+                $literal:$descriptions: $descriptions
+                Referenced: string
+                NestedReferenced:
+                  ReferencedAgain:
+                    $ref: '#/components/x-types/Referenced'
+                  $descriptions:
+                    ReferencedAgain: Referenced inside the ref.
+                $descriptions:
+                  Plain: A plain string field.
+                  Complex: An array of boolean records with the fixed 'string' property.
+                  Conditional: A conditional field.
+                  $descriptions: Literal $descriptions field.
+                  Referenced: A referenced property.
+                  NestedReferenced: A reference with nested references.
+              schema:
+                type: object
+                properties:
+                  Plain:
+                    type: string
+                    description: A plain string field.
+                  Complex:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        string:
+                          type: string
+                          enum:
+                            - number
+                            - string
+                          description: |
+                            An example of using literals.
+                      required:
+                        - string
+                      additionalProperties:
+                        type: boolean
+                    description: An array of boolean records with the fixed 'string' property.
+                  Conditional:
+                    type: string
+                    enum:
+                      - az
+                    description: A conditional field.
+                  $descriptions:
+                    type: string
+                    enum:
+                      - $descriptions
+                    description: Literal $descriptions field.
+                  Referenced:
+                    type: string
+                    description: A referenced property.
+                  NestedReferenced:
+                    type: object
+                    properties:
+                      ReferencedAgain:
+                        type: string
+                        description: Referenced inside the ref.
+                    required:
+                      - ReferencedAgain
+                    additionalProperties: false
+                    description: A reference with nested references.
+                required:
+                  - Plain
+                  - Complex
+                  - $descriptions
+                  - Referenced
+                  - NestedReferenced
+                additionalProperties: false
+components:
+  x-types:
+    Referenced: string
+    NestedReferenced:
+      ReferencedAgain: string
+      $descriptions:
+        ReferencedAgain: Referenced inside the ref.
+"
+`;
+
 exports[`bundle > distributivity in x-types 1`] = `
 "openapi: 3.1.0
 info:

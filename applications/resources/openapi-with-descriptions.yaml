@@ -1,0 +1,47 @@
+openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        200:
+          description: Root response description.
+          content:
+            application/json:
+              x-type:
+                Plain: string
+                Complex:
+                  array:
+                    string: boolean # cannot have description
+                    $literal:string:
+                      - $literal:number
+                      - $literal:string
+                    $descriptions:
+                      string: |
+                        An example of using literals.
+                Conditional:
+                  - az
+                  - undefined
+                $literal:$descriptions: $descriptions
+                Referenced:
+                  $ref: "#/components/x-types/Referenced"
+                NestedReferenced:
+                  $ref: "#/components/x-types/NestedReferenced"
+                $descriptions:
+                  Plain: A plain string field.
+                  Complex: An array of boolean records with the fixed 'string' property.
+                  Conditional: A conditional field.
+                  $descriptions: Literal $descriptions field.
+                  Referenced: A referenced property.
+                  NestedReferenced: A reference with nested references.
+
+components:
+  x-types:
+    Referenced: string
+    NestedReferenced:
+      ReferencedAgain:
+        $ref: "#/components/x-types/Referenced"
+      $descriptions:
+        ReferencedAgain: Referenced inside the ref.

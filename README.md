@@ -1,22 +1,21 @@
 # JSON X-Types
 
-This document aims to define a data type format that can be used to describe JSON-like structures in a simple and natural way.
+This document aims to define a data type format for describing JSON-like structures in a simple and natural way.
 Any [valid JSON](https://www.json.org/) could be validated against a **JSON X-Type** definition.
 
 ## Reserved Keywords
 
-There are several reserved words in **JSON X-Types** which could be used either as keys or values:
-
-| Keyword   | Description                                              | Usage      |
-| --------- | -------------------------------------------------------- | ---------- |
-| string    | String type.                                             | key, value |
-| number    | Number type.                                             | value      |
-| boolean   | Boolean type.                                            | value      |
-| null      | The `null` value.                                        | value      |
-| undefined | Value is not set (the corresponding key is not present). | value      |
-| array     | Array generic.                                           | key        |
-| any       | Any value (not validated).                               | value      |
-| $and      | Refers to the intersection of an array members.          | key        |
+| Keyword       | Description                                               | Usage      |
+| ------------- | --------------------------------------------------------- | ---------- |
+| string        | String type.                                              | key, value |
+| number        | Number type.                                              | value      |
+| boolean       | Boolean type.                                             | value      |
+| null          | The `null` value.                                         | value      |
+| undefined     | Value is not set (the corresponding key is not present).  | value      |
+| array         | Array generic.                                            | key        |
+| any           | Any value (not validated).                                | value      |
+| $and          | Refers to the intersection of an array members.           | key        |
+| $descriptions | Object with descriptions of the fields at the same level. | key        |
 
 ## Prefixes
 
