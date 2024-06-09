@@ -1,17 +1,9 @@
-rules:
-  spec: error
-  no-invalid-media-type-examples: error
-  no-unresolved-refs: error
-
 extends:
-  - x-types/all
-
-plugins:
-  - x-types-plugin.js
-
-decorators:
-  x-types/generate-schemas: {}
+  - x-redocly.yaml
 
 preprocessors:
   x-types/create-$refs: {}
-  # x-types/generate-schemas: {} # This could be here if we don't use the `x-types/create-$refs` preprocessor (require to write $refs the usual way)
+  x-types/generate-schemas: off # this conflicts with the `x-types/create-$refs` preprocessor
+
+decorators:
+  x-types/generate-schemas: {}
