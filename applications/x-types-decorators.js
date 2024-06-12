@@ -2,7 +2,7 @@ const {isObject} = require("./x-types-utils")
 const {translateXTypeToSchema} = require("./x-types-adapter")
 const {resolveAndMerge} = require("./x-types-resolver")
 
-const generateSchema = opts => {
+const generateSchemas = opts => {
   const preserveExistingSchemas = !!opts?.preserveExistingSchemas
   return {
     MediaType: {
@@ -53,6 +53,6 @@ const createRefs = () => {
 }
 
 module.exports = {
-  generateSchema,
+  generateSchemas,
   createRefs,
 }

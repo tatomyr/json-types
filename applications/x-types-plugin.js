@@ -1,4 +1,4 @@
-const {generateSchema, createRefs} = require("./x-types-decorators")
+const {generateSchemas, createRefs} = require("./x-types-decorators")
 const {noRefNeighbors} = require("./x-types-rules")
 
 const getType = value => {
@@ -56,7 +56,7 @@ const XTypeObject_Record = {
 const XTypeAND = {
   properties: {
     $and: {
-      name: "XTypeList",
+      name: "XTypeList", // FIXME: should not accept `array` inside items
       properties: {},
       items: getType,
     },
@@ -73,15 +73,10 @@ const XTypeObject = {
 module.exports = {
   id: "x-types",
 
-  preprocessors: {
-    oas3: {
-      "create-$refs": createRefs,
-    },
-  },
-
   decorators: {
     oas3: {
-      "generate-schemas": generateSchema,
+      "generate-schemas": generateSchemas,
+      "create-$refs": createRefs,
     },
   },
 
@@ -122,6 +117,8 @@ module.exports = {
           },
           requiredOneOf: ["schema", "content", "x-type"],
         },
+        // TODO: This leads to $refs being replaced with the resolved values in the components section.
+        // Do we want to do this? Is there any other way to avoid resolving $refs except for removing this?
         Components: {
           ...types.Components,
           properties: {
