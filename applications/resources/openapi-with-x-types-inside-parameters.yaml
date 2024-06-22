@@ -16,7 +16,7 @@ paths:
           example: 42
         - name: lacks-x-type
           in: query
-        - $ref: "#/components/parameters/Referenced"
+        - $ref: '#/components/parameters/Referenced'
 components:
   parameters:
     Referenced:

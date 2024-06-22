@@ -1,16 +1,16 @@
-const {isObject} = require("./x-types-utils")
-const {translateXTypeToSchema} = require("./x-types-adapter")
-const {resolveAndMerge} = require("./x-types-resolver")
-const {translateJSONSchemaToXType} = require("./json-schema-adapter")
+const {isObject} = require('./x-types-utils')
+const {translateXTypeToSchema} = require('./x-types-adapter')
+const {resolveAndMerge} = require('./x-types-resolver')
+const {translateJSONSchemaToXType} = require('./json-schema-adapter')
 
 const generateSchemas = opts => {
   const preserveExistingSchemas = !!opts?.preserveExistingSchemas
   return {
     MediaType: {
       leave(mediaType, ctx) {
-        const original = mediaType["x-type"]
+        const original = mediaType['x-type']
         if (
-          typeof original === "undefined" ||
+          typeof original === 'undefined' ||
           (preserveExistingSchemas && mediaType.schema)
         ) {
           return
@@ -22,9 +22,9 @@ const generateSchemas = opts => {
     },
     Parameter: {
       leave(parameter, ctx) {
-        const original = parameter["x-type"]
+        const original = parameter['x-type']
         if (
-          typeof original === "undefined" ||
+          typeof original === 'undefined' ||
           (preserveExistingSchemas && parameter.schema)
         ) {
           return
@@ -44,7 +44,7 @@ const generateNamedXTypes = opts => {
   return {
     Components: {
       leave(components, ctx) {
-        components["x-types"] = namedXTypes
+        components['x-types'] = namedXTypes
       },
       NamedSchemas: {
         Schema: {
@@ -65,26 +65,26 @@ const generateXTypes = opts => {
       leave(mediaType, ctx) {
         const original = mediaType.schema
         if (
-          typeof original === "undefined" ||
-          (preserveExistingXTypes && mediaType["x-type"])
+          typeof original === 'undefined' ||
+          (preserveExistingXTypes && mediaType['x-type'])
         ) {
           return
         }
         const xType = translateJSONSchemaToXType(original, ctx)
-        mediaType["x-type"] = xType
+        mediaType['x-type'] = xType
       },
     },
     Parameter: {
       leave(parameter, ctx) {
         const original = parameter.schema
         if (
-          typeof original === "undefined" ||
-          (preserveExistingXTypes && parameter["x-type"])
+          typeof original === 'undefined' ||
+          (preserveExistingXTypes && parameter['x-type'])
         ) {
           return
         }
         const xType = translateJSONSchemaToXType(original, ctx)
-        parameter["x-type"] = xType
+        parameter['x-type'] = xType
       },
     },
   }
@@ -97,8 +97,8 @@ const createRefs = () => {
         if (isObject(node) || Array.isArray(node)) {
           for (const key in node) {
             const value = node[key]
-            if (typeof value === "string" && value.startsWith("$ref:")) {
-              const $ref = value.slice("$ref:".length)
+            if (typeof value === 'string' && value.startsWith('$ref:')) {
+              const $ref = value.slice('$ref:'.length)
               node[key] = {$ref}
             }
           }

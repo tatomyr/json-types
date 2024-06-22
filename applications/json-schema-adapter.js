@@ -3,27 +3,27 @@
 const {
   isPlainObject,
   isEmptyObject,
-} = require("@redocly/openapi-core/lib/utils")
+} = require('@redocly/openapi-core/lib/utils')
 
 function translateJSONSchemaToXType(schema, ctx) {
   if (
-    schema.type === "string" ||
-    schema.type === "number" ||
-    schema.type === "integer" ||
-    schema.type === "boolean"
+    schema.type === 'string' ||
+    schema.type === 'number' ||
+    schema.type === 'integer' ||
+    schema.type === 'boolean'
   ) {
     if (schema.enum) {
       return schema.enum
     }
 
     let t = schema.type
-    if (schema.type === "integer") {
-      t = "number::integer"
+    if (schema.type === 'integer') {
+      t = 'number::integer'
     }
     if (
       schema.format &&
-      schema.type !== "number" &&
-      schema.type !== "integer"
+      schema.type !== 'number' &&
+      schema.type !== 'integer'
     ) {
       t += `::${schema.format}`
     }
@@ -40,30 +40,30 @@ function translateJSONSchemaToXType(schema, ctx) {
     return t
   }
 
-  if (schema.type === "object" && !schema.properties && !schema.oneOf) {
+  if (schema.type === 'object' && !schema.properties && !schema.oneOf) {
     if (
       schema.additionalProperties === undefined ||
       schema.additionalProperties === true
     ) {
-      return {string: "any"}
+      return {string: 'any'}
     } else if (schema.additionalProperties === false) {
-      return {string: "undefined"}
+      return {string: 'undefined'}
     }
   }
 
   if (schema.$ref) {
-    if (schema.$ref.startsWith("#/components/schemas/")) {
+    if (schema.$ref.startsWith('#/components/schemas/')) {
       return {
         $ref: schema.$ref.replace(
-          "#/components/schemas/",
-          "#/components/x-types/"
+          '#/components/schemas/',
+          '#/components/x-types/'
         ),
       }
     }
 
     const resolved = ctx.resolve(schema).node
     if (resolved === undefined) {
-      console.error("ERROR! Cannot resolve $ref:")
+      console.error('ERROR! Cannot resolve $ref:')
       console.error(schema.$ref)
       return schema
     }
@@ -106,7 +106,7 @@ function translateJSONSchemaToXType(schema, ctx) {
     )
   }
 
-  if (typeof schema === "function") {
+  if (typeof schema === 'function') {
     return undefined
   }
 
@@ -118,17 +118,17 @@ function extractObjectLikeNode(schema, ctx) {
   for (const [name, property] of Object.entries(schema.properties || {})) {
     let realName = name
     if (
-      name.includes("string", "array" /* TODO: add more */) ||
-      name.startsWith("$") ||
+      name.includes('string', 'array' /* TODO: add more */) ||
+      name.startsWith('$') ||
       !isNaN(name)
     ) {
-      realName = "$literal:" + name
+      realName = '$literal:' + name
     }
     properties[realName] = translateJSONSchemaToXType(property, ctx)
   }
 
   if (isPlainObject(schema.additionalProperties)) {
-    properties["string"] = translateJSONSchemaToXType(
+    properties['string'] = translateJSONSchemaToXType(
       schema.additionalProperties,
       ctx
     )
@@ -142,7 +142,7 @@ function extractObjectLikeNode(schema, ctx) {
   if (!isEmptyObject(properties)) return properties
   if (items) return {array: items}
 
-  throw new Error("Invalid object-like schema")
+  throw new Error('Invalid object-like schema')
 }
 
 module.exports = {translateJSONSchemaToXType}

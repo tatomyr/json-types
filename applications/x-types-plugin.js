@@ -3,47 +3,47 @@ const {
   generateXTypes,
   generateNamedXTypes,
   createRefs,
-} = require("./x-types-decorators")
-const {noRefNeighbors} = require("./x-types-rules")
+} = require('./x-types-decorators')
+const {noRefNeighbors} = require('./x-types-rules')
 
 const getType = value => {
   try {
-    if (typeof value === "string") {
-      return {type: "string"}
+    if (typeof value === 'string') {
+      return {type: 'string'}
     }
 
-    if (typeof value === "number") {
-      return {type: "number"}
+    if (typeof value === 'number') {
+      return {type: 'number'}
     }
 
-    if (typeof value === "boolean") {
-      return {type: "boolean"}
+    if (typeof value === 'boolean') {
+      return {type: 'boolean'}
     }
 
     if (value instanceof Array) {
-      return {name: "XTypeList", properties: {}, items: getType}
+      return {name: 'XTypeList', properties: {}, items: getType}
     }
 
-    if (typeof value === "object" && value !== null) {
-      if (typeof value.$schema !== "undefined") {
-        return {properties: {$schema: "Schema"}}
+    if (typeof value === 'object' && value !== null) {
+      if (typeof value.$schema !== 'undefined') {
+        return {properties: {$schema: 'Schema'}}
       }
 
-      if (typeof value.array !== "undefined") {
-        return "XTypeArray"
+      if (typeof value.array !== 'undefined') {
+        return 'XTypeArray'
       }
 
-      if (typeof value.$and !== "undefined") {
-        return "XTypeAND"
+      if (typeof value.$and !== 'undefined') {
+        return 'XTypeAND'
       }
 
-      if (typeof value.$ref !== "undefined") {
+      if (typeof value.$ref !== 'undefined') {
         return {
           properties: {$ref: getType},
         }
       }
 
-      return "XTypeObject"
+      return 'XTypeObject'
     }
   } catch (err) {
     console.error(err)
@@ -65,7 +65,7 @@ const XTypeObject_Record = {
 const XTypeAND = {
   properties: {
     $and: {
-      name: "XTypeList", // FIXME: should not accept `array` inside items
+      name: 'XTypeList', // FIXME: should not accept `array` inside items
       properties: {},
       items: getType,
     },
@@ -80,27 +80,27 @@ const XTypeObject = {
 }
 
 module.exports = {
-  id: "x-types",
+  id: 'x-types',
 
   decorators: {
     oas3: {
-      "generate-schemas": generateSchemas,
-      "generate-x-types": generateXTypes,
-      "generate-named-x-types": generateNamedXTypes,
-      "create-$refs": createRefs,
+      'generate-schemas': generateSchemas,
+      'generate-x-types': generateXTypes,
+      'generate-named-x-types': generateNamedXTypes,
+      'create-$refs': createRefs,
     },
   },
 
   rules: {
     oas3: {
-      "no-$ref-neighbors": noRefNeighbors,
+      'no-$ref-neighbors': noRefNeighbors,
     },
   },
 
   configs: {
     all: {
       rules: {
-        "x-types/no-$ref-neighbors": "error",
+        'x-types/no-$ref-neighbors': 'error',
       },
     },
   },
@@ -117,16 +117,16 @@ module.exports = {
           ...types.MediaType,
           properties: {
             ...types.MediaType.properties,
-            "x-type": getType,
+            'x-type': getType,
           },
         },
         Parameter: {
           ...types.Parameter,
           properties: {
             ...types.Parameter.properties,
-            "x-type": getType,
+            'x-type': getType,
           },
-          requiredOneOf: ["schema", "content", "x-type"],
+          requiredOneOf: ['schema', 'content', 'x-type'],
         },
         // TODO: This leads to $refs being replaced with the resolved values in the components section.
         // Do we want to do this? Is there any other way to avoid resolving $refs except for removing this?
@@ -134,8 +134,8 @@ module.exports = {
           ...types.Components,
           properties: {
             ...types.Components.properties,
-            "x-types": {
-              name: "NamedXTypes",
+            'x-types': {
+              name: 'NamedXTypes',
               properties: {},
               additionalProperties: getType,
             },

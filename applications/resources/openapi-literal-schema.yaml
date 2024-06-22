@@ -28,7 +28,7 @@ paths:
                     unexpected-property: Should fail!
                 Referenced:
                   $schema:
-                    $ref: "#/components/schemas/Foo"
+                    $ref: '#/components/schemas/Foo'
 
 components:
   schemas:

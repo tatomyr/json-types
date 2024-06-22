@@ -23,11 +23,11 @@ paths:
                   required: boolean
                   string: boolean
                 Ref:
-                  $ref: "#/components/x-types/Foo"
+                  $ref: '#/components/x-types/Foo'
                 RefObject:
-                  $ref: "#/components/x-types/Bar"
+                  $ref: '#/components/x-types/Bar'
                 ConditionalRef:
-                  - $ref: "#/components/x-types/Bar"
+                  - $ref: '#/components/x-types/Bar'
                   - undefined
               examples:
                 Test:

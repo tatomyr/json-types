@@ -26,9 +26,9 @@ paths:
                   - undefined
                 $literal:$descriptions: $descriptions
                 Referenced:
-                  $ref: "#/components/x-types/Referenced"
+                  $ref: '#/components/x-types/Referenced'
                 NestedReferenced:
-                  $ref: "#/components/x-types/NestedReferenced"
+                  $ref: '#/components/x-types/NestedReferenced'
                 $descriptions:
                   Plain: A plain string field.
                   Complex: An array of boolean records with the fixed 'string' property.
@@ -42,6 +42,6 @@ components:
     Referenced: string
     NestedReferenced:
       ReferencedAgain:
-        $ref: "#/components/x-types/Referenced"
+        $ref: '#/components/x-types/Referenced'
       $descriptions:
         ReferencedAgain: Referenced inside the ref.

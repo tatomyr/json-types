@@ -1,5 +1,5 @@
 const isObject = obj =>
-  obj && typeof obj === "object" && !(obj instanceof Array)
+  obj && typeof obj === 'object' && !(obj instanceof Array)
 
 const product = (a, b) => {
   const result = []
@@ -15,20 +15,20 @@ const product = (a, b) => {
 
 const isPrimitive = value => {
   return (
-    typeof value === "string" ||
-    typeof value === "number" ||
-    typeof value === "boolean" ||
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    typeof value === 'boolean' ||
     value === null ||
     value === undefined ||
-    value === "undefined"
+    value === 'undefined'
   )
 }
 
 const deepMergeTwo = (first, second) => {
-  if (first === "any") {
+  if (first === 'any') {
     return second
   }
-  if (second === "any") {
+  if (second === 'any') {
     return first
   }
   if (first === second) {
@@ -39,21 +39,21 @@ const deepMergeTwo = (first, second) => {
     console.error(
       `ERROR! Merging primitives is not allowed: '${first}' & '${second}'.`
     )
-    return "undefined"
+    return 'undefined'
   }
 
   if (
-    typeof first.array !== "undefined" ||
-    typeof second.array !== "undefined"
+    typeof first.array !== 'undefined' ||
+    typeof second.array !== 'undefined'
   ) {
     console.error("ERROR! Cannot merge 'array' types.")
-    return "undefined"
+    return 'undefined'
   }
 
-  if (typeof first.$and !== "undefined") {
+  if (typeof first.$and !== 'undefined') {
     return mergeAll(...first.$and, second)
   }
-  if (typeof second.$and !== "undefined") {
+  if (typeof second.$and !== 'undefined') {
     return mergeAll(...second.$and, first)
   }
 
@@ -72,7 +72,7 @@ const deepMergeTwo = (first, second) => {
     const result = structuredClone(first)
 
     for (const key in second) {
-      if (typeof result[key] === "undefined") {
+      if (typeof result[key] === 'undefined') {
         result[key] = second[key]
       } else {
         result[key] = deepMergeTwo(result[key], second[key])
@@ -87,8 +87,8 @@ const deepMergeTwo = (first, second) => {
 
 const mergeAll = (...args) => {
   if (args.length === 0) {
-    console.error("ERROR! Cannot merge empty lists.")
-    return "undefined"
+    console.error('ERROR! Cannot merge empty lists.')
+    return 'undefined'
   }
   return args.reduce((acc, item) => {
     return deepMergeTwo(acc, item)

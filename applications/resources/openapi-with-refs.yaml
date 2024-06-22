@@ -12,7 +12,7 @@ paths:
             application/json:
               x-type:
                 AFieldWithRegularRef:
-                  $ref: "#/components/x-types/Foo"
+                  $ref: '#/components/x-types/Foo'
                 AFieldWithInlineRef: $ref:#/components/x-types/Foo
               examples:
                 Correct:

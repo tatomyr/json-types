@@ -12,12 +12,12 @@ paths:
             application/json:
               x-type:
                 Or:
-                  $ref: "#/components/x-types/Or"
+                  $ref: '#/components/x-types/Or'
                 Conditional:
-                  $ref: "#/components/x-types/Conditional"
+                  $ref: '#/components/x-types/Conditional'
                 NestedConditional:
-                  - $ref: "#/components/x-types/Or"
-                  - $ref: "#/components/x-types/Conditional"
+                  - $ref: '#/components/x-types/Or'
+                  - $ref: '#/components/x-types/Conditional'
                 ComplexOr:
                   - az
                   - bukh: vidh

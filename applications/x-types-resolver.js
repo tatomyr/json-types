@@ -1,21 +1,21 @@
-const {isObject, mergeAll} = require("./x-types-utils")
+const {isObject, mergeAll} = require('./x-types-utils')
 
 const resolveAndMerge = (xType, ctx) => {
   if (xType.$ref) {
     const resolved = ctx.resolve(xType).node
     if (resolved === undefined) {
-      console.error("ERROR! Cannot resolve $ref:")
+      console.error('ERROR! Cannot resolve $ref:')
       console.error(xType.$ref)
-      return "any"
+      return 'any'
     }
     return resolveAndMerge(resolved, ctx)
   }
 
   if (xType.$and) {
     if (!Array.isArray(xType.$and)) {
-      console.error("ERROR! Expected an array but got:")
+      console.error('ERROR! Expected an array but got:')
       console.error(xType.$and)
-      return "undefined"
+      return 'undefined'
     }
     return mergeAll(...xType.$and.map(item => resolveAndMerge(item, ctx)))
   }

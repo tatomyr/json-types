@@ -13,7 +13,7 @@ components:
         - bar: string
       neighbour: not-allowed
     MixedRef:
-      $ref: "#/components/x-types/Allowed"
+      $ref: '#/components/x-types/Allowed'
       neighbour: not-allowed
     Allowed:
       foo: boolean
