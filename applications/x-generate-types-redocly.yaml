@@ -1,0 +1,9 @@
+extends:
+  - x-redocly.yaml
+
+preprocessors:
+  x-types/generate-schemas: off # overriding the default x-redocly.yaml setup
+  x-types/generate-named-x-types: {}
+
+decorators:
+  x-types/generate-x-types: {}

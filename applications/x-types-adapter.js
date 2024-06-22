@@ -111,7 +111,11 @@ const translateXTypeToSchema = xType => {
   if (isObject(xType)) {
     let properties = {}
     let required = []
-    const {string, $descriptions, ...props} = xType
+    const {string, $descriptions, $schema, ...props} = xType
+    if ($schema) {
+      return $schema
+    }
+
     const additionalProperties =
       typeof string === "undefined" ? false : translateXTypeToSchema(string)
 

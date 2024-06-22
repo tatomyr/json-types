@@ -104,6 +104,13 @@ describe("bundle", () => {
     )
     expect(stdout).toMatchSnapshot()
   })
+
+  test("openapi that contains literal $schema", () => {
+    const {stdout} = runCommand(
+      "redocly bundle applications/resources/openapi-literal-schema.yaml  --config=applications/x-redocly.yaml"
+    )
+    expect(stdout).toMatchSnapshot()
+  })
 })
 
 describe("lint", () => {
@@ -157,5 +164,12 @@ describe("lint", () => {
       "redocly lint applications/resources/openapi-with-nested-ors-in-ands.yaml --config=applications/x-redocly.yaml"
     )
     expect(stderr).toMatchSnapshot()
+  })
+
+  test("openapi that contains literal $schema", () => {
+    const {stderr} = runCommand(
+      "redocly lint applications/resources/openapi-literal-schema.yaml  --config=applications/x-redocly.yaml"
+    )
+    expect(stripCWD(stderr)).toMatchSnapshot()
   })
 })

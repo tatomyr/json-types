@@ -52,4 +52,10 @@ describe("adapter", () => {
       required: ["Required"],
     })
   })
+
+  test("handles literal $schema", () => {
+    expect(translateXTypeToSchema({$schema: {type: "string"}})).toEqual({
+      type: "string",
+    })
+  })
 })

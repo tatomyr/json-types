@@ -1,32 +1,34 @@
-# JSON X-Types
+# JSON X-Type
 
-This document aims to define a data type format for describing JSON-like structures in a simple and natural way.
+**JSON X-Type** is a data type format for describing JSON-like structures in a simple and natural way.
 Any [valid JSON](https://www.json.org/) could be validated against a **JSON X-Type** definition.
 
 ## Reserved Keywords
 
-| Keyword       | Description                                               | Usage      |
-| ------------- | --------------------------------------------------------- | ---------- |
-| string        | String type.                                              | key, value |
-| number        | Number type.                                              | value      |
-| boolean       | Boolean type.                                             | value      |
-| null          | The `null` value.                                         | value      |
-| undefined     | Value is not set (the corresponding key is not present).  | value      |
-| array         | Array generic.                                            | key        |
-| any           | Any value (not validated).                                | value      |
-| $and          | Refers to the intersection of an array members.           | key        |
-| $descriptions | Object with descriptions of the fields at the same level. | key        |
+| Keyword       | Description                                                               | Usage      |
+| ------------- | ------------------------------------------------------------------------- | ---------- |
+| string        | String type.                                                              | key, value |
+| number        | Number type.                                                              | value      |
+| boolean       | Boolean type.                                                             | value      |
+| `null`        | The `null` value. The string "null" value doesn't have a special meaning. | value      |
+| undefined     | Value is not set (the corresponding key is not present).                  | value      |
+| array         | Array generic.                                                            | key        |
+| any           | Any value (not validated).                                                | value      |
+| $and          | Refers to the intersection of an array members ([🔗](#types-combining)).  | key        |
+| $descriptions | Object with descriptions of the fields at the same level.                 | key        |
+| $ref          | Reference to another **JSON X-Type** ([🔗](#references)).                 | key        |
+| $schema       | A literal JSON Schema definition ([🔗](#literal-schemas)).                | key        |
+
+The list could be extended with other `$`-prefixed keywords.
+So it's a good idea to escape any values that start with `$` using the `$literal` prefix.
 
 ## Prefixes
 
 Prefixes are used to modify what's going after them. Prefixes and the actual values are separated by a colon.
 
-| Prefix   | Description                 | Usage      |
-| -------- | --------------------------- | ---------- |
-| $literal | Escapes a literal value.    | key, value |
-| $ref     | Refers to another `x-type`. | value      |
-
-Note that `$ref` could be also used as a reference object, but it must not contain any other fields.
+| Prefix   | Description                                         | Usage      |
+| -------- | --------------------------------------------------- | ---------- |
+| $literal | Escapes a literal value ([🔗](#literals-escaping)). | key, value |
 
 ## Objects
 
@@ -110,6 +112,10 @@ Note that it doesn't make sense to combine primitive types or objects that have 
 
 The example above results in `foo` being both `string` and `number`, effectively equivalent to TypeScript's `never` type.
 
+The `$schema` properties also cannot be combined using the `$and` notation.
+
+Impossible combinations should result in the `undefined` type.
+
 ## Literals Escaping
 
 Whenever there is a need to use a literal string value instead of a reserved keyword, it needs to be prepended with the `$literal` prefix:
@@ -134,12 +140,25 @@ It is possible to refer to other **JSON X-Types** using the [JSON Pointer](https
 
 ```json
 {
+  "foo": {"$ref": "#/path/to/field"}
+}
+```
+
+A reference must be resolved relative to the file it appears in.
+The `$ref` expression must be replaced with the value of the field it refers to.
+Any other properties passed alongside the `$ref` must be ignored.
+
+Alternatively, the `$ref` keyword could be used as a prefix which is easier to write and read (but the support is up to the implementation):
+
+```json
+{
   "foo": "$ref:#/path/to/field"
 }
 ```
 
-The `$ref:...` expression must be replaced with the value of the field it refers to.
-A reference must be resolved relative to the file it appears in.
+<!-- Q: Could it be used as a key? Does that even make sense? -->
+
+If a reference is not resolved, it should be treated as `any`.
 
 <!--
 ## Json Type
@@ -160,6 +179,20 @@ Anyway, it could be described in terms of **JSON X-Types** as the following:
 ]
 ```
 -->
+
+## Literal Schemas
+
+If there's something that cannot be expressed in terms of **JSON X-Type**, it should go under this key:
+
+```json
+{
+  "$schema": {
+    "type": "string",
+    "contentMediaType": "application/jwt",
+    "contentSchema": {"type": "array"}
+  }
+}
+```
 
 ## Types Extending
 

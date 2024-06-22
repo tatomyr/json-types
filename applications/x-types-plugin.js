@@ -1,4 +1,9 @@
-const {generateSchemas, createRefs} = require("./x-types-decorators")
+const {
+  generateSchemas,
+  generateXTypes,
+  generateNamedXTypes,
+  createRefs,
+} = require("./x-types-decorators")
 const {noRefNeighbors} = require("./x-types-rules")
 
 const getType = value => {
@@ -20,6 +25,10 @@ const getType = value => {
     }
 
     if (typeof value === "object" && value !== null) {
+      if (typeof value.$schema !== "undefined") {
+        return {properties: {$schema: "Schema"}}
+      }
+
       if (typeof value.array !== "undefined") {
         return "XTypeArray"
       }
@@ -76,6 +85,8 @@ module.exports = {
   decorators: {
     oas3: {
       "generate-schemas": generateSchemas,
+      "generate-x-types": generateXTypes,
+      "generate-named-x-types": generateNamedXTypes,
       "create-$refs": createRefs,
     },
   },
