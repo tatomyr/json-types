@@ -5,30 +5,21 @@ Any [valid JSON](https://www.json.org/) could be validated against a **JSON X-Ty
 
 ## Reserved Keywords
 
-| Keyword       | Description                                                               | Usage      |
-| ------------- | ------------------------------------------------------------------------- | ---------- |
-| string        | String type.                                                              | key, value |
-| number        | Number type.                                                              | value      |
-| boolean       | Boolean type.                                                             | value      |
-| `null`        | The `null` value. The string "null" value doesn't have a special meaning. | value      |
-| undefined     | Value is not set (the corresponding key is not present).                  | value      |
-| array         | Array generic.                                                            | key        |
-| any           | Any value (not validated).                                                | value      |
-| $and          | Refers to the intersection of an array members ([🔗](#types-combining)).  | key        |
-| $descriptions | Object with descriptions of the fields at the same level.                 | key        |
-| $ref          | Reference to another **JSON X-Type** ([🔗](#references)).                 | key        |
-| $schema       | A literal JSON Schema definition ([🔗](#literal-schemas)).                | key        |
+| Keyword   | Description                                                                           | Usage      |
+| --------- | ------------------------------------------------------------------------------------- | ---------- |
+| string    | String type.                                                                          | key, value |
+| number    | Number type.                                                                          | value      |
+| boolean   | Boolean type.                                                                         | value      |
+| `null`    | The `null` value. (Note that the string "null" value doesn't have a special meaning.) | value      |
+| undefined | Value is not set (the corresponding key is not present).                              | value      |
+| array     | Array generic.                                                                        | key        |
+| any       | Any value (not validated).                                                            | value      |
+| $and      | Refers to the intersection of an array members ([🔗](#types-combining)).              | key        |
+| $ref      | Reference to another **JSON X-Type** ([🔗](#references)).                             | key        |
+| $schema   | A literal JSON Schema definition ([🔗](#literal-schemas)).                            | key        |
 
 The list could be extended with other `$`-prefixed keywords.
-So it's a good idea to escape any values that start with `$` using the `$literal` prefix.
-
-## Prefixes
-
-Prefixes are used to modify what's going after them. Prefixes and the actual values are separated by a colon.
-
-| Prefix   | Description                                         | Usage      |
-| -------- | --------------------------------------------------- | ---------- |
-| $literal | Escapes a literal value ([🔗](#literals-escaping)). | key, value |
+So it's a good idea to escape any custom keys that start with `$` using the `$literal` prefix ([🔗](#literals-escaping)).
 
 ## Objects
 
@@ -118,7 +109,7 @@ Impossible combinations should result in the `undefined` type.
 
 ## Literals Escaping
 
-Whenever there is a need to use a literal string value instead of a reserved keyword, it needs to be prepended with the `$literal` prefix:
+Whenever there is a need to use a literal string value instead of a reserved keyword, it must be prepended with the `$literal:` prefix:
 
 ```json
 {

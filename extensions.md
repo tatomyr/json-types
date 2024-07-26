@@ -2,41 +2,118 @@
 
 > Under consideration.
 
-It is possible to add some additional context to types and values using modifiers.
+It is possible to add some additional context to types and values using other reserved keys and suffixes.
 
-## Prefixes
+## Reserved Keywords
 
 > Could be helpful for describing OpenAPI-compatible types.
 
-To make a field only appear in responses, use the `$readonly` prefix.
-The similar prefix for requests is `$writeonly`:
+| Keyword        | Description                                                                                                                                                                     | Usage |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| $descriptions  | Object with descriptions of the fields at the same level.                                                                                                                       | key   |
+| $writeonly     | A map of fields that can only appear in requests.                                                                                                                               | key   |
+| $readonly      | A map of fields that can only appear in responses.                                                                                                                              | key   |
+| $discriminator | Represents a discriminator ([🔗](https://spec.openapis.org/oas/latest.html#discriminator-object)). Should contain the `propertyName` field, and optionally the `mapping` field. | key   |
+| $xor           | Refers to the discriminator options. Makes sense only in conjunction with `$discriminator`.                                                                                     | key   |
+
+### Descriptions
+
+Descriptions provide additional information about the fields.
+They could be only used in objects:
 
 ```json
 {
   "name": "string",
-  "$writeonly:password": "string",
-  "$readonly:id": "string"
+  "$descriptions": {
+    "name": "The name of the user."
+  }
 }
 ```
 
-Those prefixes can be used only with keys.
+Descriptions will propagate to the OpenAPI schema as the `description` fields of the corresponding properties.
+
+### Read-only and Write-only fields
+
+The `$writeonly` and `$readonly` fields contain properties that should be present only in requests or responses respectively.
+Consider this example:
+
+```json
+{
+  "name": "string",
+  "$writeonly": {
+    "password": "string"
+  },
+  "$readonly": {
+    "id": "string",
+    "createdAt": "number"
+  }
+}
+```
+
+The `password` field is only expected in requests, while `id` and `createdAt` are expected in responses.
+The `name` field is expected in both requests and responses.
+
+In case of collision, `$writeonly` and `$readonly` types should take precedence over default ones.
+
+<!-- TODO: Not quite, we can do it like this:
+
+```json
+{
+  "$writeonly": {
+    "file": "string::url"
+  },
+  "$readonly": {
+    "file": "string::binary"
+  }
+}
+```
+
+The above will result in:
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "file": {
+      "oneOf": [{
+        "type": "string",
+        "format": "binary",
+        "readOnly": true
+      }, {
+        "type": "string",
+        "format": "url",
+        "writeOnly": true
+      }]
+    }
+  }
+}
+```
+-->
+
+### Discriminator
+
+TBD
+
+<!-- Either introduce $xor + $discriminator or use $schema -->
 
 ## Suffixes
 
-Suffixes are intended to specify different formats of the basic types.
+Suffixes are intended to specify different formats or other properties (using modifiers) of the basic types.
 They are denoted by the double colon notation.
+There should be not more than one format specified.
+Suffixes could be sequentially chained (if the format exists it should go before the modifiers).
 
 ### String Formats and Modifiers
 
 String formats can include, among others, `date-time`, `email`, `uuid`, `uri`.
-The list of possible string formats should correspond to the one described in [JSONSchema string formats](https://json-schema.org/understanding-json-schema/reference/string.html#format).
+The list of possible string formats should correspond to the one described in [JSON Schema string formats](https://json-schema.org/understanding-json-schema/reference/string.html#format).
 
-String formats could be used both in keys and values:
+String formats could be used both in keys (with certain restrictions) and values:
 
 ```json
 {
   "id": "string::uuid",
-  "string::email": {"validated": "boolean"}
+  "string::pattern(^[a-z]+$)": "string::min(1)"
 }
 ```
 
@@ -49,10 +126,11 @@ The corresponding values are passed in parentheses:
 }
 ```
 
+Using suffixes in keys is restricted to the `pattern` modifier only.
+
 ### Number Formats and Modifiers
 
 The only supported number format is `integer`, and the modifiers are: `min`, `max`, `x-min` (for exclusive minimum), `x-max` (for exclusive maximum).
-They could be sequentially chained (if the format exists it should go before the modifiers).
 The range modifiers require a number value in parenthesis:
 
 ```json
@@ -60,6 +138,12 @@ The range modifiers require a number value in parenthesis:
   "age": "number::integer::min(18)"
 }
 ```
+
+<!-- TODO: consider this syntax:
+{"array::min(1)": "any"}
+Alternatively:
+{"array": "any", "minItems": 1}
+-->
 
 ## Free Form Validation
 
@@ -75,9 +159,3 @@ If a field needs to be validated against its context, the validation function co
 ```
 
 A validation function is a JavaScript function that accepts the value itself and its parents up to the root of the object and returns either a string with an error message or a falsy value if the field is valid.
-
-## Discriminator
-
-TBD
-
-<!-- Either introduce $xor + $discriminator or use $schema -->

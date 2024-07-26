@@ -72,6 +72,7 @@ const generateXTypes = opts => {
         }
         const xType = translateJSONSchemaToXType(original, ctx)
         mediaType['x-type'] = xType
+        delete mediaType.schema
       },
     },
     Parameter: {
@@ -85,6 +86,7 @@ const generateXTypes = opts => {
         }
         const xType = translateJSONSchemaToXType(original, ctx)
         parameter['x-type'] = xType
+        delete parameter.schema
       },
     },
   }

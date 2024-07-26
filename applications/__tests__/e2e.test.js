@@ -107,9 +107,16 @@ describe('bundle', () => {
 
   test('openapi that contains literal $schema', () => {
     const {stdout} = runCommand(
-      'redocly bundle applications/resources/openapi-literal-schema.yaml  --config=applications/x-redocly.yaml'
+      'redocly bundle applications/resources/openapi-literal-schema.yaml --config=applications/x-redocly.yaml'
     )
     expect(stdout).toMatchSnapshot()
+  })
+
+  test('generate x-types from JSON Schemas', () => {
+    const {stdout} = runCommand(
+      'redocly bundle applications/resources/pets.yaml --config=applications/generate-x-types-redocly.yaml'
+    )
+    expect(stdout).toMatchFileSnapshot('pets-to-x-types.yaml')
   })
 })
 

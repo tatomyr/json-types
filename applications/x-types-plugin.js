@@ -5,6 +5,7 @@ const {
   createRefs,
 } = require('./x-types-decorators')
 const {noRefNeighbors} = require('./x-types-rules')
+const {isObject} = require('./x-types-utils')
 
 const getType = value => {
   try {
@@ -20,11 +21,11 @@ const getType = value => {
       return {type: 'boolean'}
     }
 
-    if (value instanceof Array) {
+    if (Array.isArray(value)) {
       return {name: 'XTypeList', properties: {}, items: getType}
     }
 
-    if (typeof value === 'object' && value !== null) {
+    if (isObject(value)) {
       if (typeof value.$schema !== 'undefined') {
         return {properties: {$schema: 'Schema'}}
       }
@@ -53,6 +54,7 @@ const getType = value => {
 const XTypeArray = {
   properties: {
     array: getType,
+    // TODO: allow minItems, maxItems, uniqueItems, etc.?
   },
 }
 
@@ -75,6 +77,7 @@ const XTypeAND = {
 const XTypeObject = {
   properties: {
     string: getType,
+    // TODO: add $readonly, $writeonly
   },
   additionalProperties: getType,
 }

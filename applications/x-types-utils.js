@@ -1,5 +1,6 @@
-const isObject = obj =>
-  obj && typeof obj === 'object' && !(obj instanceof Array)
+const isObject = obj => obj && typeof obj === 'object' && !Array.isArray(obj)
+
+const isEmptyObject = obj => isObject(obj) && Object.keys(obj).length === 0
 
 const product = (a, b) => {
   const result = []
@@ -57,14 +58,14 @@ const deepMergeTwo = (first, second) => {
     return mergeAll(...second.$and, first)
   }
 
-  if (first instanceof Array && isObject(second)) {
+  if (Array.isArray(first) && isObject(second)) {
     return first.map(item => deepMergeTwo(item, second))
   }
-  if (isObject(first) && second instanceof Array) {
+  if (isObject(first) && Array.isArray(second)) {
     return second.map(item => deepMergeTwo(item, first))
   }
 
-  if (first instanceof Array && second instanceof Array) {
+  if (Array.isArray(first) && Array.isArray(second)) {
     return product(first, second).map(([a, b]) => deepMergeTwo(a, b))
   }
 
@@ -97,5 +98,6 @@ const mergeAll = (...args) => {
 
 module.exports = {
   isObject,
+  isEmptyObject,
   mergeAll,
 }

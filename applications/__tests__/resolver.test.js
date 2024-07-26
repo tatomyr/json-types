@@ -111,4 +111,20 @@ describe('resolver', () => {
       })
     ).toEqual({az: 'string', bukh: 'string'})
   })
+
+  test('handle empty OR', () => {
+    expect(resolveAndMerge([])).toEqual('undefined')
+  })
+
+  test('handle empty $and', () => {
+    expect(resolveAndMerge({$and: []})).toEqual('undefined')
+  })
+
+  test('escape single OR', () => {
+    expect(resolveAndMerge(['az'])).toEqual('az')
+  })
+
+  test('escape single $and', () => {
+    expect(resolveAndMerge({$and: ['az']})).toEqual('az')
+  })
 })

@@ -6,22 +6,23 @@ describe('adapter', () => {
     expect(translateXTypeToSchema('string')).toEqual({type: 'string'})
   })
 
-  test('translates literals', () => {
+  test('literals', () => {
     expect(
       translateXTypeToSchema({'$literal:string': '$literal:boolean'})
     ).toEqual({
       type: 'object',
       properties: {string: {type: 'string', enum: ['boolean']}},
       additionalProperties: false,
+      patternProperties: {},
       required: ['string'],
     })
   })
 
-  test('translates `undefined` into `never`', () => {
+  test('`undefined` -> `never`', () => {
     expect(translateXTypeToSchema('undefined')).toEqual({not: {}})
   })
 
-  test('handles OR', () => {
+  test('OR', () => {
     expect(translateXTypeToSchema(['string', 'number'])).toEqual({
       anyOf: [{type: 'string'}, {type: 'number'}],
     })
@@ -49,13 +50,38 @@ describe('adapter', () => {
         Conditional: {type: 'string'},
       },
       additionalProperties: false,
+      patternProperties: {},
       required: ['Required'],
     })
   })
 
-  test('handles literal $schema', () => {
+  test('literal $schema', () => {
     expect(translateXTypeToSchema({$schema: {type: 'string'}})).toEqual({
       type: 'string',
+    })
+  })
+
+  test('string formats and modifiers', () => {
+    expect(translateXTypeToSchema('string::date-time')).toEqual({
+      type: 'string',
+      format: 'date-time',
+    })
+    expect(
+      translateXTypeToSchema({
+        'string::pattern(some pattern)': 'string::min(10)::max(100)',
+      })
+    ).toEqual({
+      type: 'object',
+      patternProperties: {
+        'some pattern': {
+          type: 'string',
+          maxLength: 100,
+          minLength: 10,
+        },
+      },
+      properties: {},
+      additionalProperties: false,
+      required: [],
     })
   })
 })

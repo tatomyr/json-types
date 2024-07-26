@@ -115,6 +115,7 @@ function translateJSONSchemaToXType(schema, ctx) {
 
 function extractObjectLikeNode(schema, ctx) {
   const properties = {}
+  const $descriptions = {}
   for (const [name, property] of Object.entries(schema.properties || {})) {
     let realName = name
     if (
@@ -125,6 +126,9 @@ function extractObjectLikeNode(schema, ctx) {
       realName = '$literal:' + name
     }
     properties[realName] = translateJSONSchemaToXType(property, ctx)
+    if (property.description) {
+      $descriptions[realName] = property.description
+    }
   }
 
   if (isPlainObject(schema.additionalProperties)) {
@@ -139,8 +143,15 @@ function extractObjectLikeNode(schema, ctx) {
     items = translateJSONSchemaToXType(schema.items, ctx)
   }
 
-  if (!isEmptyObject(properties)) return properties
-  if (items) return {array: items}
+  if (!isEmptyObject($descriptions)) {
+    properties.$descriptions = $descriptions
+  }
+  if (!isEmptyObject(properties)) {
+    return properties
+  }
+  if (items) {
+    return {array: items}
+  }
 
   throw new Error('Invalid object-like schema')
 }

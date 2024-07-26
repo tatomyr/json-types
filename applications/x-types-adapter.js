@@ -1,4 +1,28 @@
-const {isObject} = require('./x-types-utils')
+const {isObject, isEmptyObject} = require('./x-types-utils')
+
+const SUFFIXES = {
+  string: [
+    [/^date-time$/, () => ({format: 'date-time'})],
+    [/^date$/, () => ({format: 'date'})],
+    [/^email$/, () => ({format: 'email'})],
+    [/^uuid$/, () => ({format: 'uuid'})],
+    [/^binary$/, () => ({format: 'binary'})],
+    [/^password$/, () => ({format: 'password'})],
+    [/^uri$/, () => ({format: 'uri'})],
+    [/^url$/, () => ({format: 'url'})],
+    [/^uuid$/, () => ({format: 'uuid'})],
+
+    [/^pattern\((?<value>.+)\)$/, match => ({pattern: match?.groups?.value})],
+    [
+      /^min\((?<value>[0-9]+)\)$/,
+      match => ({minLength: +match?.groups?.value}),
+    ],
+    [
+      /^max\((?<value>[0-9]+)\)$/,
+      match => ({maxLength: +match?.groups?.value}),
+    ],
+  ],
+}
 
 const translateXTypeToSchema = xType => {
   if (typeof xType === 'undefined') {
@@ -12,20 +36,22 @@ const translateXTypeToSchema = xType => {
   if (xType === 'string') {
     return {type: 'string'}
   }
-  if (xType === 'string::date') {
-    return {type: 'string', format: 'date'}
-  }
-  if (xType === 'string::date-time') {
-    return {type: 'string', format: 'date-time'}
-  }
-  if (xType === 'string::email') {
-    return {type: 'string', format: 'email'}
-  }
-  if (xType === 'string::uuid') {
-    return {type: 'string', format: 'uuid'}
-  }
-  if (xType === 'string::binary') {
-    return {type: 'string', format: 'binary'}
+  if (typeof xType === 'string' && xType.startsWith('string::')) {
+    const suffixes = xType.slice('string::'.length).split('::')
+    const modifiers = {}
+    for (const suffix of suffixes) {
+      for (const [re, toJSONSchema] of SUFFIXES.string) {
+        const match = re.exec(suffix)
+        if (match) {
+          Object.assign(modifiers, toJSONSchema(match))
+        }
+      }
+    }
+    if (!isEmptyObject(modifiers)) {
+      return {type: 'string', ...modifiers}
+    }
+
+    throw new Error(`Unsupported string format: ${xType}.`)
   }
 
   if (xType === 'number') {
@@ -34,6 +60,7 @@ const translateXTypeToSchema = xType => {
   if (xType === 'number::integer') {
     return {type: 'integer'}
   }
+  // TODO: handle number modifiers
 
   if (xType === 'boolean') {
     return {type: 'boolean'}
@@ -41,6 +68,7 @@ const translateXTypeToSchema = xType => {
 
   if (xType === 'any') {
     return {
+      // FIXME: delete the below and return simply and empty object
       anyOf: [
         {type: 'string'},
         {type: 'number'},
@@ -57,14 +85,18 @@ const translateXTypeToSchema = xType => {
     return {not: {}}
   }
 
+  // Handle array types
   if (typeof xType.array !== 'undefined') {
+    // TODO: handle array modifiers
     return {type: 'array', items: translateXTypeToSchema(xType.array)}
   }
 
+  // Handle $literal types
   if (typeof xType === 'string' && xType.startsWith('$literal:')) {
     return {type: 'string', enum: [xType.slice('$literal:'.length)]}
   }
 
+  // Handle primitive literals
   if (
     (typeof xType === 'string') |
     (typeof xType === 'number') |
@@ -73,6 +105,7 @@ const translateXTypeToSchema = xType => {
     return {type: typeof xType, enum: [xType]}
   }
 
+  // Handle OR types
   if (Array.isArray(xType)) {
     const normalized = xType
       .filter(type => type !== 'undefined')
@@ -108,8 +141,10 @@ const translateXTypeToSchema = xType => {
     }
   }
 
+  // Handle object types
   if (isObject(xType)) {
     let properties = {}
+    let patternProperties = {}
     let required = []
     const {string, $descriptions, $schema, ...props} = xType
     if ($schema) {
@@ -120,26 +155,37 @@ const translateXTypeToSchema = xType => {
       typeof string === 'undefined' ? false : translateXTypeToSchema(string)
 
     for (const key in props) {
-      const realKey = key.startsWith('$literal:')
-        ? key.slice('$literal:'.length)
-        : key
-
-      properties[realKey] = translateXTypeToSchema(props[key])
-
-      if (props[key] instanceof Array && props[key].includes('undefined')) {
-        // skip
+      if (key.startsWith('string::pattern(') && key.endsWith(')')) {
+        // Handle patternProperties
+        const pattern = key.slice('string::pattern('.length, -1)
+        patternProperties[pattern] = translateXTypeToSchema(props[key])
       } else {
-        required.push(realKey)
+        // Handle regular properties
+        const realKey = key.startsWith('$literal:')
+          ? key.slice('$literal:'.length)
+          : key
+        properties[realKey] = translateXTypeToSchema(props[key])
+        if (Array.isArray(props[key]) && props[key].includes('undefined')) {
+          // skip
+        } else {
+          required.push(realKey)
+        }
       }
     }
 
-    // All fields at this level could have descriptions defined inside the $description field.
+    // All fields at this level could have descriptions defined inside the $descriptions field.
     for (const describedPropertyKey in $descriptions) {
       properties[describedPropertyKey].description =
         $descriptions[describedPropertyKey]
     }
 
-    return {type: 'object', properties, required, additionalProperties}
+    return {
+      type: 'object',
+      properties,
+      required,
+      additionalProperties,
+      patternProperties,
+    }
   }
 
   throw new Error('Cannot process x-type:', xType)
