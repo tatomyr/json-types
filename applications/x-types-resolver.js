@@ -1,6 +1,8 @@
 const {isObject, mergeAll} = require('./x-types-utils')
 
-const resolveAndMerge = (xType, ctx, refs = []) => {
+const resolveAndMerge = (xType, ctx, parents = []) => {
+  const maxDepth = ctx._circularRefsMaxDepth ?? 3
+
   // Handle null types
   if (xType === null) {
     return null
@@ -8,13 +10,10 @@ const resolveAndMerge = (xType, ctx, refs = []) => {
 
   // Handle $refs
   if (xType.$ref) {
-    // TODO: find out how to track only NESTED circular $refs
-    if (refs.filter(ref => ref === xType.$ref).length > 3) {
-      console.error('ERROR! Circular reference detected:', xType.$ref)
-      return 'any' // FIXME: return more nested type. Also, this falls here when there's a couple of the same $refs as siblings, which is wrong!
-      // return xType
-    } else {
-      refs.push(xType.$ref)
+    if (parents.filter(p => p?.$ref === xType.$ref).length >= maxDepth) {
+      console.warn('WARNING! Circular reference detected:', xType.$ref)
+      // Returning `any` to avoid circular references:
+      return 'any'
     }
     const resolved = ctx.resolve(xType).node
     if (resolved === undefined) {
@@ -22,7 +21,7 @@ const resolveAndMerge = (xType, ctx, refs = []) => {
       console.error(xType.$ref)
       return 'any'
     }
-    return resolveAndMerge(resolved, ctx, refs)
+    return resolveAndMerge(resolved, ctx, [...parents, xType])
   }
 
   // Handle AND types
@@ -32,7 +31,9 @@ const resolveAndMerge = (xType, ctx, refs = []) => {
       console.error(xType.$and)
       return 'undefined'
     }
-    return mergeAll(...xType.$and.map(item => resolveAndMerge(item, ctx, refs)))
+    return mergeAll(
+      ...xType.$and.map(item => resolveAndMerge(item, ctx, [...parents, xType]))
+    )
   }
 
   // Handle OR types
@@ -41,16 +42,18 @@ const resolveAndMerge = (xType, ctx, refs = []) => {
       return 'undefined'
     }
     if (xType.length === 1) {
-      return resolveAndMerge(xType[0], ctx, refs)
+      return resolveAndMerge(xType[0], ctx, [...parents, xType])
     }
-    return xType.map(type => resolveAndMerge(type, ctx, refs)).flat()
+    return xType
+      .map(type => resolveAndMerge(type, ctx, [...parents, xType]))
+      .flat()
   }
 
   // Handle object types
   if (isObject(xType)) {
     let obj = {}
     for (const key in xType) {
-      obj[key] = resolveAndMerge(xType[key], ctx, refs)
+      obj[key] = resolveAndMerge(xType[key], ctx, [...parents, xType])
     }
     return obj
   }
