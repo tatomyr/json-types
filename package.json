@@ -26,7 +26,8 @@
   },
   "homepage": "https://github.com/tatomyr/json-types#readme",
   "devDependencies": {
-    "@redocly/cli": "^1.14.0",
+    "@redocly/cli": "1.25.3",
+    "@redocly/openapi-core": "1.25.3",
     "@vitest/coverage-v8": "^1.4.0",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",

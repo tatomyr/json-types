@@ -37,7 +37,7 @@ const generateSchemas = opts => {
   }
 }
 
-// Experimental
+// TODO: WIP
 const generateNamedXTypes = opts => {
   const preserveExistingXTypes = !!opts?.preserveExistingXTypes
   const namedXTypes = {}
@@ -57,7 +57,7 @@ const generateNamedXTypes = opts => {
   }
 }
 
-// Experimental
+// TODO: WIP
 const generateXTypes = opts => {
   const preserveExistingXTypes = !!opts?.preserveExistingXTypes
   return {

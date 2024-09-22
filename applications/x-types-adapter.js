@@ -1,3 +1,4 @@
+const {isNotEmptyObject} = require('@redocly/openapi-core/lib/utils')
 const {isObject, isEmptyObject} = require('./x-types-utils')
 
 const SUFFIXES = {
@@ -24,6 +25,7 @@ const SUFFIXES = {
   ],
 }
 
+// The xType must be resolved before being translated to JSON Schema because if it contains $refs, some logic could be applied incorrectly.
 const translateXTypeToSchema = xType => {
   if (typeof xType === 'undefined') {
     throw new Error('Expected "x-type" but got "undefined"')
@@ -31,6 +33,20 @@ const translateXTypeToSchema = xType => {
 
   if (xType === null) {
     return {type: 'null'}
+  }
+
+  // If there's a $ref, return it as is.
+  if (xType?.$ref) {
+    return xType
+  }
+
+  // If there's an unresolved $and, return it as allOf.
+  if (xType?.$and) {
+    return {
+      allOf: xType.$and.map(translateXTypeToSchema), // TODO: also put additionalProperties: true inside?
+      unevaluatedProperties: false,
+      additionalProperties: true,
+    }
   }
 
   if (xType === 'string') {
@@ -67,17 +83,7 @@ const translateXTypeToSchema = xType => {
   }
 
   if (xType === 'any') {
-    return {
-      // FIXME: delete the below and return simply and empty object
-      anyOf: [
-        {type: 'string'},
-        {type: 'number'},
-        {type: 'boolean'},
-        {type: 'object'},
-        {type: 'array'},
-        {type: 'null'},
-      ],
-    }
+    return {}
   }
 
   if (xType === 'undefined') {
@@ -184,7 +190,7 @@ const translateXTypeToSchema = xType => {
       properties,
       required,
       additionalProperties,
-      patternProperties,
+      ...(isNotEmptyObject(patternProperties) && {patternProperties}),
     }
   }
 

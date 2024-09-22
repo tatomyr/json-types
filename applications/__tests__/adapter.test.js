@@ -13,7 +13,6 @@ describe('adapter', () => {
       type: 'object',
       properties: {string: {type: 'string', enum: ['boolean']}},
       additionalProperties: false,
-      patternProperties: {},
       required: ['string'],
     })
   })
@@ -50,7 +49,6 @@ describe('adapter', () => {
         Conditional: {type: 'string'},
       },
       additionalProperties: false,
-      patternProperties: {},
       required: ['Required'],
     })
   })
@@ -58,6 +56,22 @@ describe('adapter', () => {
   test('literal $schema', () => {
     expect(translateXTypeToSchema({$schema: {type: 'string'}})).toEqual({
       type: 'string',
+    })
+  })
+
+  test('arrays', () => {
+    expect(translateXTypeToSchema({array: 'string'})).toEqual({
+      type: 'array',
+      items: {type: 'string'},
+    })
+  })
+
+  test('records', () => {
+    expect(translateXTypeToSchema({string: 'number'})).toEqual({
+      type: 'object',
+      properties: {},
+      additionalProperties: {type: 'number'},
+      required: [],
     })
   })
 

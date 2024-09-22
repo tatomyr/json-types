@@ -76,7 +76,6 @@ paths:
                       - required
                     additionalProperties:
                       type: boolean
-                    patternProperties: {}
                   Ref:
                     type: number
                   RefObject:
@@ -98,7 +97,6 @@ paths:
                       - somekey
                       - string
                     additionalProperties: false
-                    patternProperties: {}
                   ConditionalRef:
                     type: object
                     properties:
@@ -118,7 +116,6 @@ paths:
                       - somekey
                       - string
                     additionalProperties: false
-                    patternProperties: {}
                 required:
                   - Simple
                   - Or
@@ -127,7 +124,6 @@ paths:
                   - Ref
                   - RefObject
                 additionalProperties: false
-                patternProperties: {}
 components:
   x-types:
     Foo: number
@@ -202,7 +198,6 @@ paths:
                         - string
                       additionalProperties:
                         type: boolean
-                      patternProperties: {}
                     description: An array of boolean records with the fixed 'string' property.
                   Conditional:
                     type: string
@@ -226,7 +221,6 @@ paths:
                     required:
                       - ReferencedAgain
                     additionalProperties: false
-                    patternProperties: {}
                     description: A reference with nested references.
                 required:
                   - Plain
@@ -235,7 +229,6 @@ paths:
                   - Referenced
                   - NestedReferenced
                 additionalProperties: false
-                patternProperties: {}
 components:
   x-types:
     Referenced: string
@@ -284,7 +277,6 @@ paths:
                       - az
                       - vidh
                     additionalProperties: false
-                    patternProperties: {}
                   - type: object
                     properties:
                       bukh:
@@ -295,7 +287,6 @@ paths:
                       - bukh
                       - vidh
                     additionalProperties: false
-                    patternProperties: {}
 components: {}
 "
 `;
@@ -374,7 +365,6 @@ paths:
                   - WrongSchemaFormat
                   - Referenced
                 additionalProperties: false
-                patternProperties: {}
 components:
   schemas:
     Foo:
@@ -454,7 +444,6 @@ paths:
                   - foo
                   - bar
                 additionalProperties: false
-                patternProperties: {}
             application/problems+json:
               x-type:
                 WrongAndFormat:
@@ -481,7 +470,6 @@ paths:
                   - Empty
                   - ImpossibleArraysCombination
                 additionalProperties: false
-                patternProperties: {}
 components:
   x-types:
     CorrectAnd:
@@ -518,27 +506,12 @@ paths:
               schema:
                 type: object
                 properties:
-                  AFieldWithRegularRef:
-                    anyOf:
-                      - type: string
-                      - type: number
-                      - type: boolean
-                      - type: object
-                      - type: array
-                      - type: 'null'
-                  AFieldWithInlineRef:
-                    anyOf:
-                      - type: string
-                      - type: number
-                      - type: boolean
-                      - type: object
-                      - type: array
-                      - type: 'null'
+                  AFieldWithRegularRef: {}
+                  AFieldWithInlineRef: {}
                 required:
                   - AFieldWithRegularRef
                   - AFieldWithInlineRef
                 additionalProperties: false
-                patternProperties: {}
         '201':
           description: A bare ref
           content:
@@ -547,14 +520,7 @@ paths:
               examples:
                 Correct:
                   value: Anything
-              schema:
-                anyOf:
-                  - type: string
-                  - type: number
-                  - type: boolean
-                  - type: object
-                  - type: array
-                  - type: 'null'
+              schema: {}
         '202':
           description: A file reference
           content:
@@ -581,14 +547,7 @@ paths:
                   value: anything
               schema:
                 type: array
-                items:
-                  anyOf:
-                    - type: string
-                    - type: number
-                    - type: boolean
-                    - type: object
-                    - type: array
-                    - type: 'null'
+                items: {}
         '404':
           description: A wrong ref
           content:
@@ -601,18 +560,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  AWrongRef:
-                    anyOf:
-                      - type: string
-                      - type: number
-                      - type: boolean
-                      - type: object
-                      - type: array
-                      - type: 'null'
+                  AWrongRef: {}
                 required:
                   - AWrongRef
                 additionalProperties: false
-                patternProperties: {}
 components:
   x-types:
     Foo: any
@@ -681,11 +632,9 @@ paths:
                       - Number
                       - Integer
                     additionalProperties: false
-                    patternProperties: {}
                 required:
                   - Formats
                 additionalProperties: false
-                patternProperties: {}
 components: {}
 "
 `;
@@ -799,12 +748,10 @@ paths:
                         required:
                           - bukh
                         additionalProperties: false
-                        patternProperties: {}
                 required:
                   - Or
                   - ComplexOr
                 additionalProperties: false
-                patternProperties: {}
 components:
   x-types:
     Or:
@@ -982,48 +929,48 @@ referenced from applications/outputs/x-openapi-with-refs.yaml:13:15 at #/paths/~
 Error was generated by the no-invalid-media-type-examples rule.
 
 
-[4] applications/outputs/x-openapi-with-refs.yaml:73:26 at #/paths/~1test/get/responses/202/content/application~1json/examples/Incorrect/value
+[4] applications/outputs/x-openapi-with-refs.yaml:51:26 at #/paths/~1test/get/responses/202/content/application~1json/examples/Incorrect/value
 
 Example value must conform to the schema: type must be number.
 
-71 |     value: 42
-72 |   Incorrect:
-73 |     value: false
+49 |     value: 42
+50 |   Incorrect:
+51 |     value: false
    |            ^^^^^
-74 | schema:
-75 |   type: number
+52 | schema:
+53 |   type: number
 
-referenced from applications/outputs/x-openapi-with-refs.yaml:68:15 at #/paths/~1test/get/responses/202/content/application~1json 
+referenced from applications/outputs/x-openapi-with-refs.yaml:46:15 at #/paths/~1test/get/responses/202/content/application~1json 
 
 Error was generated by the no-invalid-media-type-examples rule.
 
 
-[5] applications/outputs/x-openapi-with-refs.yaml:87:26 at #/paths/~1test/get/responses/203/content/application~1json/examples/Incorrect/value
+[5] applications/outputs/x-openapi-with-refs.yaml:65:26 at #/paths/~1test/get/responses/203/content/application~1json/examples/Incorrect/value
 
 Example value must conform to the schema: type must be array.
 
-85 |       - anything
-86 |   Incorrect:
-87 |     value: anything
+63 |       - anything
+64 |   Incorrect:
+65 |     value: anything
    |            ^^^^^^^^
-88 | schema:
-89 |   type: array
+66 | schema:
+67 |   type: array
 
-referenced from applications/outputs/x-openapi-with-refs.yaml:80:15 at #/paths/~1test/get/responses/203/content/application~1json 
+referenced from applications/outputs/x-openapi-with-refs.yaml:58:15 at #/paths/~1test/get/responses/203/content/application~1json 
 
 Error was generated by the no-invalid-media-type-examples rule.
 
 
-[6] applications/outputs/x-openapi-with-refs.yaml:104:19 at #/paths/~1test/get/responses/404/content/application~1json/x-type/AWrongRef
+[6] applications/outputs/x-openapi-with-refs.yaml:75:19 at #/paths/~1test/get/responses/404/content/application~1json/x-type/AWrongRef
 
 Can't resolve $ref: ENOENT: no such file or directory './applications/outputs/wrong-file.yaml'
 
-102 | x-type:
-103 |   AWrongRef:
-104 |     $ref: wrong-file.yaml
-    |     ^^^^^^^^^^^^^^^^^^^^^
-105 | example:
-106 |   AWrongRef: Accepts anything
+73 | x-type:
+74 |   AWrongRef:
+75 |     $ref: wrong-file.yaml
+   |     ^^^^^^^^^^^^^^^^^^^^^
+76 | example:
+77 |   AWrongRef: Accepts anything
 
 Error was generated by the no-unresolved-refs rule.
 

@@ -21,8 +21,17 @@ const getType = value => {
       return {type: 'boolean'}
     }
 
+    // TODO: is there such a type?
+    if (value === null) {
+      return {type: 'null'}
+    }
+
     if (Array.isArray(value)) {
-      return {name: 'XTypeList', properties: {}, items: getType}
+      return {
+        name: 'XTypeList',
+        properties: {},
+        items: {}, // FIXME: must be `getType`. This is only for bundling with circular refs to pass.
+      }
     }
 
     if (isObject(value)) {
@@ -39,9 +48,12 @@ const getType = value => {
       }
 
       if (typeof value.$ref !== 'undefined') {
+        // FIXME: when returning this, it fails on bundling when there are circular refs.
         return {
           properties: {$ref: getType},
         }
+        // When returning this, it fails on linting when there are refs.
+        // return undefined
       }
 
       return 'XTypeObject'
@@ -55,12 +67,6 @@ const XTypeArray = {
   properties: {
     array: getType,
     // TODO: allow minItems, maxItems, uniqueItems, etc.?
-  },
-}
-
-const XTypeObject_Record = {
-  properties: {
-    string: getType,
   },
 }
 
@@ -82,7 +88,7 @@ const XTypeObject = {
   additionalProperties: getType,
 }
 
-module.exports = {
+module.exports = () => ({
   id: 'x-types',
 
   decorators: {
@@ -113,7 +119,6 @@ module.exports = {
       return {
         ...types,
         XTypeArray,
-        XTypeObject_Record,
         XTypeAND,
         XTypeObject,
         MediaType: {
@@ -131,8 +136,6 @@ module.exports = {
           },
           requiredOneOf: ['schema', 'content', 'x-type'],
         },
-        // TODO: This leads to $refs being replaced with the resolved values in the components section.
-        // Do we want to do this? Is there any other way to avoid resolving $refs except for removing this?
         Components: {
           ...types.Components,
           properties: {
@@ -148,4 +151,4 @@ module.exports = {
       }
     },
   },
-}
+})

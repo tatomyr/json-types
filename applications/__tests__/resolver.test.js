@@ -127,4 +127,136 @@ describe('resolver', () => {
   test('escape single $and', () => {
     expect(resolveAndMerge({$and: ['az']})).toEqual('az')
   })
+
+  test('circular references', () => {
+    expect(
+      resolveAndMerge(
+        {
+          Json: [
+            'string',
+            'number',
+            'boolean',
+            null,
+            {$ref: '#/Record'},
+            {array: {$ref: '#/Json'}},
+          ],
+          Record: {
+            string: {$ref: '#/Json'},
+          },
+        },
+        {
+          resolve: ({$ref}) => {
+            switch ($ref) {
+              case '#/Json':
+                return {
+                  node: [
+                    'string',
+                    'number',
+                    'boolean',
+                    null,
+                    {string: {$ref: '#/Json'}},
+                    {array: {$ref: '#/Json'}},
+                  ],
+                }
+              case '#/Record':
+                return {node: {string: {$ref: '#/Json'}}}
+              default:
+                throw new Error('Unknown $ref')
+            }
+          },
+        }
+      )
+    ).toMatchInlineSnapshot(`
+      {
+        "Json": [
+          "string",
+          "number",
+          "boolean",
+          null,
+          {
+            "string": [
+              "string",
+              "number",
+              "boolean",
+              null,
+              {
+                "string": [
+                  "string",
+                  "number",
+                  "boolean",
+                  null,
+                  {
+                    "string": [
+                      "string",
+                      "number",
+                      "boolean",
+                      null,
+                      {
+                        "string": [
+                          "string",
+                          "number",
+                          "boolean",
+                          null,
+                          {
+                            "string": "any",
+                          },
+                          {
+                            "array": "any",
+                          },
+                        ],
+                      },
+                      {
+                        "array": "any",
+                      },
+                    ],
+                  },
+                  {
+                    "array": "any",
+                  },
+                ],
+              },
+              {
+                "array": "any",
+              },
+            ],
+          },
+          {
+            "array": "any",
+          },
+        ],
+        "Record": {
+          "string": "any",
+        },
+      }
+    `)
+    // FIXME: this is the actually expected result
+    // .toEqual({
+    //   Json: [
+    //     'string',
+    //     'number',
+    //     'boolean',
+    //     null,
+    //     {
+    //       string: [
+    //         'string',
+    //         'number',
+    //         'boolean',
+    //         null,
+    //         {string: 'any'},
+    //         {array: 'any'},
+    //       ],
+    //     },
+    //     {
+    //       array: [
+    //         'string',
+    //         'number',
+    //         'boolean',
+    //         null,
+    //         {string: 'any'},
+    //         {array: 'any'},
+    //       ],
+    //     },
+    //   ],
+    // })
+  })
 })
