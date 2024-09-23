@@ -1,9 +1,9 @@
-const {isObject} = require('./x-types-utils')
-const {translateXTypeToSchema} = require('./x-types-adapter')
-const {resolveAndMerge} = require('./x-types-resolver')
-const {translateJSONSchemaToXType} = require('./json-schema-adapter')
+import {isObject} from './x-types-utils.js'
+import {translateXTypeToSchema} from './x-types-adapter.js'
+import {resolveAndMerge} from './x-types-resolver.js'
+import {translateJSONSchemaToXType} from './json-schema-adapter.js'
 
-const generateSchemas = opts => {
+export const generateSchemas = opts => {
   const preserveExistingSchemas = !!opts?.preserveExistingSchemas
   return {
     MediaType: {
@@ -38,7 +38,7 @@ const generateSchemas = opts => {
 }
 
 // TODO: WIP
-const generateNamedXTypes = opts => {
+export const generateNamedXTypes = opts => {
   const preserveExistingXTypes = !!opts?.preserveExistingXTypes
   const namedXTypes = {}
   return {
@@ -58,7 +58,7 @@ const generateNamedXTypes = opts => {
 }
 
 // TODO: WIP
-const generateXTypes = opts => {
+export const generateXTypes = opts => {
   const preserveExistingXTypes = !!opts?.preserveExistingXTypes
   return {
     MediaType: {
@@ -92,7 +92,7 @@ const generateXTypes = opts => {
   }
 }
 
-const createRefs = () => {
+export const createRefs = () => {
   return {
     any: {
       enter: (node, ctx) => {
@@ -108,11 +108,4 @@ const createRefs = () => {
       },
     },
   }
-}
-
-module.exports = {
-  generateSchemas,
-  generateXTypes,
-  generateNamedXTypes,
-  createRefs,
 }

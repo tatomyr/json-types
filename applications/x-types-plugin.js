@@ -1,11 +1,11 @@
-const {
+import {
   generateSchemas,
   generateXTypes,
   generateNamedXTypes,
   createRefs,
-} = require('./x-types-decorators')
-const {noRefNeighbors} = require('./x-types-rules')
-const {isObject} = require('./x-types-utils')
+} from './x-types-decorators.js'
+import {noRefNeighbors} from './x-types-rules.js'
+import {isObject} from './x-types-utils.js'
 
 const getType = value => {
   try {
@@ -88,7 +88,7 @@ const XTypeObject = {
   additionalProperties: getType,
 }
 
-module.exports = () => ({
+export default () => ({
   id: 'x-types',
 
   decorators: {

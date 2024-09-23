@@ -1,5 +1,5 @@
 import {describe, expect, test} from 'vitest'
-const {translateXTypeToSchema} = require('../x-types-adapter')
+import {translateXTypeToSchema} from '../x-types-adapter.js'
 
 describe('adapter', () => {
   test('translates primitive strings', () => {

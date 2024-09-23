@@ -1,6 +1,8 @@
-const isObject = obj => obj && typeof obj === 'object' && !Array.isArray(obj)
+export const isObject = obj =>
+  obj && typeof obj === 'object' && !Array.isArray(obj)
 
-const isEmptyObject = obj => isObject(obj) && Object.keys(obj).length === 0
+export const isEmptyObject = obj =>
+  isObject(obj) && Object.keys(obj).length === 0
 
 const product = (a, b) => {
   const result = []
@@ -86,7 +88,7 @@ const deepMergeTwo = (first, second) => {
   throw new Error(`Cannot merge ${first} & ${second}.`)
 }
 
-const mergeAll = (...args) => {
+export const mergeAll = (...args) => {
   if (args.length === 0) {
     console.error('ERROR! Cannot merge empty lists.')
     return 'undefined'
@@ -94,10 +96,4 @@ const mergeAll = (...args) => {
   return args.reduce((acc, item) => {
     return deepMergeTwo(acc, item)
   })
-}
-
-module.exports = {
-  isObject,
-  isEmptyObject,
-  mergeAll,
 }

@@ -1,5 +1,5 @@
-const {isNotEmptyObject} = require('@redocly/openapi-core/lib/utils')
-const {isObject, isEmptyObject} = require('./x-types-utils')
+import {isNotEmptyObject} from '@redocly/openapi-core/lib/utils.js'
+import {isObject, isEmptyObject} from './x-types-utils.js'
 
 const SUFFIXES = {
   string: [
@@ -26,7 +26,7 @@ const SUFFIXES = {
 }
 
 // The xType must be resolved before being translated to JSON Schema because if it contains $refs, some logic could be applied incorrectly.
-const translateXTypeToSchema = xType => {
+export const translateXTypeToSchema = xType => {
   if (typeof xType === 'undefined') {
     throw new Error('Expected "x-type" but got "undefined"')
   }
@@ -195,8 +195,4 @@ const translateXTypeToSchema = xType => {
   }
 
   throw new Error('Cannot process x-type:', xType)
-}
-
-module.exports = {
-  translateXTypeToSchema,
 }

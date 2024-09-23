@@ -1,5 +1,5 @@
 import {describe, expect, test} from 'vitest'
-const {resolveAndMerge} = require('../x-types-resolver')
+import {resolveAndMerge} from '../x-types-resolver.js'
 
 describe('resolver', () => {
   test('transform a correct $and into an object', () => {

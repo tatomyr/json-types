@@ -1,6 +1,6 @@
-const {isObject, mergeAll} = require('./x-types-utils')
+import {isObject, mergeAll} from './x-types-utils.js'
 
-const resolveAndMerge = (xType, ctx, parents = []) => {
+export const resolveAndMerge = (xType, ctx, parents = []) => {
   const maxDepth = ctx._circularRefsMaxDepth ?? 3
 
   // Handle null types
@@ -59,8 +59,4 @@ const resolveAndMerge = (xType, ctx, parents = []) => {
   }
 
   return xType
-}
-
-module.exports = {
-  resolveAndMerge,
 }

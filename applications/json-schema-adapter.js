@@ -1,11 +1,8 @@
 // Experimental feature
 
-const {
-  isPlainObject,
-  isEmptyObject,
-} = require('@redocly/openapi-core/lib/utils')
+import {isPlainObject, isEmptyObject} from '@redocly/openapi-core/lib/utils.js'
 
-function translateJSONSchemaToXType(schema, ctx) {
+export function translateJSONSchemaToXType(schema, ctx) {
   if (
     schema.type === 'string' ||
     schema.type === 'number' ||
@@ -155,5 +152,3 @@ function extractObjectLikeNode(schema, ctx) {
 
   throw new Error('Invalid object-like schema')
 }
-
-module.exports = {translateJSONSchemaToXType}

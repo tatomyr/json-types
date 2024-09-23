@@ -8,7 +8,6 @@ export default defineConfig({
       extension: ['.js'],
       all: true,
       include: ['applications/**/*.js'],
-      exclude: ['src/**/*.test.ts'],
     },
     snapshotFormat: {
       escapeString: false,
