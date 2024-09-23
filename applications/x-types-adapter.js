@@ -1,5 +1,5 @@
 import {isNotEmptyObject} from '@redocly/openapi-core/lib/utils.js'
-import {isObject, isEmptyObject} from './x-types-utils.js'
+import {isObject} from './x-types-utils.js'
 
 const SUFFIXES = {
   string: [
@@ -21,6 +21,19 @@ const SUFFIXES = {
     [
       /^max\((?<value>[0-9]+)\)$/,
       match => ({maxLength: +match?.groups?.value}),
+    ],
+  ],
+  number: [
+    [/^integer$/, () => ({type: 'integer'})],
+    [/^min\((?<value>[0-9]+)\)$/, match => ({minimum: +match?.groups?.value})],
+    [/^max\((?<value>[0-9]+)\)$/, match => ({maximum: +match?.groups?.value})],
+    [
+      /^x-min\((?<value>[0-9]+)\)$/,
+      match => ({exclusiveMinimum: +match?.groups?.value}),
+    ],
+    [
+      /^x-max\((?<value>[0-9]+)\)$/,
+      match => ({exclusiveMaximum: +match?.groups?.value}),
     ],
   ],
 }
@@ -63,7 +76,7 @@ export const translateXTypeToSchema = xType => {
         }
       }
     }
-    if (!isEmptyObject(modifiers)) {
+    if (isNotEmptyObject(modifiers)) {
       return {type: 'string', ...modifiers}
     }
 
@@ -73,10 +86,23 @@ export const translateXTypeToSchema = xType => {
   if (xType === 'number') {
     return {type: 'number'}
   }
-  if (xType === 'number::integer') {
-    return {type: 'integer'}
+  if (typeof xType === 'string' && xType.startsWith('number::')) {
+    const suffixes = xType.slice('number::'.length).split('::')
+    const modifiers = {}
+    for (const suffix of suffixes) {
+      for (const [re, toJSONSchema] of SUFFIXES.number) {
+        const match = re.exec(suffix)
+        if (match) {
+          Object.assign(modifiers, toJSONSchema(match))
+        }
+      }
+    }
+    if (isNotEmptyObject(modifiers)) {
+      return {type: 'number', ...modifiers}
+    }
+
+    throw new Error(`Unsupported number format: ${xType}.`)
   }
-  // TODO: handle number modifiers
 
   if (xType === 'boolean') {
     return {type: 'boolean'}
@@ -181,8 +207,10 @@ export const translateXTypeToSchema = xType => {
 
     // All fields at this level could have descriptions defined inside the $descriptions field.
     for (const describedPropertyKey in $descriptions) {
-      properties[describedPropertyKey].description =
-        $descriptions[describedPropertyKey]
+      properties[describedPropertyKey] = {
+        description: $descriptions[describedPropertyKey],
+        ...properties[describedPropertyKey],
+      }
     }
 
     return {

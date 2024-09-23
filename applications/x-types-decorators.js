@@ -15,7 +15,10 @@ export const generateSchemas = opts => {
         ) {
           return
         }
-        const resolvedXType = resolveAndMerge(original, ctx)
+        const resolvedXType = resolveAndMerge(original, {
+          ...ctx,
+          _circularRefsMaxDepth: opts?.depth,
+        })
         const schema = translateXTypeToSchema(resolvedXType)
         mediaType.schema = schema
       },
@@ -29,7 +32,10 @@ export const generateSchemas = opts => {
         ) {
           return
         }
-        const resolvedXType = resolveAndMerge(original, ctx)
+        const resolvedXType = resolveAndMerge(original, {
+          ...ctx,
+          _circularRefsMaxDepth: opts?.depth,
+        })
         const schema = translateXTypeToSchema(resolvedXType)
         parameter.schema = schema
       },

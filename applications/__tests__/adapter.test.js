@@ -98,4 +98,15 @@ describe('adapter', () => {
       required: [],
     })
   })
+
+  test('number formats and modifiers', () => {
+    expect(translateXTypeToSchema('number::min(0)::x-max(1)')).toEqual({
+      type: 'number',
+      minimum: 0,
+      exclusiveMaximum: 1,
+    })
+    expect(translateXTypeToSchema('number::integer')).toEqual({
+      type: 'integer',
+    })
+  })
 })

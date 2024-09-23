@@ -180,48 +180,48 @@ paths:
                 type: object
                 properties:
                   Plain:
-                    type: string
                     description: A plain string field.
+                    type: string
                   Complex:
+                    description: An array of boolean records with the fixed 'string' property.
                     type: array
                     items:
                       type: object
                       properties:
                         string:
+                          description: |
+                            An example of using literals.
                           type: string
                           enum:
                             - number
                             - string
-                          description: |
-                            An example of using literals.
                       required:
                         - string
                       additionalProperties:
                         type: boolean
-                    description: An array of boolean records with the fixed 'string' property.
                   Conditional:
+                    description: A conditional field.
                     type: string
                     enum:
                       - az
-                    description: A conditional field.
                   $descriptions:
+                    description: Literal $descriptions field.
                     type: string
                     enum:
                       - $descriptions
-                    description: Literal $descriptions field.
                   Referenced:
-                    type: string
                     description: A referenced property.
+                    type: string
                   NestedReferenced:
+                    description: A reference with nested references.
                     type: object
                     properties:
                       ReferencedAgain:
-                        type: string
                         description: Referenced inside the ref.
+                        type: string
                     required:
                       - ReferencedAgain
                     additionalProperties: false
-                    description: A reference with nested references.
                 required:
                   - Plain
                   - Complex
