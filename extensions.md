@@ -1,25 +1,23 @@
-# Type Extending
+# Types Extending
 
-> Under consideration.
-
-It is possible to add some additional context to types and values using other reserved keys and suffixes.
+It is possible to add additional context to types and values using other reserved keys and suffixes.
 
 ## Reserved Keywords
 
-> Could be helpful for describing OpenAPI-compatible types.
+| Keyword                                           | Description                                                                                                                                                                        | Usage |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
+| $descriptions [🔗](#descriptions)                 | An object containing descriptions of the fields at the same level.                                                                                                                 | key   |
+| $writeonly [🔗](#read-only-and-write-only-fields) | A map of fields that can only appear in requests.                                                                                                                                  | key   |
+| $readonly [🔗](#read-only-and-write-only-fields)  | A map of fields that can only appear in responses.                                                                                                                                 | key   |
+| $discriminator [🔗](#discriminator)               | Represents a discriminator ([🔗](https://spec.openapis.org/oas/latest.html#discriminator-object)). It should contain the `propertyName` field, and optionally the `mapping` field. | key   |
+| $xor                                              | Refers to the discriminator options. It only makes sense in conjunction with `$discriminator`.                                                                                     | key   |
 
-| Keyword        | Description                                                                                                                                                                     | Usage |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| $descriptions  | Object with descriptions of the fields at the same level.                                                                                                                       | key   |
-| $writeonly     | A map of fields that can only appear in requests.                                                                                                                               | key   |
-| $readonly      | A map of fields that can only appear in responses.                                                                                                                              | key   |
-| $discriminator | Represents a discriminator ([🔗](https://spec.openapis.org/oas/latest.html#discriminator-object)). Should contain the `propertyName` field, and optionally the `mapping` field. | key   |
-| $xor           | Refers to the discriminator options. Makes sense only in conjunction with `$discriminator`.                                                                                     | key   |
+Those keywords can be helpful for describing OpenAPI-compatible types.
 
 ### Descriptions
 
 Descriptions provide additional information about the fields.
-They could be only used in objects:
+They can only be used in objects:
 
 ```json
 {
@@ -30,7 +28,7 @@ They could be only used in objects:
 }
 ```
 
-Descriptions will propagate to the OpenAPI schema as the `description` fields of the corresponding properties.
+Descriptions are propagated to the OpenAPI schema as the `description` fields of the corresponding properties.
 
 ### Read-only and Write-only fields
 
@@ -45,7 +43,7 @@ Consider this example:
   },
   "$readonly": {
     "id": "string",
-    "createdAt": "number"
+    "createdAt": "string::date-time"
   }
 }
 ```
@@ -53,7 +51,7 @@ Consider this example:
 The `password` field is only expected in requests, while `id` and `createdAt` are expected in responses.
 The `name` field is expected in both requests and responses.
 
-In case of collision, `$writeonly` and `$readonly` types should take precedence over default ones.
+In case of conflict, `$writeonly` and `$readonly` types should take precedence over default ones.
 
 <!-- TODO: Not quite, we can do it like this:
 
@@ -98,17 +96,17 @@ TBD
 
 ## Suffixes
 
-Suffixes are intended to specify different formats or other properties (using modifiers) of the basic types.
+Suffixes are intended to specify different formats or other properties of the basic types.
 They are denoted by the double colon notation.
-There should be not more than one format specified.
-Suffixes could be sequentially chained (if the format exists it should go before the modifiers).
+There should be no more than one format specified.
+Suffixes can be sequentially chained.
 
 ### String Formats and Modifiers
 
-String formats can include, among others, `date-time`, `email`, `uuid`, `uri`.
+String formats include, among others, `date-time`, `email`, `uuid`, `uri`.
 The list of possible string formats should correspond to the one described in [JSON Schema string formats](https://json-schema.org/understanding-json-schema/reference/string.html#format).
 
-String formats could be used both in keys (with certain restrictions) and values:
+Example:
 
 ```json
 {
@@ -117,7 +115,7 @@ String formats could be used both in keys (with certain restrictions) and values
 }
 ```
 
-The modifiers are `min`, `max` (for minimal and maximum length respectively), and `pattern`.
+The modifiers are `min`, `max` (for minimal and maximal length respectively), and `pattern`.
 The corresponding values are passed in parentheses:
 
 ```json
@@ -126,6 +124,7 @@ The corresponding values are passed in parentheses:
 }
 ```
 
+The `pattern` modifier cannot be used in conjunction with anything else.
 Using suffixes in keys is restricted to the `pattern` modifier only.
 
 ### Number Formats and Modifiers
@@ -149,7 +148,7 @@ Alternatively:
 
 > Under consideration.
 
-If a field needs to be validated against its context, the validation function could be used:
+If a field needs to be validated against its context, the validation function can be used:
 
 ```json
 {

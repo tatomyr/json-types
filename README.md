@@ -1,29 +1,29 @@
 # JSON X-Type
 
 **JSON X-Type** is a data type format for describing JSON-like structures in a simple and natural way.
-Any [valid JSON](https://www.json.org/) could be validated against a **JSON X-Type** definition.
+Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type** definition.
 
 ## Reserved Keywords
 
-| Keyword   | Description                                                                           | Usage      |
-| --------- | ------------------------------------------------------------------------------------- | ---------- |
-| string    | String type.                                                                          | key, value |
-| number    | Number type.                                                                          | value      |
-| boolean   | Boolean type.                                                                         | value      |
-| `null`    | The `null` value. (Note that the string "null" value doesn't have a special meaning.) | value      |
-| undefined | Value is not set (the corresponding key is not present).                              | value      |
-| array     | Array generic.                                                                        | key        |
-| any       | Any value (not validated).                                                            | value      |
-| $and      | Refers to the intersection of an array members ([🔗](#types-combining)).              | key        |
-| $ref      | Reference to another **JSON X-Type** ([🔗](#references)).                             | key        |
-| $schema   | A literal JSON Schema definition ([🔗](#literal-schemas)).                            | key        |
+| Keyword                          | Description                                                         | Usage      |
+| -------------------------------- | ------------------------------------------------------------------- | ---------- |
+| string                           | String type.                                                        | key, value |
+| number                           | Number type.                                                        | value      |
+| boolean                          | Boolean type.                                                       | value      |
+| `null`                           | The `null` value. (Note: The string "null" has no special meaning.) | value      |
+| undefined                        | Indicates that the value is not set.                                | value      |
+| array                            | Array generic.                                                      | key        |
+| any                              | Any value (not validated).                                          | value      |
+| $and ([🔗](#types-combining))    | Represents the combination of array members.                        | key        |
+| $ref ([🔗](#references))         | Reference to another **JSON X-Type**.                               | key        |
+| $schema ([🔗](#literal-schemas)) | A literal JSON Schema definition.                                   | key        |
 
-The list could be extended with other `$`-prefixed keywords.
+The list can be extended with other `$`-prefixed keywords.
 So it's a good idea to escape any custom keys that start with `$` using the `$literal` prefix ([🔗](#literals-escaping)).
 
 ## Objects
 
-Object literals describe object-like schemas:
+Object literals define object-like schemas:
 
 ```json
 {
@@ -32,13 +32,13 @@ Object literals describe object-like schemas:
 }
 ```
 
-The example above defines an object with only two properties, both of which are required.
+The example above defines an object with two required properties.
 
-Also, it is possible to use the `string` type as a key to describe records:
+It's also possible to use the `string` type as a key to describe records:
 
 ```json
 {
-  "string": "any"
+  "string": "boolean"
 }
 ```
 
@@ -54,7 +54,7 @@ Also, it is possible to use the `string` type as a key to describe records:
 
 ## Arrays
 
-Array literals allow defining multiple available options, one of which is applicable:
+Array literals define multiple options, one of which is applicable:
 
 ```json
 ["string", "undefined"]
@@ -70,7 +70,7 @@ It is possible to combine several types into one using the `$and` keyword:
 }
 ```
 
-A result is an object that contains all of the properties of all the items:
+The result is an object that includes all of the properties of all the items:
 
 ```json
 {
@@ -91,7 +91,7 @@ type And<U> = (U extends any ? (k: U) => void : never) extends (
 type Combined = And<{foo: string} | {bar: number}> // {"foo": "string"} & {"bar": "number"} ≡ {"foo": "string", "bar": "number"}
 ```
 
-Effectively, it applies the `AND` relation between the array members, replacing the `XOR` relation.
+Effectively, it applies the `AND` relation between the array members, replacing the `OR` relation.
 
 Note that it doesn't make sense to combine primitive types or objects that have common properties with different types:
 
@@ -101,9 +101,9 @@ Note that it doesn't make sense to combine primitive types or objects that have 
 }
 ```
 
-The example above results in `foo` being both `string` and `number`, effectively equivalent to TypeScript's `never` type.
+The above example results in `foo` being both `string` and `number`, which is effectively equivalent to TypeScript's `never` type.
 
-The `$schema` properties also cannot be combined using the `$and` notation.
+The `$schema` property also cannot be combined using the `$and` notation ([🔗](#literal-schemas)).
 
 Impossible combinations should result in the `undefined` type.
 
@@ -117,7 +117,7 @@ Whenever there is a need to use a literal string value instead of a reserved key
 }
 ```
 
-This will check for an object with the `string` key of a `boolean` value, e.g.:
+This checks for an object with the `string` key of a `boolean` value, e.g.:
 
 ```json
 {
@@ -131,49 +131,30 @@ It is possible to refer to other **JSON X-Types** using the [JSON Pointer](https
 
 ```json
 {
-  "foo": {"$ref": "#/path/to/field"}
+  "foo": {"$ref": "#/bar"},
+  "bar": "["string", "number", "boolean"]"
 }
 ```
 
 A reference must be resolved relative to the file it appears in.
 The `$ref` expression must be replaced with the value of the field it refers to.
-Any other properties passed alongside the `$ref` must be ignored.
+Any other properties alongside the `$ref` must be ignored.
 
-Alternatively, the `$ref` keyword could be used as a prefix which is easier to write and read (but the support is up to the implementation):
+Alternatively, the `$ref` keyword can be used as a prefix which is easier to write and read (but the support is up to the implementation):
 
 ```json
 {
-  "foo": "$ref:#/path/to/field"
+  "foo": "$ref:./path/to/file"
 }
 ```
 
 <!-- Q: Could it be used as a key? Does that even make sense? -->
 
-If a reference is not resolved, it should be treated as `any`.
-
-<!--
-## Json Type
-
-Represents any valid JSON.
-
-Q: Is there a real need to have both `any` and `json`? What else apart from JSON could be in any and still it is valid? `{array: "undefined"}`?
-Anyway, it could be described in terms of **JSON X-Types** as the following:
-
-```json
-[
-  "string",
-  "number",
-  "boolean",
-  null,
-  {"string": "$ref:#/"},
-  {"array": "$ref:#/"}
-]
-```
--->
+If a reference cannot be resolved, it should be treated as `any`.
 
 ## Literal Schemas
 
-If there's something that cannot be expressed in terms of **JSON X-Type**, it should go under this key:
+If something cannot be expressed in terms of **JSON X-Type**, it should go under this key:
 
 ```json
 {
@@ -185,6 +166,9 @@ If there's something that cannot be expressed in terms of **JSON X-Type**, it sh
 }
 ```
 
+Note that it's not possible to use **JSON X-Types** inside `$schema`.
+Additionally, `$schema` cannot be used inside `$and` operators ([🔗](#types-combining)).
+
 ## Types Extending
 
-Possible extensions described [here](./extensions.md)
+Possible extensions are described [here](./extensions.md).
