@@ -107,7 +107,7 @@ export function translateJSONSchemaToXType(schema, ctx) {
     return undefined
   }
 
-  return {$schema: schema}
+  return {$schema: schema} // FIXME: this is wrong. We simply wasn't able to translate the schema. Remove it later and replace with `undefined` or `any`.
 }
 
 function extractObjectLikeNode(schema, ctx) {

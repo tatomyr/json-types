@@ -1,0 +1,6 @@
+Az:
+  array:
+    $ref: '#/Bukh'
+Bukh:
+  - boolean
+  - $ref: '#/Az'

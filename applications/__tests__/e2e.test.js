@@ -105,13 +105,6 @@ describe('bundle', () => {
     expect(stdout).toMatchSnapshot()
   })
 
-  test('openapi that contains literal $schema', () => {
-    const {stdout} = runCommand(
-      'redocly bundle applications/resources/openapi-literal-schema.yaml --config=applications/x-redocly.yaml'
-    )
-    expect(stdout).toMatchSnapshot()
-  })
-
   test('generate x-types from JSON Schemas', () => {
     const {stdout} = runCommand(
       'redocly bundle applications/resources/pets.yaml --config=applications/generate-x-types-redocly.yaml'
@@ -173,9 +166,16 @@ describe('lint', () => {
     expect(stderr).toMatchSnapshot()
   })
 
-  test('openapi that contains literal $schema', () => {
+  test('x-types described with x-types themselves', () => {
     const {stderr} = runCommand(
-      'redocly lint applications/resources/openapi-literal-schema.yaml  --config=applications/x-redocly.yaml'
+      'redocly lint applications/resources/x-types-described-with-x-types.yaml  --config=applications/x-redocly.yaml'
+    )
+    expect(stripCWD(stderr)).toMatchSnapshot()
+  })
+
+  test('openapi with external $refs', () => {
+    const {stderr} = runCommand(
+      'redocly lint applications/resources/openapi-with-external-refs.yaml  --config=applications/x-redocly.yaml'
     )
     expect(stripCWD(stderr)).toMatchSnapshot()
   })

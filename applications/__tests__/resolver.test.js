@@ -160,9 +160,13 @@ describe('resolver', () => {
                     {string: {$ref: '#/Json'}},
                     {array: {$ref: '#/Json'}},
                   ],
+                  location: {source: {absoluteRef: '#/Json'}},
                 }
               case '#/Record':
-                return {node: {string: {$ref: '#/Json'}}}
+                return {
+                  node: {string: {$ref: '#/Json'}},
+                  location: {source: {absoluteRef: '#/Record'}},
+                }
               default:
                 throw new Error('Unknown $ref')
             }

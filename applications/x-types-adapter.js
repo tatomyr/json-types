@@ -179,9 +179,6 @@ export const translateXTypeToSchema = xType => {
     let patternProperties = {}
     let required = []
     const {string, $descriptions, $schema, ...props} = xType
-    if ($schema) {
-      return $schema
-    }
 
     const additionalProperties =
       typeof string === 'undefined' ? false : translateXTypeToSchema(string)

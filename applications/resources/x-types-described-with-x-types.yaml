@@ -1,0 +1,50 @@
+openapi: 3.1.0
+info:
+  title: Test X-Types described with X-Types
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        200:
+          description: Test.
+          content:
+            application/json:
+              x-type:
+                $ref: ../../x-types.yaml#/XType
+              examples:
+                WrongAndUsage:
+                  value:
+                    $and:
+                      - {Az: number}
+                      - {Bukh: string}
+                    wrong: should not be defined along the `$and` keyword!
+                CorrectAndUsage:
+                  value:
+                    $and:
+                      - {Az: number}
+                      - {Bukh: string}
+                WrongArrayUsage:
+                  value:
+                    array: string
+                    wrong: should not ne defined along the `array` keyword!
+                CorrectArrayUsage:
+                  value:
+                    array: string
+                CorrectPrimitive:
+                  value: some-string-literal
+                CorrectRecord:
+                  value:
+                    Az:
+                      Bukh:
+                        Vidh:
+                          Glagol: number
+                        string: boolean
+                CorrectOr:
+                  value:
+                    - Az
+                    - Bukh: any
+
+components:
+  x-types:
+    $ref: ../../x-types.yaml # needed for using $refs outside the main document

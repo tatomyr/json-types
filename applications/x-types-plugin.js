@@ -35,10 +35,6 @@ const getType = value => {
     }
 
     if (isObject(value)) {
-      if (typeof value.$schema !== 'undefined') {
-        return {properties: {$schema: 'Schema'}}
-      }
-
       if (typeof value.array !== 'undefined') {
         return 'XTypeArray'
       }

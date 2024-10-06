@@ -53,12 +53,6 @@ describe('adapter', () => {
     })
   })
 
-  test('literal $schema', () => {
-    expect(translateXTypeToSchema({$schema: {type: 'string'}})).toEqual({
-      type: 'string',
-    })
-  })
-
   test('arrays', () => {
     expect(translateXTypeToSchema({array: 'string'})).toEqual({
       type: 'array',

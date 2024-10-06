@@ -3,20 +3,21 @@
 **JSON X-Type** is a data type format for describing JSON-like structures in a simple and natural way.
 Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type** definition.
 
+**JSON X-Type** can be described by itself ([🔗](./x-types.yaml)).
+
 ## Reserved Keywords
 
-| Keyword                          | Description                                                         | Usage      |
-| -------------------------------- | ------------------------------------------------------------------- | ---------- |
-| string                           | String type.                                                        | key, value |
-| number                           | Number type.                                                        | value      |
-| boolean                          | Boolean type.                                                       | value      |
-| `null`                           | The `null` value. (Note: The string "null" has no special meaning.) | value      |
-| undefined                        | Indicates that the value is not set.                                | value      |
-| array                            | Array generic.                                                      | key        |
-| any                              | Any value (not validated).                                          | value      |
-| $and ([🔗](#types-combining))    | Represents the combination of array members.                        | key        |
-| $ref ([🔗](#references))         | Reference to another **JSON X-Type**.                               | key        |
-| $schema ([🔗](#literal-schemas)) | A literal JSON Schema definition.                                   | key        |
+| Keyword                       | Description                                                         | Usage      |
+| ----------------------------- | ------------------------------------------------------------------- | ---------- |
+| string                        | String type.                                                        | key, value |
+| number                        | Number type.                                                        | value      |
+| boolean                       | Boolean type.                                                       | value      |
+| `null`                        | The `null` value. (Note: The string "null" has no special meaning.) | value      |
+| undefined                     | Indicates that the value is not set.                                | value      |
+| array                         | Array generic.                                                      | key        |
+| any                           | Any value (not validated).                                          | value      |
+| $and ([🔗](#types-combining)) | Represents the combination of array members.                        | key        |
+| $ref ([🔗](#references))      | Reference to another **JSON X-Type**.                               | key        |
 
 The list can be extended with other `$`-prefixed keywords.
 So it's a good idea to escape any custom keys that start with `$` using the `$literal` prefix ([🔗](#literals-escaping)).
@@ -103,8 +104,6 @@ Note that it doesn't make sense to combine primitive types or objects that have 
 
 The above example results in `foo` being both `string` and `number`, which is effectively equivalent to TypeScript's `never` type.
 
-The `$schema` property also cannot be combined using the `$and` notation ([🔗](#literal-schemas)).
-
 Impossible combinations should result in the `undefined` type.
 
 ## Literals Escaping
@@ -132,7 +131,7 @@ It is possible to refer to other **JSON X-Types** using the [JSON Pointer](https
 ```json
 {
   "foo": {"$ref": "#/bar"},
-  "bar": "["string", "number", "boolean"]"
+  "bar": ["string", "number", "boolean"]
 }
 ```
 
@@ -151,23 +150,6 @@ Alternatively, the `$ref` keyword can be used as a prefix which is easier to wri
 <!-- Q: Could it be used as a key? Does that even make sense? -->
 
 If a reference cannot be resolved, it should be treated as `any`.
-
-## Literal Schemas
-
-If something cannot be expressed in terms of **JSON X-Type**, it should go under this key:
-
-```json
-{
-  "$schema": {
-    "type": "string",
-    "contentMediaType": "application/jwt",
-    "contentSchema": {"type": "array"}
-  }
-}
-```
-
-Note that it's not possible to use **JSON X-Types** inside `$schema`.
-Additionally, `$schema` cannot be used inside `$and` operators ([🔗](#types-combining)).
 
 ## Types Extending
 

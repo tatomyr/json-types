@@ -15,13 +15,14 @@ export const resolveAndMerge = (xType, ctx, parents = []) => {
       // Returning `any` to avoid circular references:
       return 'any'
     }
-    const resolved = ctx.resolve(xType).node
-    if (resolved === undefined) {
+    const resolved = ctx.resolve(xType, ctx._from)
+    if (resolved.node === undefined) {
       console.error('ERROR! Cannot resolve $ref:')
       console.error(xType.$ref)
       return 'any'
     }
-    return resolveAndMerge(resolved, ctx, [...parents, xType])
+    ctx._from = resolved.location.source.absoluteRef // this is needed for resolving $refs outside the main document
+    return resolveAndMerge(resolved.node, ctx, [...parents, xType])
   }
 
   // Handle AND types
