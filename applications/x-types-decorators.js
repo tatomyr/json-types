@@ -4,37 +4,53 @@ import {resolveAndMerge} from './x-types-resolver.js'
 import {translateJSONSchemaToXType} from './json-schema-adapter.js'
 
 export const generateSchemas = opts => {
-  const preserveExistingSchemas = !!opts?.preserveExistingSchemas
   return {
-    MediaType: {
-      leave(mediaType, ctx) {
-        const original = mediaType['x-type']
-        if (
-          typeof original === 'undefined' ||
-          (preserveExistingSchemas && mediaType.schema)
-        ) {
-          return
-        }
-        const resolvedXType = resolveAndMerge(original, {
-          ...ctx,
-          _circularRefsMaxDepth: opts?.depth,
-        })
-        const schema = translateXTypeToSchema(resolvedXType)
-        mediaType.schema = schema
+    RequestBody: {
+      // Same as in the Response but different _mode.
+      MediaType: {
+        leave(mediaType, ctx) {
+          const original = mediaType['x-type']
+          if (typeof original === 'undefined') {
+            return
+          }
+          const resolvedXType = resolveAndMerge(original, {
+            ...ctx,
+            _circularRefsMaxDepth: opts?.depth,
+            _mode: 'request',
+          })
+          const schema = translateXTypeToSchema(resolvedXType)
+          mediaType.schema = schema
+        },
+      },
+    },
+    Response: {
+      // Same as in the RequestBody but different _mode.
+      MediaType: {
+        leave(mediaType, ctx) {
+          const original = mediaType['x-type']
+          if (typeof original === 'undefined') {
+            return
+          }
+          const resolvedXType = resolveAndMerge(original, {
+            ...ctx,
+            _circularRefsMaxDepth: opts?.depth,
+            _mode: 'response',
+          })
+          const schema = translateXTypeToSchema(resolvedXType)
+          mediaType.schema = schema
+        },
       },
     },
     Parameter: {
       leave(parameter, ctx) {
         const original = parameter['x-type']
-        if (
-          typeof original === 'undefined' ||
-          (preserveExistingSchemas && parameter.schema)
-        ) {
+        if (typeof original === 'undefined') {
           return
         }
         const resolvedXType = resolveAndMerge(original, {
           ...ctx,
           _circularRefsMaxDepth: opts?.depth,
+          _mode: 'request',
         })
         const schema = translateXTypeToSchema(resolvedXType)
         parameter.schema = schema
@@ -45,7 +61,6 @@ export const generateSchemas = opts => {
 
 // TODO: WIP
 export const generateNamedXTypes = opts => {
-  const preserveExistingXTypes = !!opts?.preserveExistingXTypes
   const namedXTypes = {}
   return {
     Components: {
@@ -65,15 +80,11 @@ export const generateNamedXTypes = opts => {
 
 // TODO: WIP
 export const generateXTypes = opts => {
-  const preserveExistingXTypes = !!opts?.preserveExistingXTypes
   return {
     MediaType: {
       leave(mediaType, ctx) {
         const original = mediaType.schema
-        if (
-          typeof original === 'undefined' ||
-          (preserveExistingXTypes && mediaType['x-type'])
-        ) {
+        if (typeof original === 'undefined') {
           return
         }
         const xType = translateJSONSchemaToXType(original, ctx)
@@ -84,10 +95,7 @@ export const generateXTypes = opts => {
     Parameter: {
       leave(parameter, ctx) {
         const original = parameter.schema
-        if (
-          typeof original === 'undefined' ||
-          (preserveExistingXTypes && parameter['x-type'])
-        ) {
+        if (typeof original === 'undefined') {
           return
         }
         const xType = translateJSONSchemaToXType(original, ctx)

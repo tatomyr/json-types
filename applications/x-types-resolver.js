@@ -50,6 +50,19 @@ export const resolveAndMerge = (xType, ctx, parents = []) => {
       .flat()
   }
 
+  // Handle $writeonly and $readonly types
+  if (xType.$writeonly !== undefined || xType.$readonly !== undefined) {
+    if (ctx._mode === 'request') {
+      if (xType.$writeonly === undefined) return 'undefined'
+      return resolveAndMerge(xType.$writeonly, ctx, parents)
+    }
+    if (ctx._mode === 'response') {
+      if (xType.$readonly === undefined) return 'undefined'
+      return resolveAndMerge(xType.$readonly, ctx, parents)
+    }
+    return 'undefined'
+  }
+
   // Handle object types
   if (isObject(xType)) {
     let obj = {}

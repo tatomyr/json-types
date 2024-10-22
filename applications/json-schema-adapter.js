@@ -3,6 +3,16 @@
 import {isPlainObject, isEmptyObject} from '@redocly/openapi-core/lib/utils.js'
 
 export function translateJSONSchemaToXType(schema, ctx) {
+  // Handle writeOnly/readOnly
+  if (schema.writeOnly === true) {
+    const {writeOnly, ...newSchema} = schema
+    return {$writeonly: translateJSONSchemaToXType(newSchema, ctx)}
+  }
+  if (schema.readOnly === true) {
+    const {readOnly, ...newSchema} = schema
+    return {$readonly: translateJSONSchemaToXType(newSchema, ctx)}
+  }
+
   if (
     schema.type === 'string' ||
     schema.type === 'number' ||

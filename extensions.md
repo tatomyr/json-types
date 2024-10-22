@@ -7,8 +7,8 @@ It is possible to add additional context to types and values using other reserve
 | Keyword                                           | Description                                                                                                                                                                        | Usage |
 | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
 | $descriptions [🔗](#descriptions)                 | An object containing descriptions of the fields at the same level.                                                                                                                 | key   |
-| $writeonly [🔗](#read-only-and-write-only-fields) | A map of fields that can only appear in requests.                                                                                                                                  | key   |
-| $readonly [🔗](#read-only-and-write-only-fields)  | A map of fields that can only appear in responses.                                                                                                                                 | key   |
+| $writeonly [🔗](#read-only-and-write-only-fields) | Describes a write-only field.                                                                                                                                                      | key   |
+| $readonly [🔗](#read-only-and-write-only-fields)  | Describes a read-only field.                                                                                                                                                       | key   |
 | $discriminator [🔗](#discriminator)               | Represents a discriminator ([🔗](https://spec.openapis.org/oas/latest.html#discriminator-object)). It should contain the `propertyName` field, and optionally the `mapping` field. | key   |
 | $xor                                              | Refers to the discriminator options. It only makes sense in conjunction with `$discriminator`.                                                                                     | key   |
 
@@ -38,55 +38,14 @@ Consider this example:
 ```json
 {
   "name": "string",
-  "$writeonly": {
-    "password": "string"
-  },
-  "$readonly": {
-    "id": "string",
-    "createdAt": "string::date-time"
-  }
+  "password": {"$writeonly": "string"},
+  "id": {"$readonly": "string"},
+  "createdAt": {"$readonly": "string::date-time"}
 }
 ```
 
 The `password` field is only expected in requests, while `id` and `createdAt` are expected in responses.
 The `name` field is expected in both requests and responses.
-
-In case of conflict, `$writeonly` and `$readonly` types should take precedence over default ones.
-
-<!-- TODO: Not quite, we can do it like this:
-
-```json
-{
-  "$writeonly": {
-    "file": "string::url"
-  },
-  "$readonly": {
-    "file": "string::binary"
-  }
-}
-```
-
-The above will result in:
-
-```json
-{
-  "type": "object",
-  "properties": {
-    "file": {
-      "oneOf": [{
-        "type": "string",
-        "format": "binary",
-        "readOnly": true
-      }, {
-        "type": "string",
-        "format": "url",
-        "writeOnly": true
-      }]
-    }
-  }
-}
-```
--->
 
 ### Discriminator
 

@@ -84,18 +84,11 @@ describe('bundle', () => {
     expect(stdout).toMatchSnapshot()
   })
 
-  test('replace existing schemas by default', () => {
+  test('replace existing schemas', () => {
     const {stdout: notPreserved} = runCommand(
       'redocly bundle applications/resources/openapi-with-schema.yaml --config=applications/x-redocly.yaml'
     )
     expect(notPreserved).toMatchSnapshot()
-  })
-
-  test('preserve existing schemas if preserveExistingSchemas is true', () => {
-    const {stdout: preserved} = runCommand(
-      'redocly bundle applications/resources/openapi-with-schema.yaml --config=applications/x-preserve-schemas-redocly.yaml'
-    )
-    expect(preserved).toMatchSnapshot()
   })
 
   test('descriptions in x-types', () => {
@@ -109,7 +102,14 @@ describe('bundle', () => {
     const {stdout} = runCommand(
       'redocly bundle applications/resources/pets.yaml --config=applications/generate-x-types-redocly.yaml'
     )
-    expect(stdout).toMatchFileSnapshot('pets-to-x-types.yaml')
+    expect(stdout).toMatchFileSnapshot('file-snapshots/pets-to-x-types.yaml')
+  })
+
+  test('openapi writeOnly and readOnly fields', () => {
+    const {stdout} = runCommand(
+      'redocly bundle applications/resources/openapi-with-writeonly-and-readonly.yaml --config=applications/x-redocly.yaml'
+    )
+    expect(stdout).toMatchSnapshot()
   })
 })
 
@@ -176,6 +176,13 @@ describe('lint', () => {
   test('openapi with external $refs', () => {
     const {stderr} = runCommand(
       'redocly lint applications/resources/openapi-with-external-refs.yaml  --config=applications/x-redocly.yaml'
+    )
+    expect(stripCWD(stderr)).toMatchSnapshot()
+  })
+
+  test('openapi writeOnly and readOnly fields', () => {
+    const {stderr} = runCommand(
+      'redocly lint applications/resources/openapi-with-writeonly-and-readonly.yaml --config=applications/x-redocly.yaml'
     )
     expect(stripCWD(stderr)).toMatchSnapshot()
   })

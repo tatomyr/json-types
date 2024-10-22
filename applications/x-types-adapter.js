@@ -48,18 +48,12 @@ export const translateXTypeToSchema = xType => {
     return {type: 'null'}
   }
 
-  // If there's a $ref, return it as is.
   if (xType?.$ref) {
-    return xType
+    throw new Error(`Unexpected unresolved $ref: ${JSON.stringify(xType.$ref)}`)
   }
 
-  // If there's an unresolved $and, return it as allOf.
   if (xType?.$and) {
-    return {
-      allOf: xType.$and.map(translateXTypeToSchema), // TODO: also put additionalProperties: true inside?
-      unevaluatedProperties: false,
-      additionalProperties: true,
-    }
+    throw new Error(`Unexpected unresolved $and: ${JSON.stringify(xType.$and)}`)
   }
 
   if (xType === 'string') {
@@ -141,7 +135,7 @@ export const translateXTypeToSchema = xType => {
   if (Array.isArray(xType)) {
     const normalized = xType
       .filter(type => type !== 'undefined')
-      .map(type => translateXTypeToSchema(type))
+      .map(translateXTypeToSchema)
     if (normalized.length === 0) {
       return {not: {}}
     }
@@ -194,8 +188,11 @@ export const translateXTypeToSchema = xType => {
           ? key.slice('$literal:'.length)
           : key
         properties[realKey] = translateXTypeToSchema(props[key])
-        if (Array.isArray(props[key]) && props[key].includes('undefined')) {
-          // skip
+        if (
+          (Array.isArray(props[key]) && props[key].includes('undefined')) ||
+          props[key] === 'undefined'
+        ) {
+          // Skip the `undefined` x-type.
         } else {
           required.push(realKey)
         }

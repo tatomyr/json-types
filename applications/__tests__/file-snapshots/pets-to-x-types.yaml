@@ -1108,7 +1108,8 @@ components:
         - honeyPerDay: number
           $descriptions:
             honeyPerDay: Average amount of honey produced per day in ounces
-    Id: number::integer
+    Id:
+      $readonly: number::integer
     Order:
       id:
         $and:
@@ -1122,8 +1123,10 @@ components:
         - placed
         - approved
         - delivered
-      complete: boolean
-      requestId: string
+      complete:
+        $readonly: boolean
+      requestId:
+        $writeonly: string
       $descriptions:
         id: Order ID
         petId: Pet ID
@@ -1175,7 +1178,8 @@ components:
         id: Tag ID
         name: Tag name
     User:
-      id: number::integer
+      id:
+        $readonly: number::integer
       pet:
         - $ref: '#/components/x-types/Pet'
         - $ref: '#/components/x-types/Tag'

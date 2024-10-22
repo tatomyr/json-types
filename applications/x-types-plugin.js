@@ -52,6 +52,13 @@ const getType = value => {
         // return undefined
       }
 
+      if (
+        typeof value.$readonly !== 'undefined' ||
+        typeof value.$writeonly !== 'undefined'
+      ) {
+        return 'XTypeWriteOrReadOnly'
+      }
+
       return 'XTypeObject'
     }
   } catch (err) {
@@ -79,9 +86,15 @@ const XTypeAND = {
 const XTypeObject = {
   properties: {
     string: getType,
-    // TODO: add $readonly, $writeonly
   },
   additionalProperties: getType,
+}
+
+const XTypeWriteOrReadOnly = {
+  properties: {
+    $readonly: getType,
+    $writeonly: getType,
+  },
 }
 
 export default () => ({
@@ -117,6 +130,7 @@ export default () => ({
         XTypeArray,
         XTypeAND,
         XTypeObject,
+        XTypeWriteOrReadOnly,
         MediaType: {
           ...types.MediaType,
           properties: {

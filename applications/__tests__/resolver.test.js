@@ -213,4 +213,16 @@ describe('resolver', () => {
       },
     })
   })
+
+  test('$writeonly and $readonly without the _mode specified', () => {
+    expect(
+      resolveAndMerge(
+        {
+          az: {$writeonly: 'string', somethingElse: 'wrong, must be ignored'},
+          bukh: {$readonly: 'number'},
+        },
+        {}
+      )
+    ).toEqual({az: 'undefined', bukh: 'undefined'})
+  })
 })
