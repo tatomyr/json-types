@@ -92,9 +92,16 @@ describe('bundle', () => {
     )
   })
 
-  test('openapi writeOnly and readOnly fields', () => {
+  test('openapi with writeOnly and readOnly fields', () => {
     const {stdout} = runCommand(
       'redocly bundle applications/resources/openapi-with-writeonly-and-readonly.yaml --config=applications/x-redocly.yaml'
+    )
+    expect(stdout).toMatchSnapshot()
+  })
+
+  test('openapi with $-prefixed fields', () => {
+    const {stdout} = runCommand(
+      'redocly bundle applications/resources/openapi-dollar-prefixed-fields.yaml --config=applications/x-redocly.yaml'
     )
     expect(stdout).toMatchSnapshot()
   })

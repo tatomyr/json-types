@@ -1,0 +1,16 @@
+openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        200:
+          description: Test
+          content:
+            application/json:
+              x-type:
+                $unknown-prefixed-field: should be ignored/removed
+                $literal:$literal-prefixed-key: should remain
+                not-starting-with-$: doesn't have a special meaning, should remain

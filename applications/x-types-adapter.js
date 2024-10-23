@@ -172,12 +172,15 @@ export const translateXTypeToSchema = xType => {
     let properties = {}
     let patternProperties = {}
     let required = []
-    const {string, $descriptions, $schema, ...props} = xType
+    const {string, $descriptions, ...props} = xType
 
     const additionalProperties =
       typeof string === 'undefined' ? false : translateXTypeToSchema(string)
 
     for (const key in props) {
+      // Remove all unknown $-prefixed fields
+      if (key.startsWith('$') && !key.startsWith('$literal:')) continue
+
       if (key.startsWith('string::pattern(') && key.endsWith(')')) {
         // Handle patternProperties
         const pattern = key.slice('string::pattern('.length, -1)

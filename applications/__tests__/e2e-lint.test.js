@@ -68,7 +68,7 @@ describe('lint', () => {
     expect(stripCWD(stderr)).toMatchSnapshot()
   })
 
-  test('openapi writeOnly and readOnly fields', () => {
+  test('openapi with writeOnly and readOnly fields', () => {
     const {stderr} = runCommand(
       'redocly lint applications/resources/openapi-with-writeonly-and-readonly.yaml --config=applications/x-redocly.yaml'
     )

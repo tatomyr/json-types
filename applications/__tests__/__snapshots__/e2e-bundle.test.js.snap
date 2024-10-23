@@ -314,7 +314,43 @@ components: {}
 
 exports[`bundle > do not bundle an openapi with type never 1`] = `undefined`;
 
-exports[`bundle > openapi writeOnly and readOnly fields 1`] = `
+exports[`bundle > openapi with $-prefixed fields 1`] = `
+"openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Test
+          content:
+            application/json:
+              x-type:
+                $unknown-prefixed-field: should be ignored/removed
+                $literal:$literal-prefixed-key: should remain
+                not-starting-with-$: doesn't have a special meaning, should remain
+              schema:
+                type: object
+                properties:
+                  $literal-prefixed-key:
+                    type: string
+                    enum:
+                      - should remain
+                  not-starting-with-$:
+                    type: string
+                    enum:
+                      - doesn't have a special meaning, should remain
+                required:
+                  - $literal-prefixed-key
+                  - not-starting-with-$
+                additionalProperties: false
+components: {}
+"
+`;
+
+exports[`bundle > openapi with writeOnly and readOnly fields 1`] = `
 "openapi: 3.1.0
 info:
   title: Test writeOnly/readOnly fields
