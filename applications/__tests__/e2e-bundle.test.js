@@ -79,11 +79,17 @@ describe('bundle', () => {
     expect(stdout).toMatchSnapshot()
   })
 
-  test('generate x-types from JSON Schemas', () => {
-    const {stdout} = runCommand(
+  test('generate x-types from JSON Schemas and generate schemas back', () => {
+    const {stdout: toXTypes} = runCommand(
       'redocly bundle applications/resources/pets.yaml --config=applications/generate-x-types-redocly.yaml'
     )
-    expect(stdout).toMatchFileSnapshot('file-snapshots/pets-to-x-types.yaml')
+    expect(toXTypes).toMatchFileSnapshot('file-snapshots/pets-to-x-types.yaml')
+    const {stdout: backToSchemas} = runCommand(
+      'redocly bundle applications/__tests__/file-snapshots/pets-to-x-types.yaml --config=applications/x-redocly.yaml'
+    )
+    expect(backToSchemas).toMatchFileSnapshot(
+      'file-snapshots/pets-back-to-schemas.yaml'
+    )
   })
 
   test('openapi writeOnly and readOnly fields', () => {

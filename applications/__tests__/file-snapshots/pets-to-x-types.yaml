@@ -1024,9 +1024,7 @@ components:
         application/json:
           x-type:
             $and:
-              - $schema:
-                  description: My Pet
-                  title: Pettie
+              - any
               - $ref: '#/components/x-types/Pet'
         application/xml:
           x-type:

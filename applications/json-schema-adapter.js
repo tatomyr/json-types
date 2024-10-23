@@ -117,7 +117,11 @@ export function translateJSONSchemaToXType(schema, ctx) {
     return undefined
   }
 
-  return {$schema: schema} // FIXME: this is wrong. We simply wasn't able to translate the schema. Remove it later and replace with `undefined` or `any`.
+  if (isPlainObject(schema)) {
+    return 'any'
+  }
+
+  throw new Error(`Cannot translate schema: ${JSON.stringify(schema)}`)
 }
 
 function extractObjectLikeNode(schema, ctx) {
