@@ -17,7 +17,7 @@ Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type
 | array                         | Array generic.                                                      | key        |
 | any                           | Any value (not validated).                                          | value      |
 | $and ([🔗](#types-combining)) | Represents the combination of array members.                        | key        |
-| $ref ([🔗](#references))      | Reference to another **JSON X-Type**.                               | key        |
+| $ref ([🔗](#references))      | Reference to another **JSON X-Type**.                               | key\*      |
 
 The list can be extended with other `$`-prefixed keywords.
 So it's a good idea to escape any custom keys that start with `$` using the `$literal` prefix ([🔗](#literals-escaping)).
@@ -139,7 +139,7 @@ A reference must be resolved relative to the file it appears in.
 The `$ref` expression must be replaced with the value of the field it refers to.
 Any other properties alongside the `$ref` must be ignored.
 
-Alternatively, the `$ref` keyword can be used as a prefix which is easier to write and read (but the support is up to the implementation):
+Alternatively, the `$ref` keyword can be used as a prefix, which is easier to write and read (though support depends on the implementation):
 
 ```json
 {

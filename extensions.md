@@ -4,13 +4,12 @@ It is possible to add additional context to types and values using other reserve
 
 ## Reserved Keywords
 
-| Keyword                                           | Description                                                                                                                                                                        | Usage |
-| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| $descriptions [🔗](#descriptions)                 | An object containing descriptions of the fields at the same level.                                                                                                                 | key   |
-| $writeonly [🔗](#read-only-and-write-only-fields) | Describes a write-only field.                                                                                                                                                      | key   |
-| $readonly [🔗](#read-only-and-write-only-fields)  | Describes a read-only field.                                                                                                                                                       | key   |
-| $discriminator [🔗](#discriminator)               | Represents a discriminator ([🔗](https://spec.openapis.org/oas/latest.html#discriminator-object)). It should contain the `propertyName` field, and optionally the `mapping` field. | key   |
-| $xor                                              | Refers to the discriminator options. It only makes sense in conjunction with `$discriminator`.                                                                                     | key   |
+| Keyword                                           | Description                                                        | Usage |
+| ------------------------------------------------- | ------------------------------------------------------------------ | ----- |
+| $descriptions [🔗](#descriptions)                 | An object containing descriptions of the fields at the same level. | key   |
+| $writeonly [🔗](#read-only-and-write-only-fields) | Describes a write-only field.                                      | key   |
+| $readonly [🔗](#read-only-and-write-only-fields)  | Describes a read-only field.                                       | key   |
+| $discriminator [🔗](#discriminator)               | Represents an OpenAPI discriminator.                               | key   |
 
 Those keywords can be helpful for describing OpenAPI-compatible types.
 
@@ -49,9 +48,10 @@ The `name` field is expected in both requests and responses.
 
 ### Discriminator
 
-TBD
-
-<!-- Either introduce $xor + $discriminator or use $schema -->
+Represents the OpenAPI discriminator ([🔗](https://spec.openapis.org/oas/latest.html#discriminator-object)).
+Its use is generally discouraged, and it is included mainly for compatibility with existing schemas.
+It should contain the `propertyName` field and, optionally, the `mapping` field.
+The `mapping` field must contain links to the corresponding schemas (not to x-types).
 
 ## Suffixes
 

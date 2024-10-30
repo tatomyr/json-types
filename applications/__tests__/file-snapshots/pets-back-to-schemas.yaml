@@ -212,6 +212,12 @@ paths:
                   - pending
                   - sold
                 petType: string
+                $discriminator:
+                  propertyName: petType
+                  mapping:
+                    cat: '#/components/schemas/Cat'
+                    dog: '#/components/schemas/Dog'
+                    bee: '#/components/schemas/HoneyBee'
                 $descriptions:
                   id: Pet ID
                   category: Categories this pet belongs to
@@ -381,6 +387,12 @@ paths:
                           - status
                           - petType
                         additionalProperties: false
+                        discriminator:
+                          propertyName: petType
+                          mapping:
+                            cat: '#/components/schemas/Cat'
+                            dog: '#/components/schemas/Dog'
+                            bee: '#/components/schemas/HoneyBee'
                       tags:
                         description: Tags attached to the pet
                         type: array
@@ -418,6 +430,12 @@ paths:
                       - status
                       - petType
                     additionalProperties: false
+                    discriminator:
+                      propertyName: petType
+                      mapping:
+                        cat: '#/components/schemas/Cat'
+                        dog: '#/components/schemas/Dog'
+                        bee: '#/components/schemas/HoneyBee'
                   tags:
                     description: Tags attached to the pet
                     type: array
@@ -455,6 +473,12 @@ paths:
                   - status
                   - petType
                 additionalProperties: false
+                discriminator:
+                  propertyName: petType
+                  mapping:
+                    cat: '#/components/schemas/Cat'
+                    dog: '#/components/schemas/Dog'
+                    bee: '#/components/schemas/HoneyBee'
             application/xml:
               x-type:
                 id:
@@ -483,6 +507,12 @@ paths:
                   - pending
                   - sold
                 petType: string
+                $discriminator:
+                  propertyName: petType
+                  mapping:
+                    cat: '#/components/schemas/Cat'
+                    dog: '#/components/schemas/Dog'
+                    bee: '#/components/schemas/HoneyBee'
                 $descriptions:
                   id: Pet ID
                   category: Categories this pet belongs to
@@ -652,6 +682,12 @@ paths:
                           - status
                           - petType
                         additionalProperties: false
+                        discriminator:
+                          propertyName: petType
+                          mapping:
+                            cat: '#/components/schemas/Cat'
+                            dog: '#/components/schemas/Dog'
+                            bee: '#/components/schemas/HoneyBee'
                       tags:
                         description: Tags attached to the pet
                         type: array
@@ -689,6 +725,12 @@ paths:
                       - status
                       - petType
                     additionalProperties: false
+                    discriminator:
+                      propertyName: petType
+                      mapping:
+                        cat: '#/components/schemas/Cat'
+                        dog: '#/components/schemas/Dog'
+                        bee: '#/components/schemas/HoneyBee'
                   tags:
                     description: Tags attached to the pet
                     type: array
@@ -726,6 +768,12 @@ paths:
                   - status
                   - petType
                 additionalProperties: false
+                discriminator:
+                  propertyName: petType
+                  mapping:
+                    cat: '#/components/schemas/Cat'
+                    dog: '#/components/schemas/Dog'
+                    bee: '#/components/schemas/HoneyBee'
         '400':
           description: Invalid ID supplied
         '404':
@@ -911,6 +959,12 @@ paths:
                     - pending
                     - sold
                   petType: string
+                  $discriminator:
+                    propertyName: petType
+                    mapping:
+                      cat: '#/components/schemas/Cat'
+                      dog: '#/components/schemas/Dog'
+                      bee: '#/components/schemas/HoneyBee'
                   $descriptions:
                     id: Pet ID
                     category: Categories this pet belongs to
@@ -1082,6 +1136,12 @@ paths:
                             - status
                             - petType
                           additionalProperties: false
+                          discriminator:
+                            propertyName: petType
+                            mapping:
+                              cat: '#/components/schemas/Cat'
+                              dog: '#/components/schemas/Dog'
+                              bee: '#/components/schemas/HoneyBee'
                         tags:
                           description: Tags attached to the pet
                           type: array
@@ -1119,6 +1179,12 @@ paths:
                         - status
                         - petType
                       additionalProperties: false
+                      discriminator:
+                        propertyName: petType
+                        mapping:
+                          cat: '#/components/schemas/Cat'
+                          dog: '#/components/schemas/Dog'
+                          bee: '#/components/schemas/HoneyBee'
                     tags:
                       description: Tags attached to the pet
                       type: array
@@ -1156,6 +1222,12 @@ paths:
                     - status
                     - petType
                   additionalProperties: false
+                  discriminator:
+                    propertyName: petType
+                    mapping:
+                      cat: '#/components/schemas/Cat'
+                      dog: '#/components/schemas/Dog'
+                      bee: '#/components/schemas/HoneyBee'
             application/xml:
               x-type:
                 array:
@@ -1185,6 +1257,12 @@ paths:
                     - pending
                     - sold
                   petType: string
+                  $discriminator:
+                    propertyName: petType
+                    mapping:
+                      cat: '#/components/schemas/Cat'
+                      dog: '#/components/schemas/Dog'
+                      bee: '#/components/schemas/HoneyBee'
                   $descriptions:
                     id: Pet ID
                     category: Categories this pet belongs to
@@ -1356,6 +1434,12 @@ paths:
                             - status
                             - petType
                           additionalProperties: false
+                          discriminator:
+                            propertyName: petType
+                            mapping:
+                              cat: '#/components/schemas/Cat'
+                              dog: '#/components/schemas/Dog'
+                              bee: '#/components/schemas/HoneyBee'
                         tags:
                           description: Tags attached to the pet
                           type: array
@@ -1393,6 +1477,12 @@ paths:
                         - status
                         - petType
                       additionalProperties: false
+                      discriminator:
+                        propertyName: petType
+                        mapping:
+                          cat: '#/components/schemas/Cat'
+                          dog: '#/components/schemas/Dog'
+                          bee: '#/components/schemas/HoneyBee'
                     tags:
                       description: Tags attached to the pet
                       type: array
@@ -1430,6 +1520,12 @@ paths:
                     - status
                     - petType
                   additionalProperties: false
+                  discriminator:
+                    propertyName: petType
+                    mapping:
+                      cat: '#/components/schemas/Cat'
+                      dog: '#/components/schemas/Dog'
+                      bee: '#/components/schemas/HoneyBee'
         '400':
           description: Invalid status value
       security:
@@ -1489,6 +1585,12 @@ paths:
                     - pending
                     - sold
                   petType: string
+                  $discriminator:
+                    propertyName: petType
+                    mapping:
+                      cat: '#/components/schemas/Cat'
+                      dog: '#/components/schemas/Dog'
+                      bee: '#/components/schemas/HoneyBee'
                   $descriptions:
                     id: Pet ID
                     category: Categories this pet belongs to
@@ -1660,6 +1762,12 @@ paths:
                             - status
                             - petType
                           additionalProperties: false
+                          discriminator:
+                            propertyName: petType
+                            mapping:
+                              cat: '#/components/schemas/Cat'
+                              dog: '#/components/schemas/Dog'
+                              bee: '#/components/schemas/HoneyBee'
                         tags:
                           description: Tags attached to the pet
                           type: array
@@ -1697,6 +1805,12 @@ paths:
                         - status
                         - petType
                       additionalProperties: false
+                      discriminator:
+                        propertyName: petType
+                        mapping:
+                          cat: '#/components/schemas/Cat'
+                          dog: '#/components/schemas/Dog'
+                          bee: '#/components/schemas/HoneyBee'
                     tags:
                       description: Tags attached to the pet
                       type: array
@@ -1734,6 +1848,12 @@ paths:
                     - status
                     - petType
                   additionalProperties: false
+                  discriminator:
+                    propertyName: petType
+                    mapping:
+                      cat: '#/components/schemas/Cat'
+                      dog: '#/components/schemas/Dog'
+                      bee: '#/components/schemas/HoneyBee'
             application/xml:
               x-type:
                 array:
@@ -1763,6 +1883,12 @@ paths:
                     - pending
                     - sold
                   petType: string
+                  $discriminator:
+                    propertyName: petType
+                    mapping:
+                      cat: '#/components/schemas/Cat'
+                      dog: '#/components/schemas/Dog'
+                      bee: '#/components/schemas/HoneyBee'
                   $descriptions:
                     id: Pet ID
                     category: Categories this pet belongs to
@@ -1934,6 +2060,12 @@ paths:
                             - status
                             - petType
                           additionalProperties: false
+                          discriminator:
+                            propertyName: petType
+                            mapping:
+                              cat: '#/components/schemas/Cat'
+                              dog: '#/components/schemas/Dog'
+                              bee: '#/components/schemas/HoneyBee'
                         tags:
                           description: Tags attached to the pet
                           type: array
@@ -1971,6 +2103,12 @@ paths:
                         - status
                         - petType
                       additionalProperties: false
+                      discriminator:
+                        propertyName: petType
+                        mapping:
+                          cat: '#/components/schemas/Cat'
+                          dog: '#/components/schemas/Dog'
+                          bee: '#/components/schemas/HoneyBee'
                     tags:
                       description: Tags attached to the pet
                       type: array
@@ -2008,6 +2146,12 @@ paths:
                     - status
                     - petType
                   additionalProperties: false
+                  discriminator:
+                    propertyName: petType
+                    mapping:
+                      cat: '#/components/schemas/Cat'
+                      dog: '#/components/schemas/Dog'
+                      bee: '#/components/schemas/HoneyBee'
         '400':
           description: Invalid tag value
       security:
@@ -2886,6 +3030,12 @@ paths:
                                 - status
                                 - petType
                               additionalProperties: false
+                              discriminator:
+                                propertyName: petType
+                                mapping:
+                                  cat: '#/components/schemas/Cat'
+                                  dog: '#/components/schemas/Dog'
+                                  bee: '#/components/schemas/HoneyBee'
                             tags:
                               description: Tags attached to the pet
                               type: array
@@ -2921,6 +3071,12 @@ paths:
                             - status
                             - petType
                           additionalProperties: false
+                          discriminator:
+                            propertyName: petType
+                            mapping:
+                              cat: '#/components/schemas/Cat'
+                              dog: '#/components/schemas/Dog'
+                              bee: '#/components/schemas/HoneyBee'
                         tags:
                           description: Tags attached to the pet
                           type: array
@@ -2956,6 +3112,12 @@ paths:
                         - status
                         - petType
                       additionalProperties: false
+                      discriminator:
+                        propertyName: petType
+                        mapping:
+                          cat: '#/components/schemas/Cat'
+                          dog: '#/components/schemas/Dog'
+                          bee: '#/components/schemas/HoneyBee'
                     - type: object
                       properties:
                         id:
@@ -3217,6 +3379,12 @@ paths:
                                   - status
                                   - petType
                                 additionalProperties: false
+                                discriminator:
+                                  propertyName: petType
+                                  mapping:
+                                    cat: '#/components/schemas/Cat'
+                                    dog: '#/components/schemas/Dog'
+                                    bee: '#/components/schemas/HoneyBee'
                               tags:
                                 description: Tags attached to the pet
                                 type: array
@@ -3254,6 +3422,12 @@ paths:
                               - status
                               - petType
                             additionalProperties: false
+                            discriminator:
+                              propertyName: petType
+                              mapping:
+                                cat: '#/components/schemas/Cat'
+                                dog: '#/components/schemas/Dog'
+                                bee: '#/components/schemas/HoneyBee'
                           tags:
                             description: Tags attached to the pet
                             type: array
@@ -3291,6 +3465,12 @@ paths:
                           - status
                           - petType
                         additionalProperties: false
+                        discriminator:
+                          propertyName: petType
+                          mapping:
+                            cat: '#/components/schemas/Cat'
+                            dog: '#/components/schemas/Dog'
+                            bee: '#/components/schemas/HoneyBee'
                       - type: object
                         properties:
                           id:
@@ -3533,6 +3713,12 @@ paths:
                                   - status
                                   - petType
                                 additionalProperties: false
+                                discriminator:
+                                  propertyName: petType
+                                  mapping:
+                                    cat: '#/components/schemas/Cat'
+                                    dog: '#/components/schemas/Dog'
+                                    bee: '#/components/schemas/HoneyBee'
                               tags:
                                 description: Tags attached to the pet
                                 type: array
@@ -3570,6 +3756,12 @@ paths:
                               - status
                               - petType
                             additionalProperties: false
+                            discriminator:
+                              propertyName: petType
+                              mapping:
+                                cat: '#/components/schemas/Cat'
+                                dog: '#/components/schemas/Dog'
+                                bee: '#/components/schemas/HoneyBee'
                           tags:
                             description: Tags attached to the pet
                             type: array
@@ -3607,6 +3799,12 @@ paths:
                           - status
                           - petType
                         additionalProperties: false
+                        discriminator:
+                          propertyName: petType
+                          mapping:
+                            cat: '#/components/schemas/Cat'
+                            dog: '#/components/schemas/Dog'
+                            bee: '#/components/schemas/HoneyBee'
                       - type: object
                         properties:
                           id:
@@ -3869,6 +4067,12 @@ paths:
                                 - status
                                 - petType
                               additionalProperties: false
+                              discriminator:
+                                propertyName: petType
+                                mapping:
+                                  cat: '#/components/schemas/Cat'
+                                  dog: '#/components/schemas/Dog'
+                                  bee: '#/components/schemas/HoneyBee'
                             tags:
                               description: Tags attached to the pet
                               type: array
@@ -3904,6 +4108,12 @@ paths:
                             - status
                             - petType
                           additionalProperties: false
+                          discriminator:
+                            propertyName: petType
+                            mapping:
+                              cat: '#/components/schemas/Cat'
+                              dog: '#/components/schemas/Dog'
+                              bee: '#/components/schemas/HoneyBee'
                         tags:
                           description: Tags attached to the pet
                           type: array
@@ -3939,6 +4149,12 @@ paths:
                         - status
                         - petType
                       additionalProperties: false
+                      discriminator:
+                        propertyName: petType
+                        mapping:
+                          cat: '#/components/schemas/Cat'
+                          dog: '#/components/schemas/Dog'
+                          bee: '#/components/schemas/HoneyBee'
                     - type: object
                       properties:
                         id:
@@ -4140,6 +4356,12 @@ x-webhooks:
                 - pending
                 - sold
               petType: string
+              $discriminator:
+                propertyName: petType
+                mapping:
+                  cat: '#/components/schemas/Cat'
+                  dog: '#/components/schemas/Dog'
+                  bee: '#/components/schemas/HoneyBee'
               $descriptions:
                 id: Pet ID
                 category: Categories this pet belongs to
@@ -4304,6 +4526,12 @@ x-webhooks:
                         - status
                         - petType
                       additionalProperties: false
+                      discriminator:
+                        propertyName: petType
+                        mapping:
+                          cat: '#/components/schemas/Cat'
+                          dog: '#/components/schemas/Dog'
+                          bee: '#/components/schemas/HoneyBee'
                     tags:
                       description: Tags attached to the pet
                       type: array
@@ -4339,6 +4567,12 @@ x-webhooks:
                     - status
                     - petType
                   additionalProperties: false
+                  discriminator:
+                    propertyName: petType
+                    mapping:
+                      cat: '#/components/schemas/Cat'
+                      dog: '#/components/schemas/Dog'
+                      bee: '#/components/schemas/HoneyBee'
                 tags:
                   description: Tags attached to the pet
                   type: array
@@ -4374,6 +4608,12 @@ x-webhooks:
                 - status
                 - petType
               additionalProperties: false
+              discriminator:
+                propertyName: petType
+                mapping:
+                  cat: '#/components/schemas/Cat'
+                  dog: '#/components/schemas/Dog'
+                  bee: '#/components/schemas/HoneyBee'
       responses:
         '200':
           description: Return a 200 status to indicate that the data was received successfully
@@ -4781,6 +5021,12 @@ components:
                       - status
                       - petType
                     additionalProperties: false
+                    discriminator:
+                      propertyName: petType
+                      mapping:
+                        cat: '#/components/schemas/Cat'
+                        dog: '#/components/schemas/Dog'
+                        bee: '#/components/schemas/HoneyBee'
                   tags:
                     description: Tags attached to the pet
                     type: array
@@ -4816,6 +5062,12 @@ components:
                   - status
                   - petType
                 additionalProperties: false
+                discriminator:
+                  propertyName: petType
+                  mapping:
+                    cat: '#/components/schemas/Cat'
+                    dog: '#/components/schemas/Dog'
+                    bee: '#/components/schemas/HoneyBee'
               tags:
                 description: Tags attached to the pet
                 type: array
@@ -4851,6 +5103,12 @@ components:
               - status
               - petType
             additionalProperties: false
+            discriminator:
+              propertyName: petType
+              mapping:
+                cat: '#/components/schemas/Cat'
+                dog: '#/components/schemas/Dog'
+                bee: '#/components/schemas/HoneyBee'
         application/xml:
           x-type:
             name: string
@@ -5056,6 +5314,12 @@ components:
                                 - status
                                 - petType
                               additionalProperties: false
+                              discriminator:
+                                propertyName: petType
+                                mapping:
+                                  cat: '#/components/schemas/Cat'
+                                  dog: '#/components/schemas/Dog'
+                                  bee: '#/components/schemas/HoneyBee'
                             tags:
                               description: Tags attached to the pet
                               type: array
@@ -5091,6 +5355,12 @@ components:
                             - status
                             - petType
                           additionalProperties: false
+                          discriminator:
+                            propertyName: petType
+                            mapping:
+                              cat: '#/components/schemas/Cat'
+                              dog: '#/components/schemas/Dog'
+                              bee: '#/components/schemas/HoneyBee'
                         tags:
                           description: Tags attached to the pet
                           type: array
@@ -5126,6 +5396,12 @@ components:
                         - status
                         - petType
                       additionalProperties: false
+                      discriminator:
+                        propertyName: petType
+                        mapping:
+                          cat: '#/components/schemas/Cat'
+                          dog: '#/components/schemas/Dog'
+                          bee: '#/components/schemas/HoneyBee'
                     - type: object
                       properties:
                         id:
@@ -5297,6 +5573,12 @@ components:
         - pending
         - sold
       petType: string
+      $discriminator:
+        propertyName: petType
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+          bee: '#/components/schemas/HoneyBee'
       $descriptions:
         id: Pet ID
         category: Categories this pet belongs to

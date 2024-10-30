@@ -8,6 +8,7 @@ const SUFFIXES = {
     [/^email$/, () => ({format: 'email'})],
     [/^uuid$/, () => ({format: 'uuid'})],
     [/^binary$/, () => ({format: 'binary'})],
+    [/^byte$/, () => ({format: 'byte'})],
     [/^password$/, () => ({format: 'password'})],
     [/^uri$/, () => ({format: 'uri'})],
     [/^url$/, () => ({format: 'url'})],
@@ -172,7 +173,7 @@ export const translateXTypeToSchema = xType => {
     let properties = {}
     let patternProperties = {}
     let required = []
-    const {string, $descriptions, ...props} = xType
+    const {string, $descriptions, $discriminator, ...props} = xType
 
     const additionalProperties =
       typeof string === 'undefined' ? false : translateXTypeToSchema(string)
@@ -216,6 +217,7 @@ export const translateXTypeToSchema = xType => {
       required,
       additionalProperties,
       ...(isNotEmptyObject(patternProperties) && {patternProperties}),
+      ...($discriminator && {discriminator: $discriminator}),
     }
   }
 

@@ -97,14 +97,7 @@ export function translateJSONSchemaToXType(schema, ctx) {
     const oneOfs = schema.oneOf.map((option, i) =>
       translateJSONSchemaToXType(option, ctx)
     )
-    if (schema.discriminator) {
-      return {
-        $discriminator: schema.discriminator,
-        $xor: oneOfs,
-      }
-    } else {
-      return oneOfs
-    }
+    return oneOfs
   }
 
   if (schema.anyOf) {
@@ -118,6 +111,7 @@ export function translateJSONSchemaToXType(schema, ctx) {
   }
 
   if (isPlainObject(schema)) {
+    console.warn('WARNING! Unable to determine the exact type:', schema)
     return 'any'
   }
 
@@ -152,6 +146,11 @@ function extractObjectLikeNode(schema, ctx) {
   let items
   if (isPlainObject(schema.items)) {
     items = translateJSONSchemaToXType(schema.items, ctx)
+  }
+
+  // Add the discriminator as it is
+  if (isPlainObject(schema.discriminator)) {
+    properties['$discriminator'] = schema.discriminator
   }
 
   if (!isEmptyObject($descriptions)) {

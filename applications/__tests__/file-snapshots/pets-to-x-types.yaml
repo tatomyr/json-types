@@ -1159,6 +1159,12 @@ components:
         - pending
         - sold
       petType: string
+      $discriminator:
+        propertyName: petType
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+          bee: '#/components/schemas/HoneyBee'
       $descriptions:
         id: Pet ID
         category: Categories this pet belongs to

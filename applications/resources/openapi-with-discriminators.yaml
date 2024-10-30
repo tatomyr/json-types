@@ -1,0 +1,127 @@
+openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        200:
+          description: Test discriminators.
+          content:
+            application/inheritance+json:
+              x-type:
+                $ref: '#/components/x-types/Az'
+              schema:
+                $ref: '#/components/schemas/Az'
+              examples:
+                Correct:
+                  value:
+                    bukh: glagol
+                    vidh: 1
+                    specificToGlagol: false
+                Incorrect: # FIXME: why it doesn't fail?
+                  value:
+                    bukh: dobro
+                    # vidh, specificToDobro, and discriminator are required
+            application/polymorphism+json:
+              x-type:
+                $ref: '#/components/x-types/Zelo'
+              schema:
+                $ref: '#/components/schemas/Zelo'
+              examples:
+                Correct:
+                  value:
+                    kako: for_H
+                    ludh: 1
+                Incorrect:
+                  value:
+                    kako: wrong
+components:
+  schemas:
+    Az:
+      type: object
+      properties:
+        bukh:
+          type: string
+        vidh:
+          type: number
+      discriminator:
+        propertyName: bukh
+        mapping:
+          glagol: '#/components/schemas/Glagol'
+          dobro: '#/components/schemas/Dobro'
+    Glagol:
+      allOf:
+        - $ref: '#/components/schemas/Az'
+        - type: object
+          properties:
+            specificToGlagol:
+              type: boolean
+    Dobro:
+      allOf:
+        - $ref: '#/components/schemas/Az'
+        - type: object
+          properties:
+            specificToDobro:
+              type: integer
+            discriminator:
+              type: string
+              enum:
+                - for test
+    Zelo:
+      oneOf: # use `oneOf` with the discriminator to be rendered correctly in Redoc
+        - $ref: '#/components/schemas/H'
+        - type: object
+          properties:
+            mhslite:
+              type: boolean
+            kako:
+              type: string
+              enum:
+                - for_mhslite
+            discriminator:
+              type: string
+              enum:
+                - for test
+          required:
+            - kako
+      discriminator:
+        propertyName: kako
+    H:
+      type: object
+      properties:
+        ludh:
+          type: number
+        kako:
+          type: string
+          enum:
+            - for_H
+      required:
+        - kako
+  x-types:
+    Az:
+      bukh: string
+      vidh: number
+      $discriminator:
+        propertyName: bukh
+        mapping:
+          glagol: '#/components/schemas/Glagol'
+          dobro: '#/components/schemas/Dobro'
+    Glagol:
+      $and:
+        - $ref: '#/components/x-types/Az'
+        - specificToGlagol: boolean
+    Dobro:
+      $and:
+        - $ref: '#/components/x-types/Az'
+        - specificToDobro: number::integer
+          discriminator: for test
+    Zelo:
+      - $ref: '#/components/x-types/H'
+      - kako: for_mhslite
+        mhslite: boolean
+        discriminator: for test
+    H:
+      kako: for_H
+      ludh: number
