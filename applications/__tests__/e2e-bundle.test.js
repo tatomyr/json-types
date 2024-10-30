@@ -105,4 +105,11 @@ describe('bundle', () => {
     )
     expect(stdout).toMatchSnapshot()
   })
+
+  test('openapi with $and and $description', () => {
+    const {stdout} = runCommand(
+      'redocly bundle applications/resources/openapi-and-with-descriptions.yaml --config=applications/x-redocly.yaml'
+    )
+    expect(stdout).toMatchSnapshot()
+  })
 })

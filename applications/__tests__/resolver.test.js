@@ -225,4 +225,37 @@ describe('resolver', () => {
       )
     ).toEqual({az: 'undefined', bukh: 'undefined'})
   })
+
+  test('$description in combination with $and', () => {
+    expect(
+      resolveAndMerge(
+        {
+          $and: [
+            {
+              az: {
+                bukh: 'vidh',
+                $descriptions: {bukh: 'Description of az.bukh'},
+              },
+            },
+            {
+              az: {
+                glagol: 'dobro',
+                $descriptions: {glagol: 'Description of az.glagol'},
+              },
+            },
+          ],
+        },
+        {}
+      )
+    ).toEqual({
+      az: {
+        bukh: 'vidh',
+        glagol: 'dobro',
+        $descriptions: {
+          bukh: 'Description of az.bukh',
+          glagol: 'Description of az.glagol',
+        },
+      },
+    })
+  })
 })

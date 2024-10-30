@@ -74,4 +74,11 @@ describe('lint', () => {
     )
     expect(stripCWD(stderr)).toMatchSnapshot()
   })
+
+  test('openapi with $and and $description', () => {
+    const {stderr} = runCommand(
+      'redocly lint applications/resources/openapi-and-with-descriptions.yaml --config=applications/x-redocly.yaml'
+    )
+    expect(stripCWD(stderr)).toMatchSnapshot()
+  })
 })

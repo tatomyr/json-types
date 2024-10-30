@@ -1,0 +1,36 @@
+openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        200:
+          description: Test $and with $description.
+          content:
+            application/json:
+              x-type:
+                $and:
+                  - az:
+                      bukh: vidh
+                      $descriptions:
+                        bukh: Description of az.bukh
+                  - az:
+                      glagol: dobro
+                      $descriptions:
+                        glagol: Description of az.glagol
+
+              examples:
+                Correct:
+                  value:
+                    az:
+                      bukh: vidh
+                      glagol: dobro
+
+                Incorrect:
+                  value:
+                    az:
+                      # missing bukh
+                      glagol: vidh
+                      not-expected: fail
