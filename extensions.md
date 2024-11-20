@@ -7,8 +7,8 @@ It is possible to add additional context to types and values using other reserve
 | Keyword                                           | Description                                                        | Usage |
 | ------------------------------------------------- | ------------------------------------------------------------------ | ----- |
 | $descriptions [🔗](#descriptions)                 | An object containing descriptions of the fields at the same level. | key   |
-| $writeonly [🔗](#read-only-and-write-only-fields) | Describes a write-only field.                                      | key   |
-| $readonly [🔗](#read-only-and-write-only-fields)  | Describes a read-only field.                                       | key   |
+| $writeonly [🔗](#read-only-and-write-only-fields) | Describes a field that can only appear in requests.                | key   |
+| $readonly [🔗](#read-only-and-write-only-fields)  | Describes a field that can only appear in responses.               | key   |
 | $discriminator [🔗](#discriminator)               | Represents an OpenAPI discriminator.                               | key   |
 
 Those keywords can be helpful for describing OpenAPI-compatible types.
@@ -29,7 +29,7 @@ They can only be used in objects:
 
 Descriptions are propagated to the OpenAPI schema as the `description` fields of the corresponding properties.
 
-### Read-only and Write-only fields
+### Read-only and Write-only Fields
 
 The `$writeonly` and `$readonly` fields contain properties that should be present only in requests or responses respectively.
 Consider this example:

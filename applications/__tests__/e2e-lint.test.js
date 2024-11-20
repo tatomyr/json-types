@@ -88,4 +88,11 @@ describe('lint', () => {
     )
     expect(stripCWD(stderr)).toMatchSnapshot()
   })
+
+  test('openapi with redundant key in $descriptions', () => {
+    const {stdout: stderr} = runCommand(
+      'redocly lint applications/resources/openapi-with-redundant-description.yaml --config=applications/x-redocly.yaml 2>&1'
+    )
+    expect(stripCWD(stderr)).toMatchSnapshot()
+  })
 })

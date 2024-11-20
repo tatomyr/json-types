@@ -4,7 +4,7 @@ import {
   generateNamedXTypes,
   createRefs,
 } from './x-types-decorators.js'
-import {noRefNeighbors} from './x-types-rules.js'
+import {noRefNeighbors, noUndefinedDescriptions} from './x-types-rules.js'
 import {isObject} from './x-types-utils.js'
 
 const getType = value => {
@@ -112,6 +112,7 @@ export default () => ({
   rules: {
     oas3: {
       'no-$ref-neighbors': noRefNeighbors,
+      'no-undefined-descriptions': noUndefinedDescriptions,
     },
   },
 
@@ -119,6 +120,7 @@ export default () => ({
     all: {
       rules: {
         'x-types/no-$ref-neighbors': 'error',
+        'x-types/no-undefined-descriptions': 'warn',
       },
     },
   },

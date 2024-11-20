@@ -108,7 +108,6 @@ export const translateXTypeToSchema = xType => {
   }
 
   if (xType === 'undefined') {
-    console.warn("WARNING! Got an 'undefined' type.")
     return {not: {}}
   }
 

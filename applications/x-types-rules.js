@@ -1,3 +1,5 @@
+import {isNotEmptyObject} from '@redocly/openapi-core/lib/utils.js'
+
 export const noRefNeighbors = () => {
   return {
     ref: {
@@ -8,6 +10,25 @@ export const noRefNeighbors = () => {
             message: `You cannot have other properties alongside "$ref" in the same object`,
             location: ctx.location,
           })
+        }
+      },
+    },
+  }
+}
+
+export const noUndefinedDescriptions = () => {
+  return {
+    XTypeObject: {
+      leave: (obj, ctx) => {
+        if (isNotEmptyObject(obj.$descriptions)) {
+          for (const key in obj.$descriptions) {
+            if (obj[key] === undefined) {
+              ctx.report({
+                message: `Key "${key}" does not exist in the object type`,
+                location: ctx.location.child(['$descriptions', key]).key(),
+              })
+            }
+          }
         }
       },
     },

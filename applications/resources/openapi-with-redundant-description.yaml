@@ -1,0 +1,12 @@
+openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+components:
+  x-types:
+    Item:
+      id:
+        $readonly: string
+      $descriptions:
+        id: User identifier.
+        wrong: Should be reported!
