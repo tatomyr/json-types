@@ -4,12 +4,11 @@ import {isPlainObject, isEmptyObject} from '@redocly/openapi-core/lib/utils.js'
 
 export function translateJSONSchemaToXType(schema, ctx) {
   // Handle writeOnly/readOnly
-  if (schema.writeOnly === true) {
-    const {writeOnly, ...newSchema} = schema
+  const {writeOnly, readOnly, ...newSchema} = schema
+  if (writeOnly === true) {
     return {$writeonly: translateJSONSchemaToXType(newSchema, ctx)}
   }
-  if (schema.readOnly === true) {
-    const {readOnly, ...newSchema} = schema
+  if (readOnly === true) {
     return {$readonly: translateJSONSchemaToXType(newSchema, ctx)}
   }
 
@@ -20,6 +19,9 @@ export function translateJSONSchemaToXType(schema, ctx) {
     schema.type === 'boolean'
   ) {
     if (schema.enum) {
+      if (schema.enum.length === 1) {
+        return schema.enum[0]
+      }
       return schema.enum
     }
 
@@ -66,6 +68,8 @@ export function translateJSONSchemaToXType(schema, ctx) {
           '#/components/x-types/'
         ),
       }
+    } else if (schema.$ref.startsWith('#/components/x-types/')) {
+      return schema
     }
 
     const resolved = ctx.resolve(schema).node
@@ -86,24 +90,29 @@ export function translateJSONSchemaToXType(schema, ctx) {
   }
 
   if (schema.allOf) {
-    return {
-      $and: schema.allOf.map((option, i) =>
-        translateJSONSchemaToXType(option, ctx)
-      ),
+    const $and = schema.allOf.map(option =>
+      translateJSONSchemaToXType(option, ctx)
+    )
+    if ($and.length === 1) {
+      return $and[0] // handle singe AND
     }
+    return {$and}
   }
 
   if (schema.oneOf) {
-    const oneOfs = schema.oneOf.map((option, i) =>
+    const oneOfs = schema.oneOf.map(option =>
       translateJSONSchemaToXType(option, ctx)
     )
+    if (oneOfs.length === 1) return oneOfs[0] // handle single OR
     return oneOfs
   }
 
   if (schema.anyOf) {
-    return schema.anyOf.map((option, i) =>
+    const anyOfs = schema.anyOf.map(option =>
       translateJSONSchemaToXType(option, ctx)
     )
+    if (anyOfs.length === 1) return anyOfs[0] // handle single OR
+    return anyOfs
   }
 
   if (typeof schema === 'function') {
@@ -130,7 +139,15 @@ function extractObjectLikeNode(schema, ctx) {
     ) {
       realName = '$literal:' + name
     }
-    properties[realName] = translateJSONSchemaToXType(property, ctx)
+    if (Array.isArray(schema.required) && !schema.required.includes(name)) {
+      // Handle known non-required properties
+      properties[realName] = [
+        translateJSONSchemaToXType(property, ctx),
+        'undefined',
+      ]
+    } else {
+      properties[realName] = translateJSONSchemaToXType(property, ctx)
+    }
     if (property.description) {
       $descriptions[realName] = property.description
     }

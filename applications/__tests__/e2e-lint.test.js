@@ -81,4 +81,11 @@ describe('lint', () => {
     )
     expect(stripCWD(stderr)).toMatchSnapshot()
   })
+
+  test('openapi with circular refs', () => {
+    const {stderr} = runCommand(
+      'redocly lint applications/resources/openapi-with-circular-refs.yaml --config=applications/x-redocly.yaml'
+    )
+    expect(stripCWD(stderr)).toMatchSnapshot()
+  })
 })

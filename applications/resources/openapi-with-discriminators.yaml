@@ -20,7 +20,7 @@ paths:
                     bukh: glagol
                     vidh: 1
                     specificToGlagol: false
-                Incorrect: # FIXME: why it doesn't fail?
+                Incorrect: # FIXME: why it doesn't fail? Well, it shouldn't as discriminator+allOf is not for linting?
                   value:
                     bukh: dobro
                     # vidh, specificToDobro, and discriminator are required
@@ -119,9 +119,15 @@ components:
           discriminator: for test
     Zelo:
       - $ref: '#/components/x-types/H'
-      - kako: for_mhslite
-        mhslite: boolean
-        discriminator: for test
+      - mhslite:
+          - boolean
+          - undefined
+        kako: for_mhslite
+        discriminator:
+          - for test
+          - undefined
     H:
+      ludh:
+        - number
+        - undefined
       kako: for_H
-      ludh: number

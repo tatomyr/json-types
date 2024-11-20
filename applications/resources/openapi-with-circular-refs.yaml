@@ -1,0 +1,36 @@
+openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        200:
+          description: Test.
+          content:
+            application/json:
+              x-type:
+                $ref: '#/components/x-types/Person'
+              examples:
+                Correct:
+                  value:
+                    name: Az
+                    age: 42
+                    best_friend:
+                      name: Bukh
+                      age: 23
+                Incorrect:
+                  value:
+                    name: Vidh
+                    age: wrong
+                    best_friend: wrong
+
+components:
+  x-types:
+    Person:
+      name: string
+      age: number
+      best_friend:
+        - $ref: '#/components/x-types/Person'
+        - undefined

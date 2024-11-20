@@ -411,6 +411,83 @@ components: {}
 "
 `;
 
+exports[`bundle > openapi with circular refs converted to schemas 1`] = `
+"openapi: 3.1.0
+info:
+  title: Test
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: Test.
+          content:
+            application/json:
+              x-type:
+                name: string
+                age: number
+                best_friend:
+                  - $ref: '#/components/x-types/Person'
+                  - undefined
+              examples:
+                Correct:
+                  value:
+                    name: Az
+                    age: 42
+                    best_friend:
+                      name: Bukh
+                      age: 23
+                Incorrect:
+                  value:
+                    name: Vidh
+                    age: wrong
+                    best_friend: wrong
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  age:
+                    type: number
+                  best_friend:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      age:
+                        type: number
+                      best_friend:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          age:
+                            type: number
+                          best_friend: {}
+                        required:
+                          - name
+                          - age
+                        additionalProperties: false
+                    required:
+                      - name
+                      - age
+                    additionalProperties: false
+                required:
+                  - name
+                  - age
+                additionalProperties: false
+components:
+  x-types:
+    Person:
+      name: string
+      age: number
+      best_friend:
+        - $ref: '#/components/x-types/Person'
+        - undefined
+"
+`;
+
 exports[`bundle > openapi with discriminators converted to schemas 1`] = `
 "openapi: 3.1.0
 info:
@@ -460,39 +537,40 @@ paths:
             application/polymorphism+json:
               x-type:
                 - $ref: '#/components/x-types/H'
-                - kako: for_mhslite
-                  mhslite: boolean
-                  discriminator: for test
+                - mhslite:
+                    - boolean
+                    - undefined
+                  kako: for_mhslite
+                  discriminator:
+                    - for test
+                    - undefined
               schema:
                 anyOf:
                   - type: object
                     properties:
+                      ludh:
+                        type: number
                       kako:
                         type: string
                         enum:
                           - for_H
-                      ludh:
-                        type: number
                     required:
                       - kako
-                      - ludh
                     additionalProperties: false
                   - type: object
                     properties:
+                      mhslite:
+                        type: boolean
                       kako:
                         type: string
                         enum:
                           - for_mhslite
-                      mhslite:
-                        type: boolean
                       discriminator:
                         type: string
                         enum:
                           - for test
                     required:
                       - kako
-                      - mhslite
-                      - discriminator
                     additionalProperties: false
               examples:
                 Correct:
@@ -584,12 +662,18 @@ components:
           discriminator: for test
     Zelo:
       - $ref: '#/components/x-types/H'
-      - kako: for_mhslite
-        mhslite: boolean
-        discriminator: for test
+      - mhslite:
+          - boolean
+          - undefined
+        kako: for_mhslite
+        discriminator:
+          - for test
+          - undefined
     H:
+      ludh:
+        - number
+        - undefined
       kako: for_H
-      ludh: number
 "
 `;
 
@@ -707,19 +791,21 @@ components:
       $and:
         - $ref: '#/components/x-types/Az'
         - specificToDobro: number::integer
-          discriminator:
-            - for test
+          discriminator: for test
     Zelo:
       - $ref: '#/components/x-types/H'
-      - mhslite: boolean
-        kako:
-          - for_mhslite
+      - mhslite:
+          - boolean
+          - undefined
+        kako: for_mhslite
         discriminator:
           - for test
+          - undefined
     H:
-      ludh: number
-      kako:
-        - for_H
+      ludh:
+        - number
+        - undefined
+      kako: for_H
 "
 `;
 

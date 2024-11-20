@@ -126,4 +126,11 @@ describe('bundle', () => {
     )
     expect(stdout).toMatchSnapshot()
   })
+
+  test('openapi with circular refs converted to schemas', () => {
+    const {stdout} = runCommand(
+      'redocly bundle applications/resources/openapi-with-circular-refs.yaml --config=applications/x-redocly.yaml'
+    )
+    expect(stdout).toMatchSnapshot()
+  })
 })

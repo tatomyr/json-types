@@ -187,31 +187,29 @@ paths:
             application/json:
               x-type:
                 id:
-                  $and:
-                    - $ref: '#/components/x-types/Id'
+                  - $ref: '#/components/x-types/Id'
+                  - undefined
                 category:
-                  $and:
-                    - $ref: '#/components/x-types/Category'
+                  - $ref: '#/components/x-types/Category'
+                  - undefined
                 name: string
                 photoUrls:
                   array: string::url
                 friend:
-                  $and:
-                    - $ref: '#/components/x-types/Pet'
+                  - $ref: '#/components/x-types/Pet'
+                  - undefined
                 tags:
-                  array:
-                    id:
-                      $and:
-                        - $ref: '#/components/x-types/Id'
-                    name: string::min(1)
-                    $descriptions:
-                      id: Tag ID
-                      name: Tag name
+                  - array:
+                      $ref: '#/components/x-types/Tag'
+                  - undefined
                 status:
-                  - available
-                  - pending
-                  - sold
-                petType: string
+                  - - available
+                    - pending
+                    - sold
+                  - undefined
+                petType:
+                  - string
+                  - undefined
                 $discriminator:
                   propertyName: petType
                   mapping:
@@ -378,14 +376,8 @@ paths:
                             description: Type of a pet
                             type: string
                         required:
-                          - id
-                          - category
                           - name
                           - photoUrls
-                          - friend
-                          - tags
-                          - status
-                          - petType
                         additionalProperties: false
                         discriminator:
                           propertyName: petType
@@ -421,14 +413,8 @@ paths:
                         description: Type of a pet
                         type: string
                     required:
-                      - id
-                      - category
                       - name
                       - photoUrls
-                      - friend
-                      - tags
-                      - status
-                      - petType
                     additionalProperties: false
                     discriminator:
                       propertyName: petType
@@ -464,14 +450,8 @@ paths:
                     description: Type of a pet
                     type: string
                 required:
-                  - id
-                  - category
                   - name
                   - photoUrls
-                  - friend
-                  - tags
-                  - status
-                  - petType
                 additionalProperties: false
                 discriminator:
                   propertyName: petType
@@ -482,31 +462,29 @@ paths:
             application/xml:
               x-type:
                 id:
-                  $and:
-                    - $ref: '#/components/x-types/Id'
+                  - $ref: '#/components/x-types/Id'
+                  - undefined
                 category:
-                  $and:
-                    - $ref: '#/components/x-types/Category'
+                  - $ref: '#/components/x-types/Category'
+                  - undefined
                 name: string
                 photoUrls:
                   array: string::url
                 friend:
-                  $and:
-                    - $ref: '#/components/x-types/Pet'
+                  - $ref: '#/components/x-types/Pet'
+                  - undefined
                 tags:
-                  array:
-                    id:
-                      $and:
-                        - $ref: '#/components/x-types/Id'
-                    name: string::min(1)
-                    $descriptions:
-                      id: Tag ID
-                      name: Tag name
+                  - array:
+                      $ref: '#/components/x-types/Tag'
+                  - undefined
                 status:
-                  - available
-                  - pending
-                  - sold
-                petType: string
+                  - - available
+                    - pending
+                    - sold
+                  - undefined
+                petType:
+                  - string
+                  - undefined
                 $discriminator:
                   propertyName: petType
                   mapping:
@@ -673,14 +651,8 @@ paths:
                             description: Type of a pet
                             type: string
                         required:
-                          - id
-                          - category
                           - name
                           - photoUrls
-                          - friend
-                          - tags
-                          - status
-                          - petType
                         additionalProperties: false
                         discriminator:
                           propertyName: petType
@@ -716,14 +688,8 @@ paths:
                         description: Type of a pet
                         type: string
                     required:
-                      - id
-                      - category
                       - name
                       - photoUrls
-                      - friend
-                      - tags
-                      - status
-                      - petType
                     additionalProperties: false
                     discriminator:
                       propertyName: petType
@@ -759,14 +725,8 @@ paths:
                     description: Type of a pet
                     type: string
                 required:
-                  - id
-                  - category
                   - name
                   - photoUrls
-                  - friend
-                  - tags
-                  - status
-                  - petType
                 additionalProperties: false
                 discriminator:
                   propertyName: petType
@@ -934,31 +894,29 @@ paths:
               x-type:
                 array:
                   id:
-                    $and:
-                      - $ref: '#/components/x-types/Id'
+                    - $ref: '#/components/x-types/Id'
+                    - undefined
                   category:
-                    $and:
-                      - $ref: '#/components/x-types/Category'
+                    - $ref: '#/components/x-types/Category'
+                    - undefined
                   name: string
                   photoUrls:
                     array: string::url
                   friend:
-                    $and:
-                      - $ref: '#/components/x-types/Pet'
+                    - $ref: '#/components/x-types/Pet'
+                    - undefined
                   tags:
-                    array:
-                      id:
-                        $and:
-                          - $ref: '#/components/x-types/Id'
-                      name: string::min(1)
-                      $descriptions:
-                        id: Tag ID
-                        name: Tag name
+                    - array:
+                        $ref: '#/components/x-types/Tag'
+                    - undefined
                   status:
-                    - available
-                    - pending
-                    - sold
-                  petType: string
+                    - - available
+                      - pending
+                      - sold
+                    - undefined
+                  petType:
+                    - string
+                    - undefined
                   $discriminator:
                     propertyName: petType
                     mapping:
@@ -1127,14 +1085,8 @@ paths:
                               description: Type of a pet
                               type: string
                           required:
-                            - id
-                            - category
                             - name
                             - photoUrls
-                            - friend
-                            - tags
-                            - status
-                            - petType
                           additionalProperties: false
                           discriminator:
                             propertyName: petType
@@ -1170,14 +1122,8 @@ paths:
                           description: Type of a pet
                           type: string
                       required:
-                        - id
-                        - category
                         - name
                         - photoUrls
-                        - friend
-                        - tags
-                        - status
-                        - petType
                       additionalProperties: false
                       discriminator:
                         propertyName: petType
@@ -1213,14 +1159,8 @@ paths:
                       description: Type of a pet
                       type: string
                   required:
-                    - id
-                    - category
                     - name
                     - photoUrls
-                    - friend
-                    - tags
-                    - status
-                    - petType
                   additionalProperties: false
                   discriminator:
                     propertyName: petType
@@ -1232,31 +1172,29 @@ paths:
               x-type:
                 array:
                   id:
-                    $and:
-                      - $ref: '#/components/x-types/Id'
+                    - $ref: '#/components/x-types/Id'
+                    - undefined
                   category:
-                    $and:
-                      - $ref: '#/components/x-types/Category'
+                    - $ref: '#/components/x-types/Category'
+                    - undefined
                   name: string
                   photoUrls:
                     array: string::url
                   friend:
-                    $and:
-                      - $ref: '#/components/x-types/Pet'
+                    - $ref: '#/components/x-types/Pet'
+                    - undefined
                   tags:
-                    array:
-                      id:
-                        $and:
-                          - $ref: '#/components/x-types/Id'
-                      name: string::min(1)
-                      $descriptions:
-                        id: Tag ID
-                        name: Tag name
+                    - array:
+                        $ref: '#/components/x-types/Tag'
+                    - undefined
                   status:
-                    - available
-                    - pending
-                    - sold
-                  petType: string
+                    - - available
+                      - pending
+                      - sold
+                    - undefined
+                  petType:
+                    - string
+                    - undefined
                   $discriminator:
                     propertyName: petType
                     mapping:
@@ -1425,14 +1363,8 @@ paths:
                               description: Type of a pet
                               type: string
                           required:
-                            - id
-                            - category
                             - name
                             - photoUrls
-                            - friend
-                            - tags
-                            - status
-                            - petType
                           additionalProperties: false
                           discriminator:
                             propertyName: petType
@@ -1468,14 +1400,8 @@ paths:
                           description: Type of a pet
                           type: string
                       required:
-                        - id
-                        - category
                         - name
                         - photoUrls
-                        - friend
-                        - tags
-                        - status
-                        - petType
                       additionalProperties: false
                       discriminator:
                         propertyName: petType
@@ -1511,14 +1437,8 @@ paths:
                       description: Type of a pet
                       type: string
                   required:
-                    - id
-                    - category
                     - name
                     - photoUrls
-                    - friend
-                    - tags
-                    - status
-                    - petType
                   additionalProperties: false
                   discriminator:
                     propertyName: petType
@@ -1560,31 +1480,29 @@ paths:
               x-type:
                 array:
                   id:
-                    $and:
-                      - $ref: '#/components/x-types/Id'
+                    - $ref: '#/components/x-types/Id'
+                    - undefined
                   category:
-                    $and:
-                      - $ref: '#/components/x-types/Category'
+                    - $ref: '#/components/x-types/Category'
+                    - undefined
                   name: string
                   photoUrls:
                     array: string::url
                   friend:
-                    $and:
-                      - $ref: '#/components/x-types/Pet'
+                    - $ref: '#/components/x-types/Pet'
+                    - undefined
                   tags:
-                    array:
-                      id:
-                        $and:
-                          - $ref: '#/components/x-types/Id'
-                      name: string::min(1)
-                      $descriptions:
-                        id: Tag ID
-                        name: Tag name
+                    - array:
+                        $ref: '#/components/x-types/Tag'
+                    - undefined
                   status:
-                    - available
-                    - pending
-                    - sold
-                  petType: string
+                    - - available
+                      - pending
+                      - sold
+                    - undefined
+                  petType:
+                    - string
+                    - undefined
                   $discriminator:
                     propertyName: petType
                     mapping:
@@ -1753,14 +1671,8 @@ paths:
                               description: Type of a pet
                               type: string
                           required:
-                            - id
-                            - category
                             - name
                             - photoUrls
-                            - friend
-                            - tags
-                            - status
-                            - petType
                           additionalProperties: false
                           discriminator:
                             propertyName: petType
@@ -1796,14 +1708,8 @@ paths:
                           description: Type of a pet
                           type: string
                       required:
-                        - id
-                        - category
                         - name
                         - photoUrls
-                        - friend
-                        - tags
-                        - status
-                        - petType
                       additionalProperties: false
                       discriminator:
                         propertyName: petType
@@ -1839,14 +1745,8 @@ paths:
                       description: Type of a pet
                       type: string
                   required:
-                    - id
-                    - category
                     - name
                     - photoUrls
-                    - friend
-                    - tags
-                    - status
-                    - petType
                   additionalProperties: false
                   discriminator:
                     propertyName: petType
@@ -1858,31 +1758,29 @@ paths:
               x-type:
                 array:
                   id:
-                    $and:
-                      - $ref: '#/components/x-types/Id'
+                    - $ref: '#/components/x-types/Id'
+                    - undefined
                   category:
-                    $and:
-                      - $ref: '#/components/x-types/Category'
+                    - $ref: '#/components/x-types/Category'
+                    - undefined
                   name: string
                   photoUrls:
                     array: string::url
                   friend:
-                    $and:
-                      - $ref: '#/components/x-types/Pet'
+                    - $ref: '#/components/x-types/Pet'
+                    - undefined
                   tags:
-                    array:
-                      id:
-                        $and:
-                          - $ref: '#/components/x-types/Id'
-                      name: string::min(1)
-                      $descriptions:
-                        id: Tag ID
-                        name: Tag name
+                    - array:
+                        $ref: '#/components/x-types/Tag'
+                    - undefined
                   status:
-                    - available
-                    - pending
-                    - sold
-                  petType: string
+                    - - available
+                      - pending
+                      - sold
+                    - undefined
+                  petType:
+                    - string
+                    - undefined
                   $discriminator:
                     propertyName: petType
                     mapping:
@@ -2051,14 +1949,8 @@ paths:
                               description: Type of a pet
                               type: string
                           required:
-                            - id
-                            - category
                             - name
                             - photoUrls
-                            - friend
-                            - tags
-                            - status
-                            - petType
                           additionalProperties: false
                           discriminator:
                             propertyName: petType
@@ -2094,14 +1986,8 @@ paths:
                           description: Type of a pet
                           type: string
                       required:
-                        - id
-                        - category
                         - name
                         - photoUrls
-                        - friend
-                        - tags
-                        - status
-                        - petType
                       additionalProperties: false
                       discriminator:
                         propertyName: petType
@@ -2137,14 +2023,8 @@ paths:
                       description: Type of a pet
                       type: string
                   required:
-                    - id
-                    - category
                     - name
                     - photoUrls
-                    - friend
-                    - tags
-                    - status
-                    - petType
                   additionalProperties: false
                   discriminator:
                     propertyName: petType
@@ -2194,11 +2074,9 @@ paths:
             application/json:
               x-type:
                 id:
-                  $and:
-                    - $ref: '#/components/x-types/Id'
+                  $readonly: number::integer
                 petId:
-                  $and:
-                    - $ref: '#/components/x-types/Id'
+                  $readonly: number::integer
                 quantity: number::integer::min(1)
                 shipDate: string::date-time
                 status:
@@ -2256,11 +2134,9 @@ paths:
             application/xml:
               x-type:
                 id:
-                  $and:
-                    - $ref: '#/components/x-types/Id'
+                  $readonly: number::integer
                 petId:
-                  $and:
-                    - $ref: '#/components/x-types/Id'
+                  $readonly: number::integer
                 quantity: number::integer::min(1)
                 shipDate: string::date-time
                 status:
@@ -2327,11 +2203,9 @@ paths:
           application/json:
             x-type:
               id:
-                $and:
-                  - $ref: '#/components/x-types/Id'
+                $readonly: number::integer
               petId:
-                $and:
-                  - $ref: '#/components/x-types/Id'
+                $readonly: number::integer
               quantity: number::integer::min(1)
               shipDate: string::date-time
               status:
@@ -2410,11 +2284,9 @@ paths:
             application/json:
               x-type:
                 id:
-                  $and:
-                    - $ref: '#/components/x-types/Id'
+                  $readonly: number::integer
                 petId:
-                  $and:
-                    - $ref: '#/components/x-types/Id'
+                  $readonly: number::integer
                 quantity: number::integer::min(1)
                 shipDate: string::date-time
                 status:
@@ -2472,11 +2344,9 @@ paths:
             application/xml:
               x-type:
                 id:
-                  $and:
-                    - $ref: '#/components/x-types/Id'
+                  $readonly: number::integer
                 petId:
-                  $and:
-                    - $ref: '#/components/x-types/Id'
+                  $readonly: number::integer
                 quantity: number::integer::min(1)
                 shipDate: string::date-time
                 status:
@@ -3022,13 +2892,8 @@ paths:
                                   description: Type of a pet
                                   type: string
                               required:
-                                - category
                                 - name
                                 - photoUrls
-                                - friend
-                                - tags
-                                - status
-                                - petType
                               additionalProperties: false
                               discriminator:
                                 propertyName: petType
@@ -3063,13 +2928,8 @@ paths:
                               description: Type of a pet
                               type: string
                           required:
-                            - category
                             - name
                             - photoUrls
-                            - friend
-                            - tags
-                            - status
-                            - petType
                           additionalProperties: false
                           discriminator:
                             propertyName: petType
@@ -3104,13 +2964,8 @@ paths:
                           description: Type of a pet
                           type: string
                       required:
-                        - category
                         - name
                         - photoUrls
-                        - friend
-                        - tags
-                        - status
-                        - petType
                       additionalProperties: false
                       discriminator:
                         propertyName: petType
@@ -3370,14 +3225,8 @@ paths:
                                     description: Type of a pet
                                     type: string
                                 required:
-                                  - id
-                                  - category
                                   - name
                                   - photoUrls
-                                  - friend
-                                  - tags
-                                  - status
-                                  - petType
                                 additionalProperties: false
                                 discriminator:
                                   propertyName: petType
@@ -3413,14 +3262,8 @@ paths:
                                 description: Type of a pet
                                 type: string
                             required:
-                              - id
-                              - category
                               - name
                               - photoUrls
-                              - friend
-                              - tags
-                              - status
-                              - petType
                             additionalProperties: false
                             discriminator:
                               propertyName: petType
@@ -3456,14 +3299,8 @@ paths:
                             description: Type of a pet
                             type: string
                         required:
-                          - id
-                          - category
                           - name
                           - photoUrls
-                          - friend
-                          - tags
-                          - status
-                          - petType
                         additionalProperties: false
                         discriminator:
                           propertyName: petType
@@ -3704,14 +3541,8 @@ paths:
                                     description: Type of a pet
                                     type: string
                                 required:
-                                  - id
-                                  - category
                                   - name
                                   - photoUrls
-                                  - friend
-                                  - tags
-                                  - status
-                                  - petType
                                 additionalProperties: false
                                 discriminator:
                                   propertyName: petType
@@ -3747,14 +3578,8 @@ paths:
                                 description: Type of a pet
                                 type: string
                             required:
-                              - id
-                              - category
                               - name
                               - photoUrls
-                              - friend
-                              - tags
-                              - status
-                              - petType
                             additionalProperties: false
                             discriminator:
                               propertyName: petType
@@ -3790,14 +3615,8 @@ paths:
                             description: Type of a pet
                             type: string
                         required:
-                          - id
-                          - category
                           - name
                           - photoUrls
-                          - friend
-                          - tags
-                          - status
-                          - petType
                         additionalProperties: false
                         discriminator:
                           propertyName: petType
@@ -4059,13 +3878,8 @@ paths:
                                   description: Type of a pet
                                   type: string
                               required:
-                                - category
                                 - name
                                 - photoUrls
-                                - friend
-                                - tags
-                                - status
-                                - petType
                               additionalProperties: false
                               discriminator:
                                 propertyName: petType
@@ -4100,13 +3914,8 @@ paths:
                               description: Type of a pet
                               type: string
                           required:
-                            - category
                             - name
                             - photoUrls
-                            - friend
-                            - tags
-                            - status
-                            - petType
                           additionalProperties: false
                           discriminator:
                             propertyName: petType
@@ -4141,13 +3950,8 @@ paths:
                           description: Type of a pet
                           type: string
                       required:
-                        - category
                         - name
                         - photoUrls
-                        - friend
-                        - tags
-                        - status
-                        - petType
                       additionalProperties: false
                       discriminator:
                         propertyName: petType
@@ -4331,31 +4135,29 @@ x-webhooks:
           application/json:
             x-type:
               id:
-                $and:
-                  - $ref: '#/components/x-types/Id'
+                - $ref: '#/components/x-types/Id'
+                - undefined
               category:
-                $and:
-                  - $ref: '#/components/x-types/Category'
+                - $ref: '#/components/x-types/Category'
+                - undefined
               name: string
               photoUrls:
                 array: string::url
               friend:
-                $and:
-                  - $ref: '#/components/x-types/Pet'
+                - $ref: '#/components/x-types/Pet'
+                - undefined
               tags:
-                array:
-                  id:
-                    $and:
-                      - $ref: '#/components/x-types/Id'
-                  name: string::min(1)
-                  $descriptions:
-                    id: Tag ID
-                    name: Tag name
+                - array:
+                    $ref: '#/components/x-types/Tag'
+                - undefined
               status:
-                - available
-                - pending
-                - sold
-              petType: string
+                - - available
+                  - pending
+                  - sold
+                - undefined
+              petType:
+                - string
+                - undefined
               $discriminator:
                 propertyName: petType
                 mapping:
@@ -4518,13 +4320,8 @@ x-webhooks:
                           description: Type of a pet
                           type: string
                       required:
-                        - category
                         - name
                         - photoUrls
-                        - friend
-                        - tags
-                        - status
-                        - petType
                       additionalProperties: false
                       discriminator:
                         propertyName: petType
@@ -4559,13 +4356,8 @@ x-webhooks:
                       description: Type of a pet
                       type: string
                   required:
-                    - category
                     - name
                     - photoUrls
-                    - friend
-                    - tags
-                    - status
-                    - petType
                   additionalProperties: false
                   discriminator:
                     propertyName: petType
@@ -4600,13 +4392,8 @@ x-webhooks:
                   description: Type of a pet
                   type: string
               required:
-                - category
                 - name
                 - photoUrls
-                - friend
-                - tags
-                - status
-                - petType
               additionalProperties: false
               discriminator:
                 propertyName: petType
@@ -5013,13 +4800,8 @@ components:
                         description: Type of a pet
                         type: string
                     required:
-                      - category
                       - name
                       - photoUrls
-                      - friend
-                      - tags
-                      - status
-                      - petType
                     additionalProperties: false
                     discriminator:
                       propertyName: petType
@@ -5054,13 +4836,8 @@ components:
                     description: Type of a pet
                     type: string
                 required:
-                  - category
                   - name
                   - photoUrls
-                  - friend
-                  - tags
-                  - status
-                  - petType
                 additionalProperties: false
                 discriminator:
                   propertyName: petType
@@ -5095,13 +4872,8 @@ components:
                 description: Type of a pet
                 type: string
             required:
-              - category
               - name
               - photoUrls
-              - friend
-              - tags
-              - status
-              - petType
             additionalProperties: false
             discriminator:
               propertyName: petType
@@ -5306,13 +5078,8 @@ components:
                                   description: Type of a pet
                                   type: string
                               required:
-                                - category
                                 - name
                                 - photoUrls
-                                - friend
-                                - tags
-                                - status
-                                - petType
                               additionalProperties: false
                               discriminator:
                                 propertyName: petType
@@ -5347,13 +5114,8 @@ components:
                               description: Type of a pet
                               type: string
                           required:
-                            - category
                             - name
                             - photoUrls
-                            - friend
-                            - tags
-                            - status
-                            - petType
                           additionalProperties: false
                           discriminator:
                             propertyName: petType
@@ -5388,13 +5150,8 @@ components:
                           description: Type of a pet
                           type: string
                       required:
-                        - category
                         - name
                         - photoUrls
-                        - friend
-                        - tags
-                        - status
-                        - petType
                       additionalProperties: false
                       discriminator:
                         propertyName: petType
@@ -5497,8 +5254,7 @@ components:
             huntingSkill: The measured skill for hunting
     Category:
       id:
-        $and:
-          - $ref: '#/components/x-types/Id'
+        $readonly: number::integer
       name: string::min(1)
       sub:
         prop1: string
@@ -5524,11 +5280,9 @@ components:
       $readonly: number::integer
     Order:
       id:
-        $and:
-          - $ref: '#/components/x-types/Id'
+        $readonly: number::integer
       petId:
-        $and:
-          - $ref: '#/components/x-types/Id'
+        $readonly: number::integer
       quantity: number::integer::min(1)
       shipDate: string::date-time
       status:
@@ -5548,31 +5302,29 @@ components:
         requestId: Unique Request Id
     Pet:
       id:
-        $and:
-          - $ref: '#/components/x-types/Id'
+        - $ref: '#/components/x-types/Id'
+        - undefined
       category:
-        $and:
-          - $ref: '#/components/x-types/Category'
+        - $ref: '#/components/x-types/Category'
+        - undefined
       name: string
       photoUrls:
         array: string::url
       friend:
-        $and:
-          - $ref: '#/components/x-types/Pet'
+        - $ref: '#/components/x-types/Pet'
+        - undefined
       tags:
-        array:
-          id:
-            $and:
-              - $ref: '#/components/x-types/Id'
-          name: string::min(1)
-          $descriptions:
-            id: Tag ID
-            name: Tag name
+        - array:
+            $ref: '#/components/x-types/Tag'
+        - undefined
       status:
-        - available
-        - pending
-        - sold
-      petType: string
+        - - available
+          - pending
+          - sold
+        - undefined
+      petType:
+        - string
+        - undefined
       $discriminator:
         propertyName: petType
         mapping:
@@ -5589,8 +5341,7 @@ components:
         petType: Type of a pet
     Tag:
       id:
-        $and:
-          - $ref: '#/components/x-types/Id'
+        $readonly: number::integer
       name: string::min(1)
       $descriptions:
         id: Tag ID
