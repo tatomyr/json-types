@@ -18,7 +18,7 @@ describe('adapter', () => {
   })
 
   test('`undefined` -> `never`', () => {
-    expect(translateXTypeToSchema('undefined')).toEqual({not: {}})
+    expect(translateXTypeToSchema('undefined')).toEqual(undefined)
   })
 
   test('OR', () => {
@@ -32,9 +32,7 @@ describe('adapter', () => {
     expect(translateXTypeToSchema(['string', 'undefined'])).toEqual({
       type: 'string',
     })
-    expect(translateXTypeToSchema(['undefined'])).toEqual({
-      not: {},
-    })
+    expect(translateXTypeToSchema(['undefined'])).toEqual(undefined)
     expect(
       translateXTypeToSchema({
         Required: ['foo', 'number'],

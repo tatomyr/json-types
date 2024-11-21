@@ -97,3 +97,6 @@ export const mergeAll = (...args) => {
     return deepMergeTwo(acc, item)
   })
 }
+
+export const cleanupSchema = schema =>
+  schema === undefined ? undefined : JSON.parse(JSON.stringify(schema))

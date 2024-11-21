@@ -1,3 +1,4 @@
+import {isRef} from '@redocly/openapi-core/lib/ref-utils.js'
 import {isObject, mergeAll} from './x-types-utils.js'
 
 export const resolveAndMerge = (xType, ctx, parents = []) => {
@@ -9,7 +10,7 @@ export const resolveAndMerge = (xType, ctx, parents = []) => {
   }
 
   // Handle $refs
-  if (xType.$ref) {
+  if (isRef(xType)) {
     if (parents.filter(p => p?.$ref === xType.$ref).length >= maxDepth) {
       console.warn('WARNING! Circular reference detected:', xType.$ref)
       // Returning `any` to avoid circular references:

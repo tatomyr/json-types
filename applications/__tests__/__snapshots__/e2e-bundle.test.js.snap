@@ -842,8 +842,6 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  not: {}
                 name:
                   type: object
                   properties:
@@ -979,17 +977,20 @@ paths:
                   $and:
                     - array: string
                     - array: number
+              examples:
+                Correct:
+                  value: {}
+                Incorrect:
+                  value:
+                    unexpected: fails
               schema:
                 type: object
-                properties:
-                  WrongAndFormat:
-                    not: {}
-                  Empty:
-                    not: {}
-                  ImpossibleArraysCombination:
-                    not: {}
+                properties: {}
                 required: []
                 additionalProperties: false
+            application/undefined+json:
+              x-type:
+                $and: []
 components:
   x-types:
     CorrectAnd:

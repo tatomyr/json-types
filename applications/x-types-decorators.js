@@ -1,4 +1,4 @@
-import {isObject} from './x-types-utils.js'
+import {cleanupSchema, isObject} from './x-types-utils.js'
 import {translateXTypeToSchema} from './x-types-adapter.js'
 import {resolveAndMerge} from './x-types-resolver.js'
 import {translateJSONSchemaToXType} from './json-schema-adapter.js'
@@ -18,7 +18,7 @@ export const generateSchemas = opts => {
             _circularRefsMaxDepth: opts?.depth,
             _mode: 'request',
           })
-          const schema = translateXTypeToSchema(resolvedXType)
+          const schema = cleanupSchema(translateXTypeToSchema(resolvedXType))
           mediaType.schema = schema
         },
       },
@@ -36,7 +36,7 @@ export const generateSchemas = opts => {
             _circularRefsMaxDepth: opts?.depth,
             _mode: 'response',
           })
-          const schema = translateXTypeToSchema(resolvedXType)
+          const schema = cleanupSchema(translateXTypeToSchema(resolvedXType))
           mediaType.schema = schema
         },
       },
@@ -52,7 +52,7 @@ export const generateSchemas = opts => {
           _circularRefsMaxDepth: opts?.depth,
           _mode: 'request',
         })
-        const schema = translateXTypeToSchema(resolvedXType)
+        const schema = cleanupSchema(translateXTypeToSchema(resolvedXType))
         parameter.schema = schema
       },
     },

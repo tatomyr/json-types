@@ -15,7 +15,6 @@ paths:
               example:
                 foo: wrong!
                 wrong: not-expected!
-
             application/problems+json:
               x-type:
                 WrongAndFormat:
@@ -28,6 +27,15 @@ paths:
                   $and: # Cannot combine arrays!
                     - array: string
                     - array: number
+              examples:
+                Correct:
+                  value: {}
+                Incorrect:
+                  value:
+                    unexpected: fails
+            application/undefined+json:
+              x-type:
+                $and: [] # should not produce a schema
 
 components:
   x-types:

@@ -1,3 +1,4 @@
+import {isRef} from '@redocly/openapi-core/lib/ref-utils.js'
 import {
   generateSchemas,
   generateXTypes,
@@ -43,10 +44,10 @@ const getType = value => {
         return 'XTypeAND'
       }
 
-      if (typeof value.$ref !== 'undefined') {
+      if (isRef(value)) {
         // FIXME: when returning this, it fails on bundling when there are circular refs.
         return {
-          properties: {$ref: getType},
+          properties: {type: 'string'},
         }
         // When returning this, it fails on linting when there are refs.
         // return undefined
@@ -148,6 +149,8 @@ export default () => ({
           },
           requiredOneOf: ['schema', 'content', 'x-type'],
         },
+        // TODO: This leads to $refs being replaced with the resolved values in the components section.
+        // Do we want to do this? Is there any other way to avoid resolving $refs except for removing this?
         Components: {
           ...types.Components,
           properties: {

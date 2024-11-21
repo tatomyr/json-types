@@ -108,7 +108,7 @@ export const translateXTypeToSchema = xType => {
   }
 
   if (xType === 'undefined') {
-    return {not: {}}
+    return undefined
   }
 
   // Handle array types
@@ -137,7 +137,7 @@ export const translateXTypeToSchema = xType => {
       .filter(type => type !== 'undefined')
       .map(translateXTypeToSchema)
     if (normalized.length === 0) {
-      return {not: {}}
+      return undefined
     }
     if (normalized.length === 1) {
       return normalized[0]
@@ -204,9 +204,11 @@ export const translateXTypeToSchema = xType => {
 
     // All fields at this level could have descriptions defined inside the $descriptions field.
     for (const describedPropertyKey in $descriptions) {
-      properties[describedPropertyKey] = {
-        description: $descriptions[describedPropertyKey],
-        ...properties[describedPropertyKey],
+      if (isObject(properties[describedPropertyKey])) {
+        properties[describedPropertyKey] = {
+          description: $descriptions[describedPropertyKey],
+          ...properties[describedPropertyKey],
+        }
       }
     }
 

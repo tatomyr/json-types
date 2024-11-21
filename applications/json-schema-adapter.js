@@ -1,5 +1,6 @@
 // Experimental feature
 
+import {isRef} from '@redocly/openapi-core'
 import {isPlainObject, isEmptyObject} from '@redocly/openapi-core/lib/utils.js'
 
 export function translateJSONSchemaToXType(schema, ctx) {
@@ -60,7 +61,7 @@ export function translateJSONSchemaToXType(schema, ctx) {
     }
   }
 
-  if (schema.$ref) {
+  if (isRef(schema)) {
     if (schema.$ref.startsWith('#/components/schemas/')) {
       return {
         $ref: schema.$ref.replace(

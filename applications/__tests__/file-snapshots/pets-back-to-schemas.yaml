@@ -2120,9 +2120,6 @@ paths:
                   complete:
                     description: Indicates whenever order was completed or not
                     type: boolean
-                  requestId:
-                    description: Unique Request Id
-                    not: {}
                 required:
                   - id
                   - petId
@@ -2180,9 +2177,6 @@ paths:
                   complete:
                     description: Indicates whenever order was completed or not
                     type: boolean
-                  requestId:
-                    description: Unique Request Id
-                    not: {}
                 required:
                   - id
                   - petId
@@ -2226,12 +2220,6 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  description: Order ID
-                  not: {}
-                petId:
-                  description: Pet ID
-                  not: {}
                 quantity:
                   type: integer
                   minimum: 1
@@ -2246,9 +2234,6 @@ paths:
                     - placed
                     - approved
                     - delivered
-                complete:
-                  description: Indicates whenever order was completed or not
-                  not: {}
                 requestId:
                   description: Unique Request Id
                   type: string
@@ -2330,9 +2315,6 @@ paths:
                   complete:
                     description: Indicates whenever order was completed or not
                     type: boolean
-                  requestId:
-                    description: Unique Request Id
-                    not: {}
                 required:
                   - id
                   - petId
@@ -2390,9 +2372,6 @@ paths:
                   complete:
                     description: Indicates whenever order was completed or not
                     type: boolean
-                  requestId:
-                    description: Unique Request Id
-                    not: {}
                 required:
                   - id
                   - petId
@@ -2741,22 +2720,14 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  not: {}
                 pet:
                   anyOf:
                     - type: object
                       properties:
-                        id:
-                          description: Pet ID
-                          not: {}
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
-                            id:
-                              description: Category ID
-                              not: {}
                             name:
                               description: Category name
                               type: string
@@ -2787,16 +2758,10 @@ paths:
                         friend:
                           type: object
                           properties:
-                            id:
-                              description: Pet ID
-                              not: {}
                             category:
                               description: Categories this pet belongs to
                               type: object
                               properties:
-                                id:
-                                  description: Category ID
-                                  not: {}
                                 name:
                                   description: Category name
                                   type: string
@@ -2827,16 +2792,10 @@ paths:
                             friend:
                               type: object
                               properties:
-                                id:
-                                  description: Pet ID
-                                  not: {}
                                 category:
                                   description: Categories this pet belongs to
                                   type: object
                                   properties:
-                                    id:
-                                      description: Category ID
-                                      not: {}
                                     name:
                                       description: Category name
                                       type: string
@@ -2871,9 +2830,6 @@ paths:
                                   items:
                                     type: object
                                     properties:
-                                      id:
-                                        description: Tag ID
-                                        not: {}
                                       name:
                                         description: Tag name
                                         type: string
@@ -2907,9 +2863,6 @@ paths:
                               items:
                                 type: object
                                 properties:
-                                  id:
-                                    description: Tag ID
-                                    not: {}
                                   name:
                                     description: Tag name
                                     type: string
@@ -2943,9 +2896,6 @@ paths:
                           items:
                             type: object
                             properties:
-                              id:
-                                description: Tag ID
-                                not: {}
                               name:
                                 description: Tag name
                                 type: string
@@ -2975,9 +2925,6 @@ paths:
                           bee: '#/components/schemas/HoneyBee'
                     - type: object
                       properties:
-                        id:
-                          description: Tag ID
-                          not: {}
                         name:
                           description: Tag name
                           type: string
@@ -3727,22 +3674,14 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  not: {}
                 pet:
                   anyOf:
                     - type: object
                       properties:
-                        id:
-                          description: Pet ID
-                          not: {}
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
-                            id:
-                              description: Category ID
-                              not: {}
                             name:
                               description: Category name
                               type: string
@@ -3773,16 +3712,10 @@ paths:
                         friend:
                           type: object
                           properties:
-                            id:
-                              description: Pet ID
-                              not: {}
                             category:
                               description: Categories this pet belongs to
                               type: object
                               properties:
-                                id:
-                                  description: Category ID
-                                  not: {}
                                 name:
                                   description: Category name
                                   type: string
@@ -3813,16 +3746,10 @@ paths:
                             friend:
                               type: object
                               properties:
-                                id:
-                                  description: Pet ID
-                                  not: {}
                                 category:
                                   description: Categories this pet belongs to
                                   type: object
                                   properties:
-                                    id:
-                                      description: Category ID
-                                      not: {}
                                     name:
                                       description: Category name
                                       type: string
@@ -3857,9 +3784,6 @@ paths:
                                   items:
                                     type: object
                                     properties:
-                                      id:
-                                        description: Tag ID
-                                        not: {}
                                       name:
                                         description: Tag name
                                         type: string
@@ -3893,9 +3817,6 @@ paths:
                               items:
                                 type: object
                                 properties:
-                                  id:
-                                    description: Tag ID
-                                    not: {}
                                   name:
                                     description: Tag name
                                     type: string
@@ -3929,9 +3850,6 @@ paths:
                           items:
                             type: object
                             properties:
-                              id:
-                                description: Tag ID
-                                not: {}
                               name:
                                 description: Tag name
                                 type: string
@@ -3961,9 +3879,6 @@ paths:
                           bee: '#/components/schemas/HoneyBee'
                     - type: object
                       properties:
-                        id:
-                          description: Tag ID
-                          not: {}
                         name:
                           description: Tag name
                           type: string
@@ -4175,16 +4090,10 @@ x-webhooks:
             schema:
               type: object
               properties:
-                id:
-                  description: Pet ID
-                  not: {}
                 category:
                   description: Categories this pet belongs to
                   type: object
                   properties:
-                    id:
-                      description: Category ID
-                      not: {}
                     name:
                       description: Category name
                       type: string
@@ -4215,16 +4124,10 @@ x-webhooks:
                 friend:
                   type: object
                   properties:
-                    id:
-                      description: Pet ID
-                      not: {}
                     category:
                       description: Categories this pet belongs to
                       type: object
                       properties:
-                        id:
-                          description: Category ID
-                          not: {}
                         name:
                           description: Category name
                           type: string
@@ -4255,16 +4158,10 @@ x-webhooks:
                     friend:
                       type: object
                       properties:
-                        id:
-                          description: Pet ID
-                          not: {}
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
-                            id:
-                              description: Category ID
-                              not: {}
                             name:
                               description: Category name
                               type: string
@@ -4299,9 +4196,6 @@ x-webhooks:
                           items:
                             type: object
                             properties:
-                              id:
-                                description: Tag ID
-                                not: {}
                               name:
                                 description: Tag name
                                 type: string
@@ -4335,9 +4229,6 @@ x-webhooks:
                       items:
                         type: object
                         properties:
-                          id:
-                            description: Tag ID
-                            not: {}
                           name:
                             description: Tag name
                             type: string
@@ -4371,9 +4262,6 @@ x-webhooks:
                   items:
                     type: object
                     properties:
-                      id:
-                        description: Tag ID
-                        not: {}
                       name:
                         description: Tag name
                         type: string
@@ -4655,16 +4543,10 @@ components:
           schema:
             type: object
             properties:
-              id:
-                description: Pet ID
-                not: {}
               category:
                 description: Categories this pet belongs to
                 type: object
                 properties:
-                  id:
-                    description: Category ID
-                    not: {}
                   name:
                     description: Category name
                     type: string
@@ -4695,16 +4577,10 @@ components:
               friend:
                 type: object
                 properties:
-                  id:
-                    description: Pet ID
-                    not: {}
                   category:
                     description: Categories this pet belongs to
                     type: object
                     properties:
-                      id:
-                        description: Category ID
-                        not: {}
                       name:
                         description: Category name
                         type: string
@@ -4735,16 +4611,10 @@ components:
                   friend:
                     type: object
                     properties:
-                      id:
-                        description: Pet ID
-                        not: {}
                       category:
                         description: Categories this pet belongs to
                         type: object
                         properties:
-                          id:
-                            description: Category ID
-                            not: {}
                           name:
                             description: Category name
                             type: string
@@ -4779,9 +4649,6 @@ components:
                         items:
                           type: object
                           properties:
-                            id:
-                              description: Tag ID
-                              not: {}
                             name:
                               description: Tag name
                               type: string
@@ -4815,9 +4682,6 @@ components:
                     items:
                       type: object
                       properties:
-                        id:
-                          description: Tag ID
-                          not: {}
                         name:
                           description: Tag name
                           type: string
@@ -4851,9 +4715,6 @@ components:
                 items:
                   type: object
                   properties:
-                    id:
-                      description: Tag ID
-                      not: {}
                     name:
                       description: Tag name
                       type: string
@@ -4927,22 +4788,14 @@ components:
             items:
               type: object
               properties:
-                id:
-                  not: {}
                 pet:
                   anyOf:
                     - type: object
                       properties:
-                        id:
-                          description: Pet ID
-                          not: {}
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
-                            id:
-                              description: Category ID
-                              not: {}
                             name:
                               description: Category name
                               type: string
@@ -4973,16 +4826,10 @@ components:
                         friend:
                           type: object
                           properties:
-                            id:
-                              description: Pet ID
-                              not: {}
                             category:
                               description: Categories this pet belongs to
                               type: object
                               properties:
-                                id:
-                                  description: Category ID
-                                  not: {}
                                 name:
                                   description: Category name
                                   type: string
@@ -5013,16 +4860,10 @@ components:
                             friend:
                               type: object
                               properties:
-                                id:
-                                  description: Pet ID
-                                  not: {}
                                 category:
                                   description: Categories this pet belongs to
                                   type: object
                                   properties:
-                                    id:
-                                      description: Category ID
-                                      not: {}
                                     name:
                                       description: Category name
                                       type: string
@@ -5057,9 +4898,6 @@ components:
                                   items:
                                     type: object
                                     properties:
-                                      id:
-                                        description: Tag ID
-                                        not: {}
                                       name:
                                         description: Tag name
                                         type: string
@@ -5093,9 +4931,6 @@ components:
                               items:
                                 type: object
                                 properties:
-                                  id:
-                                    description: Tag ID
-                                    not: {}
                                   name:
                                     description: Tag name
                                     type: string
@@ -5129,9 +4964,6 @@ components:
                           items:
                             type: object
                             properties:
-                              id:
-                                description: Tag ID
-                                not: {}
                               name:
                                 description: Tag name
                                 type: string
@@ -5161,9 +4993,6 @@ components:
                           bee: '#/components/schemas/HoneyBee'
                     - type: object
                       properties:
-                        id:
-                          description: Tag ID
-                          not: {}
                         name:
                           description: Tag name
                           type: string
