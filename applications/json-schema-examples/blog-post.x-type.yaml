@@ -1,0 +1,9 @@
+title: string
+content: string
+publishedDate:
+  - string::date-time
+  - undefined
+author: $ref:user-profile.x-type.yaml
+tags:
+  - array: string
+  - undefined

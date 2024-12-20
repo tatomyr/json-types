@@ -1,8 +1,17 @@
 import {isRef} from '@redocly/openapi-core/lib/ref-utils.js'
 import {isObject, mergeAll} from './x-types-utils.js'
 
-export const resolveAndMerge = (xType, ctx, parents = []) => {
+export const transformInlineRefs = value => {
+  if (typeof value === 'string' && value.startsWith('$ref:')) {
+    const $ref = value.slice('$ref:'.length)
+    return {$ref}
+  } else return value
+}
+
+export const resolveAndMerge = (_xType, ctx, parents = []) => {
   const maxDepth = ctx._circularRefsMaxDepth ?? 3
+
+  const xType = transformInlineRefs(_xType) // this is for another resolver, we still need to transform inline refs in preprocessors though for OAS files
 
   // Handle null types
   if (xType === null) {
@@ -61,7 +70,15 @@ export const resolveAndMerge = (xType, ctx, parents = []) => {
       if (xType.$readonly === undefined) return 'undefined'
       return resolveAndMerge(xType.$readonly, ctx, parents)
     }
-    return 'undefined'
+    // Otherwise, return both (using OR)
+    return [
+      xType.$writeonly === undefined
+        ? 'undefined'
+        : resolveAndMerge(xType.$writeonly, ctx, parents),
+      xType.$readonly === undefined
+        ? 'undefined'
+        : resolveAndMerge(xType.$readonly, ctx, parents),
+    ]
   }
 
   // Handle object types

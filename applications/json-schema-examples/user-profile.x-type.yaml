@@ -1,0 +1,14 @@
+username: string
+email: string::email
+fullName:
+  - string
+  - undefined
+age:
+  - number::integer
+  - undefined
+location:
+  - string
+  - undefined
+interests:
+  - array: string
+  - undefined

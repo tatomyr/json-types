@@ -1,0 +1,27 @@
+{
+    "description": "A representation of a blog post",
+    "type": "object",
+    "required": ["title", "content", "author"],
+    "properties": {
+      "title": {
+        "type": "string"
+      },
+      "content": {
+        "type": "string"
+      },
+      "publishedDate": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "author": {
+        "$ref": "user-profile.schema.json"
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+  

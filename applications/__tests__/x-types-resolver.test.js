@@ -218,12 +218,12 @@ describe('resolver', () => {
     expect(
       resolveAndMerge(
         {
-          az: {$writeonly: 'string', somethingElse: 'wrong, must be ignored'},
-          bukh: {$readonly: 'number'},
+          az: {$writeonly: 'request', somethingElse: 'wrong, must be ignored'},
+          bukh: {$readonly: 'response', $writeonly: 'request'},
         },
         {}
       )
-    ).toEqual({az: 'undefined', bukh: 'undefined'})
+    ).toEqual({az: ['request', 'undefined'], bukh: ['request', 'response']})
   })
 
   test('$description in combination with $and', () => {

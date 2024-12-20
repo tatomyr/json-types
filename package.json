@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/tatomyr/json-types#readme",
   "devDependencies": {
+    "@hyperjump/json-schema": "^1.9.9",
     "@redocly/cli": "1.25.5",
     "@redocly/openapi-core": "1.25.5",
     "@vitest/coverage-v8": "^1.4.0",

@@ -1014,21 +1014,35 @@ paths:
           content:
             application/json:
               x-type:
-                AFieldWithRegularRef: any
-                AFieldWithInlineRef: any
+                AFieldWithRegularRef:
+                  - az
+                  - bukh
+                AFieldWithInlineRef:
+                  - az
+                  - bukh
               examples:
                 Correct:
                   value:
-                    AFieldWithInlineRef: something
-                    AFieldWithRegularRef: anything
+                    AFieldWithInlineRef: az
+                    AFieldWithRegularRef: bukh
                 Incorrect:
                   value:
+                    AFieldWithInlineRef: wrong
+                    AFieldWithRegularRef: wrong
                     NonExistingField: wrong
               schema:
                 type: object
                 properties:
-                  AFieldWithRegularRef: {}
-                  AFieldWithInlineRef: {}
+                  AFieldWithRegularRef:
+                    type: string
+                    enum:
+                      - az
+                      - bukh
+                  AFieldWithInlineRef:
+                    type: string
+                    enum:
+                      - az
+                      - bukh
                 required:
                   - AFieldWithRegularRef
                   - AFieldWithInlineRef
@@ -1037,11 +1051,17 @@ paths:
           description: A bare ref
           content:
             application/json:
-              x-type: any
+              x-type:
+                - az
+                - bukh
               examples:
                 Correct:
-                  value: Anything
-              schema: {}
+                  value: az
+              schema:
+                type: string
+                enum:
+                  - az
+                  - bukh
         '202':
           description: A file reference
           content:
@@ -1059,16 +1079,22 @@ paths:
           content:
             application/json:
               x-type:
-                array: any
+                array:
+                  - az
+                  - bukh
               examples:
                 Correct:
                   value:
-                    - anything
+                    - az
                 Incorrect:
                   value: anything
               schema:
                 type: array
-                items: {}
+                items:
+                  type: string
+                  enum:
+                    - az
+                    - bukh
         '404':
           description: A wrong ref
           content:
@@ -1087,9 +1113,13 @@ paths:
                 additionalProperties: false
 components:
   x-types:
-    Foo: any
+    Foo:
+      - az
+      - bukh
     Bar:
-      array: any
+      array:
+        - az
+        - bukh
 "
 `;
 

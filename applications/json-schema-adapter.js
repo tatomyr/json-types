@@ -87,7 +87,7 @@ export function translateJSONSchemaToXType(schema, ctx) {
     isPlainObject(schema.additionalProperties) ||
     isPlainObject(schema.items)
   ) {
-    return extractObjectLikeNode(schema)
+    return extractObjectLikeNode(schema, ctx)
   }
 
   if (schema.allOf) {

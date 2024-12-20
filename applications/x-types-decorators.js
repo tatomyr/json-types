@@ -1,6 +1,6 @@
 import {cleanupSchema, isObject} from './x-types-utils.js'
 import {translateXTypeToSchema} from './x-types-adapter.js'
-import {resolveAndMerge} from './x-types-resolver.js'
+import {resolveAndMerge, transformInlineRefs} from './x-types-resolver.js'
 import {translateJSONSchemaToXType} from './json-schema-adapter.js'
 
 export const generateSchemas = opts => {
@@ -112,11 +112,7 @@ export const createRefs = () => {
       enter: (node, ctx) => {
         if (isObject(node) || Array.isArray(node)) {
           for (const key in node) {
-            const value = node[key]
-            if (typeof value === 'string' && value.startsWith('$ref:')) {
-              const $ref = value.slice('$ref:'.length)
-              node[key] = {$ref}
-            }
+            node[key] = transformInlineRefs(node[key])
           }
         }
       },

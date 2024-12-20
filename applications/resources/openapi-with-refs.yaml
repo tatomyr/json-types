@@ -17,10 +17,12 @@ paths:
               examples:
                 Correct:
                   value:
-                    AFieldWithInlineRef: something
-                    AFieldWithRegularRef: anything
+                    AFieldWithInlineRef: az
+                    AFieldWithRegularRef: bukh
                 Incorrect:
                   value:
+                    AFieldWithInlineRef: wrong
+                    AFieldWithRegularRef: wrong
                     NonExistingField: wrong
         201:
           description: A bare ref
@@ -29,7 +31,7 @@ paths:
               x-type: $ref:#/components/x-types/Foo
               examples:
                 Correct:
-                  value: Anything
+                  value: az
         202:
           description: A file reference
           content:
@@ -47,7 +49,7 @@ paths:
               x-type: $ref:#/components/x-types/Bar
               examples:
                 Correct:
-                  value: [anything]
+                  value: [az]
                 Incorrect:
                   value: anything
         404:
@@ -60,6 +62,8 @@ paths:
                 AWrongRef: Accepts anything
 components:
   x-types:
-    Foo: any
+    Foo: 
+      - az
+      - bukh
     Bar:
       array: $ref:#/components/x-types/Foo
