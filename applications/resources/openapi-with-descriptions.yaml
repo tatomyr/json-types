@@ -15,7 +15,7 @@ paths:
                 Complex:
                   array:
                     string: boolean # cannot have description
-                    $literal:string:
+                    $literal:string: # will this conflict with string: boolean? theoretically, it should
                       - $literal:number
                       - $literal:string
                     $descriptions:

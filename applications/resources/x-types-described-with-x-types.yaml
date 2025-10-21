@@ -37,7 +37,7 @@ paths:
                   value:
                     Az:
                       Bukh:
-                        Vidh:
+                        Vidh: # will this conflict with string: boolean? theoretically it should
                           Glagol: number
                         string: boolean
                 CorrectOr:

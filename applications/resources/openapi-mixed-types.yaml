@@ -17,4 +17,4 @@ components:
       neighbour: not-allowed
     Allowed:
       foo: boolean
-      string: number
+      string: number # will this conflict with foo: boolean?
