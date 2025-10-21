@@ -3,11 +3,11 @@ type: object
 properties:
   name:
     type: string
-  friends: 
+  friends:
     type: array
     items:
       $ref: '#'
-required: 
+required:
   - name
   - friends
 additionalProperties: false

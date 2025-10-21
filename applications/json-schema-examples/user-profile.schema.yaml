@@ -1,8 +1,8 @@
 description: A representation of a user profile
 type: object
 required:
-- username
-- email
+  - username
+  - email
 properties:
   username:
     type: string

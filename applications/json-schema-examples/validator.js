@@ -1,3 +1,4 @@
+/* global process */
 /**
  * Testing json-schema + x-types validation with hyperjump (WIP)
  *

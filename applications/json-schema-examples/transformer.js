@@ -1,3 +1,4 @@
+/* global process */
 /**
  * Transforms a json-schema to x-types (WIP)
  *

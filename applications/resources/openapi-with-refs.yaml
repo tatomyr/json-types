@@ -62,7 +62,7 @@ paths:
                 AWrongRef: Accepts anything
 components:
   x-types:
-    Foo: 
+    Foo:
       - az
       - bukh
     Bar:
