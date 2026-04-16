@@ -13,7 +13,7 @@ properties:
     type: string
     format: date-time
   author:
-    '$ref': user-profile.schema.json
+    $ref: user-profile.schema.yaml
   tags:
     type: array
     items:

@@ -1,3 +1,4 @@
 name: string
 friends:
-  $array: $ref:#
+  $array:
+    $ref: '#'
