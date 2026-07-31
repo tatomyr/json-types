@@ -884,8 +884,7 @@ components:
         - undefined
       orderItems:
         $array:
-          # FIXME: ulid not supported
-          menuItemId: string # ::ulid
+          menuItemId: string::ulid
           quantity: number::integer::min(1)
           discount:
             - number::integer::min(0)

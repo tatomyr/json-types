@@ -7,6 +7,7 @@ const SUFFIXES = {
     [/^date$/, () => ({format: 'date'})],
     [/^email$/, () => ({format: 'email'})],
     [/^uuid$/, () => ({format: 'uuid'})],
+    [/^ulid$/, () => ({format: 'ulid'})],
     [/^binary$/, () => ({format: 'binary'})],
     [/^byte$/, () => ({format: 'byte'})],
     [/^password$/, () => ({format: 'password'})],
@@ -28,6 +29,8 @@ const SUFFIXES = {
     [/^integer$/, () => ({type: 'integer'})],
     [/^int32$/, () => ({type: 'integer', format: 'int32'})],
     [/^int64$/, () => ({type: 'integer', format: 'int64'})],
+    [/^float$/, () => ({type: 'number', format: 'float'})],
+    [/^double$/, () => ({type: 'number', format: 'double'})],
     [/^min\((?<value>[0-9]+)\)$/, match => ({minimum: +match?.groups?.value})],
     [/^max\((?<value>[0-9]+)\)$/, match => ({maximum: +match?.groups?.value})],
     [
